@@ -80,7 +80,11 @@ namespace GPSWithFriends
                 //_tskBingmap.Show();
                 MyMap.Center = new GeoCoordinate(latitude, longitude);
             }
+        }
 
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.RemoveBackEntry();
         }
 
         // Sample code for building a localized ApplicationBar

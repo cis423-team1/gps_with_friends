@@ -36,3 +36,4 @@ C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWit
 C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GPSWithFriends\obj\Debug\GPSWithFriends.dll
 C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GPSWithFriends\obj\Debug\GPSWithFriends.pdb
 C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GPSWithFriends\obj\Debug\XapCacheFile.xml
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GPSWithFriends\obj\Debug\LoginPage.g.cs

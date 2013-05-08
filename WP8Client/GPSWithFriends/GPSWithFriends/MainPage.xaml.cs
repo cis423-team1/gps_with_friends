@@ -87,6 +87,33 @@ namespace GPSWithFriends
             this.NavigationService.RemoveBackEntry();
         }
 
+        private async void ApplicationBarIconButton_Click(object sender, EventArgs e)
+        {
+            BingMapsTask _tskBingmap = new BingMapsTask();
+
+            try
+            {
+                Geoposition position = await myGeoLocator.GetGeopositionAsync(maximumAge: TimeSpan.FromMinutes(1), timeout: TimeSpan.FromSeconds(30));
+                GPSLocationTextblock.Text = "Location: ";
+                GPSLocationTextblock.Text += this.GetCoordinateString(position.Coordinate);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                GPSLocationTextblock.Text = "Location is disabled in phone settings.";
+            }
+            catch (Exception ex)
+            {
+                GPSLocationTextblock.Text = ex.Message;
+            }
+            finally
+            {
+                //myGeoLocator = null;
+                //_tskBingmap.Center = new GeoCoordinate(latitude,longitude);
+                //_tskBingmap.Show();
+                MyMap.Center = new GeoCoordinate(latitude, longitude);
+            }
+        }
+
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()
         //{

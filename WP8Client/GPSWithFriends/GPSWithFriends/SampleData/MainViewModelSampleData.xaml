@@ -4,13 +4,12 @@
     xmlns:vm="clr-namespace:GPSWithFriends.ViewModels"
     SampleProperty="Sample Text Property Value">
 
-    <vm:MainViewModel.Items>
-        <vm:ItemViewModel LineOne="design one" LineTwo="Maecenas praesent accumsan bibendum" LineThree="Maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus habitant inceptos interdum lobortis nascetur"/>
-        <vm:ItemViewModel LineOne="design two" LineTwo="Dictumst eleifend facilisi faucibus" LineThree="Pharetra placerat pulvinar sagittis senectus sociosqu suscipit torquent ultrices vehicula volutpat maecenas praesent"/>
-        <vm:ItemViewModel LineOne="design three" LineTwo="Habitant inceptos interdum lobortis" LineThree="Accumsan bibendum dictumst eleifend facilisi faucibus habitant inceptos interdum lobortis nascetur pharetra placerat"/>
-        <vm:ItemViewModel LineOne="design four" LineTwo="Nascetur pharetra placerat pulvinar" LineThree="Pulvinar sagittis senectus sociosqu suscipit torquent ultrices vehicula volutpat maecenas praesent accumsan bibendum"/>
-        <vm:ItemViewModel LineOne="design five" LineTwo="Sagittis senectus sociosqu suscipit" LineThree="Dictumst eleifend facilisi faucibus habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis"/>
-        <vm:ItemViewModel LineOne="design six" LineTwo="Torquent ultrices vehicula volutpat" LineThree="Senectus sociosqu suscipit torquent ultrices vehicula volutpat maecenas praesent accumsan bibendum dictumst eleifend"/>
-    </vm:MainViewModel.Items>
-
+    <vm:MainViewModel.Friends>
+        <vm:Friend Name = "Joshua" Status = "UO, 30 seconds ago" Distance = "7287 km" ImagePath="/Assets/fakePor.png" Email="Jushua@gmail.com"/>
+        <vm:Friend Name = "Kate" Status = "Beijing, 20 minutes ago" Distance = "1 km" ImagePath="/Assets/fakePor.png" Email="Kate@gmail.com"/>
+        <vm:Friend Name="Bao" Status = "Unreachable" Distance = "???" ImagePath="/Assets/fakePor.png" Email="Bao@gmail.com"/>
+    </vm:MainViewModel.Friends>
+    <vm:MainViewModel.Requests>
+        <vm:Request Content="Yu wants to add you as friend." Time="8/5/2013 13:04"></vm:Request>
+    </vm:MainViewModel.Requests>
 </vm:MainViewModel>

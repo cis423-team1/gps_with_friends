@@ -1,6 +1,7 @@
 
 package edu.uoregon.client;
 
+import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -26,15 +27,18 @@ public interface HelloWorld {
 
     /**
      * 
+     * @param arg0
      * @return
-     *     returns long
+     *     returns java.util.List<java.lang.Long>
      */
     @WebMethod
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getLocation", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.client.GetLocation")
     @ResponseWrapper(localName = "getLocationResponse", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.client.GetLocationResponse")
     @Action(input = "http://cs.uoregon.edu/HelloWorld/getLocationRequest", output = "http://cs.uoregon.edu/HelloWorld/getLocationResponse")
-    public long getLocation();
+    public List<Long> getLocation(
+        @WebParam(name = "arg0", targetNamespace = "")
+        int arg0);
 
     /**
      * 

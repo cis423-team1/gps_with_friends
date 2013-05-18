@@ -4,6 +4,9 @@
     Author     : ahmad
 --%>
 
+<%@page import="java.lang.Long"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -25,25 +28,23 @@
     
     
         <%-- start web service invocation --%><hr/>
-    <%
-        long result=12;
-    try {
-	edu.uoregon.client.HelloWorld_Service service = new edu.uoregon.client.HelloWorld_Service();
-	edu.uoregon.client.HelloWorld port = service.getHelloWorldPort();
-	// TODO process result here
-	result= port.getLocation();
-	out.println("Result = "+result);
-    } catch (Exception ex) {
-	// TODO handle custom exceptions here
+    <%!
+    public List<Long> getCoords(int uid){
+        try {
+            edu.uoregon.client.HelloWorld_Service service = new edu.uoregon.client.HelloWorld_Service();
+            edu.uoregon.client.HelloWorld port = service.getHelloWorldPort();
+            // TODO process result here
+            return port.getLocation(0);
+        } catch (Exception ex) {
+            return new ArrayList(-1);
+        }
     }
     %>
     <%-- end web service invocation --%><hr/>
     
     		<div id="user-input">
 			<form id="coord" action="#" onsubmit="setCoordinates(); return false">
-				Name: <input type="string" name="person">
-				Latitude (-90:90): <input type="number" step="any" name="lat">
-				Longitude (-180:180): <input type="number" step="any" name="lng">
+				U ID: <input type="number" name="uid">
 				<input type="submit">
 			</form>
 		</div>
@@ -89,15 +90,15 @@
 			m.start();
 
 			function setCoordinates(){
-				var newloc = new google.maps.LatLng(<%=result %>, 
-					<%=result %>);
+                                //change this line to use form data in future. For now it looks up with uid=0
+				<%List<Long> coords = getCoords(0);%>
+                                var newloc = new google.maps.LatLng(<%=coords.get(0) %>, 
+					<%=coords.get(1) %>);
 				
 				m.setView(newloc);
-				m.markLoc(document.getElementById("coord").person.value, newloc);
+				m.markLoc(document.getElementById("coord").uid.value, newloc);
 				
-				document.getElementById("coord").person.value = "";
-				document.getElementById("coord").lat.value = "";
-				document.getElementById("coord").lng.value = "";
+				document.getElementById("coord").uid.value = "";
 			}
 		</script>
     <%

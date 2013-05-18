@@ -27,9 +27,12 @@ public class HelloWorld {
      * Web service operation
      */
     @WebMethod(operationName = "getLocation")
-    public long getLocation() {
-        //TODO write your implementation code here:
-        return 65;
+    public long[] getLocation(int uid) {
+        long[] toReturn = new long[2];
+        //these values will be taken from the database
+        toReturn[0] = 65; //longitude
+        toReturn[1] = 65; //latitude
+        return toReturn;
     }
 
 

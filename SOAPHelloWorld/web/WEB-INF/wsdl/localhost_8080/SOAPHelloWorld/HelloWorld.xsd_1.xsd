@@ -21,12 +21,14 @@
 </xs:complexType>
 
 <xs:complexType name="getLocation">
-<xs:sequence/>
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="getLocationResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:long"/>
+<xs:element name="return" type="xs:long" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>

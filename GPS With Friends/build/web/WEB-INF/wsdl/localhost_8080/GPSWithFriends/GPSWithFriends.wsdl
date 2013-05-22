@@ -182,7 +182,7 @@
 </binding>
 <service name="GPSWithFriends">
 <port name="GPSWithFriendsPort" binding="tns:GPSWithFriendsPortBinding">
-<soap:address location="http://ec2-54-244-86-37.us-west-2.compute.amazonaws.com:8080/GPSWithFriends/"/>
+<soap:address location="http://ec2-54-244-86-37.us-west-2.compute.amazonaws.com:8080/GPSWithFriends"/>
 </port>
 </service>
 </definitions>

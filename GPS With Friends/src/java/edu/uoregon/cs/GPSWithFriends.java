@@ -10,7 +10,7 @@ import javax.jws.WebParam;
 /**
  * This is the web service that will handle all server operations with all clients
  */
-@WebService(serviceName = "GPSWithFriends", wsdlLocation = "WEB-INF/wsdl/GPSWithFriends.wsdl")
+@WebService(serviceName = "GPSWithFriends")
 public class GPSWithFriends {
 
     /**

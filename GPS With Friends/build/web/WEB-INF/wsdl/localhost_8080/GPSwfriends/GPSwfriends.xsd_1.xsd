@@ -36,14 +36,14 @@
 
 <xs:element name="setLocationResponse" type="tns:setLocationResponse"/>
 
-<xs:complexType name="removeMember">
+<xs:complexType name="addMember">
 <xs:sequence>
 <xs:element name="uid" type="xs:string" minOccurs="0"/>
 <xs:element name="gid" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="removeMemberResponse">
+<xs:complexType name="addMemberResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:status" minOccurs="0"/>
 </xs:sequence>
@@ -53,24 +53,6 @@
 <xs:sequence>
 <xs:element name="success" type="xs:boolean"/>
 <xs:element name="error" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getMembers">
-<xs:sequence>
-<xs:element name="gid" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getMembersResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:user" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="user">
-<xs:sequence>
-<xs:element name="uid" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -167,16 +149,34 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="addMember">
+<xs:complexType name="removeMember">
 <xs:sequence>
 <xs:element name="uid" type="xs:string" minOccurs="0"/>
 <xs:element name="gid" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="addMemberResponse">
+<xs:complexType name="removeMemberResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:status" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMembers">
+<xs:sequence>
+<xs:element name="gid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMembersResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:user" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="user">
+<xs:sequence>
+<xs:element name="uid" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>

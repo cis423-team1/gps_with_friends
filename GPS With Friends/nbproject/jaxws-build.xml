@@ -19,11 +19,11 @@
             <classpath path="${java.home}/../lib/tools.jar:${build.classes.dir}:${j2ee.platform.wsgen.classpath}:${javac.classpath}"/>
         </taskdef>
     </target>
-    <target name="wsgen-GPSWithFriends" depends="wsgen-init">
+    <target name="wsgen-GPSwfriends" depends="wsgen-init">
         <copy todir="${build.classes.dir}/META-INF">
-            <fileset dir="${webinf.dir}" includes="wsit-edu.uoregon.cs.GPSWithFriends.xml"/>
+            <fileset dir="${webinf.dir}" includes="wsit-edu.uoregon.cs.GPSwfriends.xml"/>
         </copy>
-        <wsgen sourcedestdir="${build.generated.sources.dir}/jax-ws" resourcedestdir="${build.generated.sources.dir}/jax-ws/resources/" destdir="${build.generated.sources.dir}/jax-ws" verbose="true" keep="true" genwsdl="true" sei="edu.uoregon.cs.GPSWithFriends" xendorsed="true">
+        <wsgen sourcedestdir="${build.generated.sources.dir}/jax-ws" resourcedestdir="${build.generated.sources.dir}/jax-ws/resources/" destdir="${build.generated.sources.dir}/jax-ws" verbose="true" keep="true" genwsdl="true" sei="edu.uoregon.cs.GPSwfriends" xendorsed="true">
             <classpath path="${java.home}/../lib/tools.jar:${build.classes.dir}:${j2ee.platform.wsgen.classpath}:${javac.classpath}"/>
         </wsgen>
     </target>
@@ -43,21 +43,21 @@
             <isset property="conf.dir"/>
         </condition>
     </target>
-    <target name="wsimport-client-GPSWithFriends" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/GPSWithFriends"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/GPSWithFriends" destdir="${build.generated.dir}/jax-wsCache/GPSWithFriends" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/GPSWithFriends/wsdl/localhost_8080/GPSWithFriends/GPSWithFriends.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" wsdlLocation="http://localhost:8080/GPSWithFriends/GPSWithFriends?wsdl" xnocompile="true" xendorsed="true" package="edu.uoregon.cs.client">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/GPSWithFriends/wsdl/localhost_8080/GPSWithFriends/GPSWithFriends.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/GPSWithFriends"/>
+    <target name="wsimport-client-GPSwfriends" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/GPSwfriends"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/GPSwfriends" destdir="${build.generated.dir}/jax-wsCache/GPSwfriends" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/GPSwfriends/wsdl/localhost_8080/GPSwfriends/GPSwfriends.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" wsdlLocation="http://localhost:8080/GPSwfriends/GPSwfriends?wsdl" xnocompile="true" xendorsed="true" package="edu.uoregon.cs.client">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/GPSwfriends/wsdl/localhost_8080/GPSwfriends/GPSwfriends.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/GPSwfriends"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/GPSWithFriends">
+            <fileset dir="${build.generated.dir}/jax-wsCache/GPSwfriends">
                 <include name="**/*.java"/>
             </fileset>
         </copy>
     </target>
-    <target name="wsimport-client-clean-GPSWithFriends" depends="-init-project">
+    <target name="wsimport-client-clean-GPSwfriends" depends="-init-project">
         <delete dir="${build.generated.sources.dir}/jax-ws/edu/uoregon/cs/client"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/GPSWithFriends"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/GPSwfriends"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-GPSWithFriends"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-GPSwfriends"/>
 </project>

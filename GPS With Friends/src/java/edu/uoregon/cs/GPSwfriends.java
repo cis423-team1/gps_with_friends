@@ -10,8 +10,8 @@ import javax.jws.WebParam;
 /**
  * This is the web service that will handle all server operations with all clients
  */
-@WebService(serviceName = "GPSWithFriends")
-public class GPSWithFriends {
+@WebService(serviceName = "GPSwfriends")
+public class GPSwfriends {
 
     /**
      * verifies credentials and sends the status of the authentication attempt back to the client. The user id is included in the status.

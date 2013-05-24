@@ -32,8 +32,8 @@
    <%!
     public Location getLoc(String uid){
         try {
-            edu.uoregon.cs.client.GPSWithFriends_Service service = new edu.uoregon.cs.client.GPSWithFriends_Service();
-            edu.uoregon.cs.client.GPSWithFriends port = service.getGPSWithFriendsPort();
+            edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
+            edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
             // TODO process result here
             return port.getLocation("0");
         } catch (Exception ex) {

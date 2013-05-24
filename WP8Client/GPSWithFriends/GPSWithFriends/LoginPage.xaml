@@ -48,6 +48,7 @@
             <TextBox VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"  Canvas.ZIndex="1" ></TextBox>
             <PasswordBox  VerticalAlignment="Center" Grid.Row="4" Grid.Column="0"  Grid.ColumnSpan="2"  Canvas.ZIndex="1" ></PasswordBox>
             <Button VerticalAlignment="Center" Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="2" Width="200" Name="LOGINBUTTON" Click="LOGINBUTTON_Click">Login</Button>
+            <Button VerticalAlignment="Center" Grid.Row="6" Grid.Column="0"  Grid.ColumnSpan="2" Width="200" Name="REGISTERBUTTON" Click="REGISTERBUTTON_Click">Login</Button>
             <!--<HyperlinkButton HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="7" Grid.Column="0" Margin="0,0,10,0">Press Here</HyperlinkButton>
             <TextBlock  Grid.Row="7" Grid.Column="1" VerticalAlignment="Center">if not bunny_gg@hotmail.com</TextBlock>-->
         </Grid>

@@ -27,8 +27,8 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`Group` (
   `Date_Of_Creation` DATE NULL ,
   `UserList_UID` INT NOT NULL ,
   PRIMARY KEY (`GroupID`) ,
-  INDEX `fk_Groups_UserList1` (`UserList_UID` ASC) ,
-  CONSTRAINT `fk_Groups_UserList1`
+  INDEX `fk_Group_UserList1` (`UserList_UID` ASC) ,
+  CONSTRAINT `fk_Group_UserList1`
     FOREIGN KEY (`UserList_UID` )
     REFERENCES `mydb`.`User` (`UID` )
     ON DELETE NO ACTION
@@ -64,8 +64,8 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`Track_History` (
   `Location_x` DECIMAL NULL ,
   `Location_y` DECIMAL NULL ,
   `UserList_UID` INT NOT NULL ,
-  INDEX `fk_History_UserList1` (`UserList_UID` ASC) ,
-  CONSTRAINT `fk_History_UserList1`
+  INDEX `fk_Track_History_UserList1` (`UserList_UID` ASC) ,
+  CONSTRAINT `fk_Track_History_UserList1`
     FOREIGN KEY (`UserList_UID` )
     REFERENCES `mydb`.`User` (`UID` )
     ON DELETE NO ACTION

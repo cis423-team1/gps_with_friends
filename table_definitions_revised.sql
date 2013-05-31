@@ -42,7 +42,7 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `mydb`.`Authentication` (
   `UID_Tracker` INT NOT NULL ,
   `UID_Trackee` INT NOT NULL ,
-  `Data` DATE NULL ,
+  `Date` DATE NULL ,
   `Time` TIME NULL ,
   `User_UID` INT NOT NULL ,
   INDEX `fk_Authentication_User1` (`User_UID` ASC) ,
@@ -59,7 +59,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `mydb`.`Track_History` (
   `UID` INT NOT NULL ,
-  `Data` DATE NULL ,
+  `Date` DATE NULL ,
   `Time` TIME NULL ,
   `Location_x` DECIMAL NULL ,
   `Location_y` DECIMAL NULL ,

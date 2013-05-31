@@ -62,7 +62,7 @@ public interface GPSwfriends {
     @Action(input = "http://cs.uoregon.edu/GPSwfriends/getLocationRequest", output = "http://cs.uoregon.edu/GPSwfriends/getLocationResponse")
     public Location getLocation(
         @WebParam(name = "uid", targetNamespace = "")
-        String uid);
+        int uid);
 
     /**
      * 
@@ -77,11 +77,13 @@ public interface GPSwfriends {
     @Action(input = "http://cs.uoregon.edu/GPSwfriends/getMembersRequest", output = "http://cs.uoregon.edu/GPSwfriends/getMembersResponse")
     public List<User> getMembers(
         @WebParam(name = "gid", targetNamespace = "")
-        String gid);
+        int gid);
 
     /**
      * 
      * @param uids
+     * @param name
+     * @param owner
      * @return
      *     returns edu.uoregon.cs.client.Status
      */
@@ -92,7 +94,47 @@ public interface GPSwfriends {
     @Action(input = "http://cs.uoregon.edu/GPSwfriends/createGroupRequest", output = "http://cs.uoregon.edu/GPSwfriends/createGroupResponse")
     public Status createGroup(
         @WebParam(name = "uids", targetNamespace = "")
-        List<String> uids);
+        List<Integer> uids,
+        @WebParam(name = "owner", targetNamespace = "")
+        int owner,
+        @WebParam(name = "name", targetNamespace = "")
+        String name);
+
+    /**
+     * 
+     * @param uid
+     * @param gid
+     * @return
+     *     returns edu.uoregon.cs.client.Status
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "removeMember", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.RemoveMember")
+    @ResponseWrapper(localName = "removeMemberResponse", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.RemoveMemberResponse")
+    @Action(input = "http://cs.uoregon.edu/GPSwfriends/removeMemberRequest", output = "http://cs.uoregon.edu/GPSwfriends/removeMemberResponse")
+    public Status removeMember(
+        @WebParam(name = "uid", targetNamespace = "")
+        int uid,
+        @WebParam(name = "gid", targetNamespace = "")
+        int gid);
+
+    /**
+     * 
+     * @param uid
+     * @param gid
+     * @return
+     *     returns edu.uoregon.cs.client.Status
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "addMember", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.AddMember")
+    @ResponseWrapper(localName = "addMemberResponse", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.AddMemberResponse")
+    @Action(input = "http://cs.uoregon.edu/GPSwfriends/addMemberRequest", output = "http://cs.uoregon.edu/GPSwfriends/addMemberResponse")
+    public Status addMember(
+        @WebParam(name = "uid", targetNamespace = "")
+        int uid,
+        @WebParam(name = "gid", targetNamespace = "")
+        int gid);
 
     /**
      * 
@@ -109,47 +151,11 @@ public interface GPSwfriends {
     @Action(input = "http://cs.uoregon.edu/GPSwfriends/setLocationRequest", output = "http://cs.uoregon.edu/GPSwfriends/setLocationResponse")
     public Status setLocation(
         @WebParam(name = "uid", targetNamespace = "")
-        String uid,
+        int uid,
         @WebParam(name = "latitude", targetNamespace = "")
         long latitude,
         @WebParam(name = "longitude", targetNamespace = "")
         long longitude);
-
-    /**
-     * 
-     * @param uid
-     * @param gid
-     * @return
-     *     returns edu.uoregon.cs.client.Status
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "addMember", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.AddMember")
-    @ResponseWrapper(localName = "addMemberResponse", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.AddMemberResponse")
-    @Action(input = "http://cs.uoregon.edu/GPSwfriends/addMemberRequest", output = "http://cs.uoregon.edu/GPSwfriends/addMemberResponse")
-    public Status addMember(
-        @WebParam(name = "uid", targetNamespace = "")
-        String uid,
-        @WebParam(name = "gid", targetNamespace = "")
-        String gid);
-
-    /**
-     * 
-     * @param uid
-     * @param gid
-     * @return
-     *     returns edu.uoregon.cs.client.Status
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "removeMember", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.RemoveMember")
-    @ResponseWrapper(localName = "removeMemberResponse", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.RemoveMemberResponse")
-    @Action(input = "http://cs.uoregon.edu/GPSwfriends/removeMemberRequest", output = "http://cs.uoregon.edu/GPSwfriends/removeMemberResponse")
-    public Status removeMember(
-        @WebParam(name = "uid", targetNamespace = "")
-        String uid,
-        @WebParam(name = "gid", targetNamespace = "")
-        String gid);
 
     /**
      * 
@@ -182,6 +188,6 @@ public interface GPSwfriends {
     @Action(input = "http://cs.uoregon.edu/GPSwfriends/getGroupsRequest", output = "http://cs.uoregon.edu/GPSwfriends/getGroupsResponse")
     public List<Group> getGroups(
         @WebParam(name = "uid", targetNamespace = "")
-        String uid);
+        int uid);
 
 }

@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="uid" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="latitude" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="longitude" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -29,15 +30,33 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "location", propOrder = {
+    "uid",
     "latitude",
     "longitude",
     "date"
 })
 public class Location {
 
+    protected int uid;
     protected long latitude;
     protected long longitude;
     protected String date;
+
+    /**
+     * Gets the value of the uid property.
+     * 
+     */
+    public int getUid() {
+        return uid;
+    }
+
+    /**
+     * Sets the value of the uid property.
+     * 
+     */
+    public void setUid(int value) {
+        this.uid = value;
+    }
 
     /**
      * Gets the value of the latitude property.

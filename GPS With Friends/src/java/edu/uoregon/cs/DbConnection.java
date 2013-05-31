@@ -106,7 +106,7 @@ public class DbConnection {
         ResultSet res = query("SELECT * FROM `Track_History` WHERE `UID`="+uid+" ORDER BY `Date`, `Time`");
         //check for failed query
         if (res == null) {
-            return null;
+            return new Location();
         }
         try {
             res.next();
@@ -115,7 +115,7 @@ public class DbConnection {
             //return location
             return new Location(uid, res.getLong("Location_x"), res.getLong("Location_y"), date);
         } catch (SQLException ex) {
-            return null;
+            return new Location();
         }
     }
     
@@ -202,7 +202,8 @@ public class DbConnection {
         ResultSet res = query("SELECT * FROM `Group` JOIN `Group_Lists` WHERE `Group_Lists.UID`="+uid);
         //check for failed query
         if (res == null) {
-            return null;
+            Group [] nullData = {new Group()};
+            return nullData;
         }
         
         try {
@@ -211,7 +212,8 @@ public class DbConnection {
                 ResultSet userRes = query("SELECT * FROM `User` JOIN `Group_Lists` ON `Group_Lists`.`UID`=`User`.`UID` WHERE `Group_Lists`.`Group_GroupID`="+res.getInt("GroupID"));
                 //check for failed query
                 if (userRes == null) {
-                    return null;
+                    Group [] nullData = {new Group()};
+            return nullData;
                 }
                 //assemble user list for group
                 ArrayList<User> users = new ArrayList<User>();
@@ -223,7 +225,8 @@ public class DbConnection {
             }
             return groups.toArray(new Group[groups.size()]);
         } catch (SQLException ex) {
-            return null;
+            Group [] nullData = {new Group()};
+            return nullData;
         }
     }
     
@@ -234,7 +237,8 @@ public class DbConnection {
         ResultSet res = query("SELECT * FROM `User` JOIN `Group_Lists` ON `Group_Lists`.`UID`=`User`.`UID` WHERE `Group_Lists`.`Group_GroupID`="+gid);
         //check for failed query
         if (res == null) {
-            return null;
+            User [] nullData = {new User()};
+            return nullData;
         }
         //assemble user list for group
         ArrayList<User> users = new ArrayList<User>();
@@ -243,7 +247,8 @@ public class DbConnection {
                 users.add(new User(res.getInt("UID"), res.getString("Fname"), res.getString("Lname"), res.getString("Email")));
             }
         } catch (SQLException ex) {
-            return null;
+            User [] nullData = {new User()};
+            return nullData;
         }
         return users.toArray(new User[users.size()]);
     }

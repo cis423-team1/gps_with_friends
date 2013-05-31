@@ -38,8 +38,8 @@
 
 <xs:complexType name="addMember">
 <xs:sequence>
-<xs:element name="uid" type="xs:string" minOccurs="0"/>
-<xs:element name="gid" type="xs:string" minOccurs="0"/>
+<xs:element name="uid" type="xs:int"/>
+<xs:element name="gid" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -58,7 +58,7 @@
 
 <xs:complexType name="getGroups">
 <xs:sequence>
-<xs:element name="uid" type="xs:string" minOccurs="0"/>
+<xs:element name="uid" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -70,14 +70,27 @@
 
 <xs:complexType name="group">
 <xs:sequence>
-<xs:element name="uids" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="users" type="tns:user" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="owner" type="xs:int"/>
+<xs:element name="date_created" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="user">
+<xs:sequence>
+<xs:element name="uid" type="xs:int"/>
+<xs:element name="fName" type="xs:string" minOccurs="0"/>
+<xs:element name="lName" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="createGroup">
 <xs:sequence>
-<xs:element name="uids" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="uids" type="xs:int" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="owner" type="xs:int"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -102,7 +115,7 @@
 
 <xs:complexType name="setLocation">
 <xs:sequence>
-<xs:element name="uid" type="xs:string" minOccurs="0"/>
+<xs:element name="uid" type="xs:int"/>
 <xs:element name="latitude" type="xs:long"/>
 <xs:element name="longitude" type="xs:long"/>
 </xs:sequence>
@@ -116,7 +129,7 @@
 
 <xs:complexType name="getLocation">
 <xs:sequence>
-<xs:element name="uid" type="xs:string" minOccurs="0"/>
+<xs:element name="uid" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -128,6 +141,7 @@
 
 <xs:complexType name="location">
 <xs:sequence>
+<xs:element name="uid" type="xs:int"/>
 <xs:element name="latitude" type="xs:long"/>
 <xs:element name="longitude" type="xs:long"/>
 <xs:element name="date" type="xs:string" minOccurs="0"/>
@@ -151,8 +165,8 @@
 
 <xs:complexType name="removeMember">
 <xs:sequence>
-<xs:element name="uid" type="xs:string" minOccurs="0"/>
-<xs:element name="gid" type="xs:string" minOccurs="0"/>
+<xs:element name="uid" type="xs:int"/>
+<xs:element name="gid" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -164,19 +178,13 @@
 
 <xs:complexType name="getMembers">
 <xs:sequence>
-<xs:element name="gid" type="xs:string" minOccurs="0"/>
+<xs:element name="gid" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="getMembersResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:user" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="user">
-<xs:sequence>
-<xs:element name="uid" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>

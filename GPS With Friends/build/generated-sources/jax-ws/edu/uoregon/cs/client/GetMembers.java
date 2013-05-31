@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="gid" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="gid" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -31,29 +31,21 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class GetMembers {
 
-    protected String gid;
+    protected int gid;
 
     /**
      * Gets the value of the gid property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getGid() {
+    public int getGid() {
         return gid;
     }
 
     /**
      * Sets the value of the gid property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setGid(String value) {
+    public void setGid(int value) {
         this.gid = value;
     }
 

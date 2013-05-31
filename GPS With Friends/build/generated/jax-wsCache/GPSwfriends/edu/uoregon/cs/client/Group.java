@@ -19,8 +19,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="uids" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="users" type="{http://cs.uoregon.edu/}user" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="owner" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="date_created" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -31,42 +33,47 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "group", propOrder = {
-    "uids",
-    "name"
+    "users",
+    "name",
+    "owner",
+    "dateCreated"
 })
 public class Group {
 
     @XmlElement(nillable = true)
-    protected List<String> uids;
+    protected List<User> users;
     protected String name;
+    protected int owner;
+    @XmlElement(name = "date_created")
+    protected String dateCreated;
 
     /**
-     * Gets the value of the uids property.
+     * Gets the value of the users property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the uids property.
+     * This is why there is not a <CODE>set</CODE> method for the users property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getUids().add(newItem);
+     *    getUsers().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * {@link User }
      * 
      * 
      */
-    public List<String> getUids() {
-        if (uids == null) {
-            uids = new ArrayList<String>();
+    public List<User> getUsers() {
+        if (users == null) {
+            users = new ArrayList<User>();
         }
-        return this.uids;
+        return this.users;
     }
 
     /**
@@ -91,6 +98,46 @@ public class Group {
      */
     public void setName(String value) {
         this.name = value;
+    }
+
+    /**
+     * Gets the value of the owner property.
+     * 
+     */
+    public int getOwner() {
+        return owner;
+    }
+
+    /**
+     * Sets the value of the owner property.
+     * 
+     */
+    public void setOwner(int value) {
+        this.owner = value;
+    }
+
+    /**
+     * Gets the value of the dateCreated property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    /**
+     * Sets the value of the dateCreated property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDateCreated(String value) {
+        this.dateCreated = value;
     }
 
 }

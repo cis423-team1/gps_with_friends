@@ -16,8 +16,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="uid" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="gid" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="uid" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="gid" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -33,54 +33,38 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class RemoveMember {
 
-    protected String uid;
-    protected String gid;
+    protected int uid;
+    protected int gid;
 
     /**
      * Gets the value of the uid property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getUid() {
+    public int getUid() {
         return uid;
     }
 
     /**
      * Sets the value of the uid property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setUid(String value) {
+    public void setUid(int value) {
         this.uid = value;
     }
 
     /**
      * Gets the value of the gid property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getGid() {
+    public int getGid() {
         return gid;
     }
 
     /**
      * Sets the value of the gid property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setGid(String value) {
+    public void setGid(int value) {
         this.gid = value;
     }
 

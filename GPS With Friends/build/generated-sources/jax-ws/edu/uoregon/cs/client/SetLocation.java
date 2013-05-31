@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="uid" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="uid" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="latitude" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="longitude" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *       &lt;/sequence>
@@ -35,31 +35,23 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class SetLocation {
 
-    protected String uid;
+    protected int uid;
     protected long latitude;
     protected long longitude;
 
     /**
      * Gets the value of the uid property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getUid() {
+    public int getUid() {
         return uid;
     }
 
     /**
      * Sets the value of the uid property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setUid(String value) {
+    public void setUid(int value) {
         this.uid = value;
     }
 

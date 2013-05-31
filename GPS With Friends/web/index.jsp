@@ -35,7 +35,7 @@
             edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
             edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
             // TODO process result here
-            return port.getLocation("0");
+            return port.getLocation(0);
         } catch (Exception ex) {
             return new Location();
         }

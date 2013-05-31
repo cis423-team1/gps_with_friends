@@ -28,11 +28,11 @@
 <message name="createGroupResponse">
 <part name="parameters" element="tns:createGroupResponse"/>
 </message>
-<message name="setLocation">
-<part name="parameters" element="tns:setLocation"/>
+<message name="removeMember">
+<part name="parameters" element="tns:removeMember"/>
 </message>
-<message name="setLocationResponse">
-<part name="parameters" element="tns:setLocationResponse"/>
+<message name="removeMemberResponse">
+<part name="parameters" element="tns:removeMemberResponse"/>
 </message>
 <message name="addMember">
 <part name="parameters" element="tns:addMember"/>
@@ -40,11 +40,11 @@
 <message name="addMemberResponse">
 <part name="parameters" element="tns:addMemberResponse"/>
 </message>
-<message name="removeMember">
-<part name="parameters" element="tns:removeMember"/>
+<message name="setLocation">
+<part name="parameters" element="tns:setLocation"/>
 </message>
-<message name="removeMemberResponse">
-<part name="parameters" element="tns:removeMemberResponse"/>
+<message name="setLocationResponse">
+<part name="parameters" element="tns:setLocationResponse"/>
 </message>
 <message name="authenticate">
 <part name="parameters" element="tns:authenticate"/>
@@ -75,17 +75,17 @@
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/createGroupRequest" message="tns:createGroup"/>
 <output wsam:Action="http://cs.uoregon.edu/GPSwfriends/createGroupResponse" message="tns:createGroupResponse"/>
 </operation>
-<operation name="setLocation">
-<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/setLocationRequest" message="tns:setLocation"/>
-<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/setLocationResponse" message="tns:setLocationResponse"/>
+<operation name="removeMember">
+<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/removeMemberRequest" message="tns:removeMember"/>
+<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/removeMemberResponse" message="tns:removeMemberResponse"/>
 </operation>
 <operation name="addMember">
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/addMemberRequest" message="tns:addMember"/>
 <output wsam:Action="http://cs.uoregon.edu/GPSwfriends/addMemberResponse" message="tns:addMemberResponse"/>
 </operation>
-<operation name="removeMember">
-<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/removeMemberRequest" message="tns:removeMember"/>
-<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/removeMemberResponse" message="tns:removeMemberResponse"/>
+<operation name="setLocation">
+<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/setLocationRequest" message="tns:setLocation"/>
+<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/setLocationResponse" message="tns:setLocationResponse"/>
 </operation>
 <operation name="authenticate">
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/authenticateRequest" message="tns:authenticate"/>
@@ -134,7 +134,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="setLocation">
+<operation name="removeMember">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -152,7 +152,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="removeMember">
+<operation name="setLocation">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

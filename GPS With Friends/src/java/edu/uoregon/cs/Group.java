@@ -4,11 +4,19 @@
 package edu.uoregon.cs;
 
 public class Group {
-    public String[] uids;
+    public User[] users;
     public String name;
+    public int owner;
+    public String date_created;
     
-    public Group (String[] u, String n) {
-        uids = u;
+    public Group() {
+        owner = -1;
+    }
+    
+    public Group (User[] u, String n, int o, String date) {
+        users = u;
         name = n;
+        owner = o;
+        date_created = date;
     }
 }

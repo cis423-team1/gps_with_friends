@@ -239,7 +239,7 @@ public class DbConnection {
      * returns null on error
      */
     public Group[] GetGroups(int uid) {
-        String queryStatement = "SELECT * FROM `Group` JOIN `Group_Lists` WHERE `Group_Lists.UID`="+uid;
+        String queryStatement = "SELECT * FROM `Group` JOIN `Group_Lists` WHERE `Group_Lists`.`UID`="+uid;
         Connection conn = openConnection();
         ResultSet res;
         Statement st;
@@ -272,16 +272,16 @@ public class DbConnection {
                 }
                 
                 //close userres
-                try { if (userRes != null) userRes.close(); } catch (Exception e) {return null;};
+                try { if (userRes != null) userRes.close(); } catch (Exception e) {};
                 
                 User [] userRay = users.toArray(new User[users.size()]);
                 groups.add(new Group(userRay, res.getString("GroupName"), res.getInt("OwnerID"), res.getString("Date_Of_Creation")));
             }
             
             //close connection
-            try { if (res != null) res.close(); } catch (Exception e) {return null;};
-            try { if (st != null) st.close(); } catch (Exception e) {return null;};
-            try { if (conn != null) conn.close(); } catch (Exception e) {return null;};
+            try { if (res != null) res.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
             
             //return groups
             return groups.toArray(new Group[groups.size()]);

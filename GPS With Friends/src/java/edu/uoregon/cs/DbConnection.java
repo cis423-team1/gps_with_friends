@@ -47,16 +47,24 @@ public class DbConnection {
     /*
      * returns null on error
      */
-    private ResultSet query(String queryStatement){
+    private String query(String queryStatement){
         Connection conn = openConnection();
         ResultSet res;
+        Statement st;
         try{
-        Statement st = conn.createStatement();
+        st = conn.createStatement();
         res = st.executeQuery(queryStatement);
         }catch(Exception e){
             return null;
         }
-        return res;
+        String resString = res.toString();
+        
+        //close connection
+        try { if (res != null) res.close(); } catch (Exception e) {};
+        try { if (st != null) st.close(); } catch (Exception e) {};
+        try { if (conn != null) conn.close(); } catch (Exception e) {};
+        
+        return resString;
     }
     
     /*
@@ -124,9 +132,9 @@ public class DbConnection {
             double lon = res.getBigDecimal("Location_y").longValue();
             
             //close connection
-            try { if (res != null) res.close(); } catch (Exception e) {};
-            try { if (st != null) st.close(); } catch (Exception e) {};
-            try { if (conn != null) conn.close(); } catch (Exception e) {};
+            try { if (res != null) res.close(); } catch (Exception e) {return new Location(0,0,0,"sqlexception");};
+            try { if (st != null) st.close(); } catch (Exception e) {return new Location(0,0,0,"sqlexception");};
+            try { if (conn != null) conn.close(); } catch (Exception e) {return new Location(0,0,0,"sqlexception");};
             
             //return location
             return new Location(uid, lat, lon, date);
@@ -144,7 +152,16 @@ public class DbConnection {
         Date fullDate = new Date();
         String date = dateFormat.format(fullDate);
         //create group id
-        ResultSet result = query("SELECT COUNT(*) FROM `Group`");
+        String queryStatement = "SELECT COUNT(*) FROM `Group`";
+        Connection conn = openConnection();
+        ResultSet result;
+        Statement st;
+        try{
+        st = conn.createStatement();
+        result = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return new Status(false, "Counting the number of groups failed");
+        }
         //check if query failed
         if (result == null) {
             return new Status(false, "Counting the number of groups failed");
@@ -160,6 +177,12 @@ public class DbConnection {
         } catch (SQLException ex) {
             return new Status(false, "Failed to get count from group");
         }
+        
+        //close connection
+        try { if (result != null) result.close(); } catch (Exception e) {return new Status(false, "Counting the number of groups failed");};
+        try { if (st != null) st.close(); } catch (Exception e) {return new Status(false, "Counting the number of groups failed");};
+        try { if (conn != null) conn.close(); } catch (Exception e) {return new Status(false, "Counting the number of groups failed");};
+            
         //Create group
         int res = update("INSERT INTO `Group` (GroupID, GroupName, OwnerID, Date_Of_Creation, UserList_UID) VALUES"
                 + " ("+gid+", '"+name+"', "+owner+", '"+date+"', "+owner+")");
@@ -216,7 +239,16 @@ public class DbConnection {
      * returns null on error
      */
     public Group[] GetGroups(int uid) {
-        ResultSet res = query("SELECT * FROM `Group` JOIN `Group_Lists` WHERE `Group_Lists.UID`="+uid);
+        String queryStatement = "SELECT * FROM `Group` JOIN `Group_Lists` WHERE `Group_Lists.UID`="+uid;
+        Connection conn = openConnection();
+        ResultSet res;
+        Statement st;
+        try{
+        st = conn.createStatement();
+        res = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return null;
+        }
         //check for failed query
         if (res == null) {
             Group [] nullData = {new Group()};
@@ -226,20 +258,32 @@ public class DbConnection {
         try {
             ArrayList<Group> groups = new ArrayList<Group>();
             while (res.next()) {
-                ResultSet userRes = query("SELECT * FROM `User` JOIN `Group_Lists` ON `Group_Lists`.`UID`=`User`.`UID` WHERE `Group_Lists`.`Group_GroupID`="+res.getInt("GroupID"));
+                 queryStatement = "SELECT * FROM `User` JOIN `Group_Lists` ON `Group_Lists`.`UID`=`User`.`UID` WHERE `Group_Lists`.`Group_GroupID`="+res.getInt("GroupID");
+                 ResultSet userRes = st.executeQuery(queryStatement);
                 //check for failed query
                 if (userRes == null) {
                     Group [] nullData = {new Group()};
-            return nullData;
+                    return nullData;
                 }
                 //assemble user list for group
                 ArrayList<User> users = new ArrayList<User>();
                 while (userRes.next()) {
                     users.add(new User(userRes.getInt("UID"), userRes.getString("Fname"), userRes.getString("Lname"), userRes.getString("Email")));
                 }
+                
+                //close userres
+                try { if (userRes != null) userRes.close(); } catch (Exception e) {return null;};
+                
                 User [] userRay = users.toArray(new User[users.size()]);
                 groups.add(new Group(userRay, res.getString("GroupName"), res.getInt("OwnerID"), res.getString("Date_Of_Creation")));
             }
+            
+            //close connection
+            try { if (res != null) res.close(); } catch (Exception e) {return null;};
+            try { if (st != null) st.close(); } catch (Exception e) {return null;};
+            try { if (conn != null) conn.close(); } catch (Exception e) {return null;};
+            
+            //return groups
             return groups.toArray(new Group[groups.size()]);
         } catch (SQLException ex) {
             Group [] nullData = {new Group()};
@@ -251,7 +295,16 @@ public class DbConnection {
      * returns null on error
      */
     public User[] GetMembers(int gid) {
-        ResultSet res = query("SELECT * FROM `User` JOIN `Group_Lists` ON `Group_Lists`.`UID`=`User`.`UID` WHERE `Group_Lists`.`Group_GroupID`="+gid);
+        String queryStatement = "SELECT * FROM `User` JOIN `Group_Lists` ON `Group_Lists`.`UID`=`User`.`UID` WHERE `Group_Lists`.`Group_GroupID`="+gid;
+        Connection conn = openConnection();
+        ResultSet res;
+        Statement st;
+        try{
+        st = conn.createStatement();
+        res = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return null;
+        }
         //check for failed query
         if (res == null) {
             User [] nullData = {new User()};
@@ -267,6 +320,13 @@ public class DbConnection {
             User [] nullData = {new User()};
             return nullData;
         }
+        
+        //close connection
+        try { if (res != null) res.close(); } catch (Exception e) {return null;};
+        try { if (st != null) st.close(); } catch (Exception e) {return null;};
+        try { if (conn != null) conn.close(); } catch (Exception e) {return null;};
+            
+        //return data
         return users.toArray(new User[users.size()]);
     }
 }

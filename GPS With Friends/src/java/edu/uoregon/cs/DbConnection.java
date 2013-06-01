@@ -251,11 +251,8 @@ public class DbConnection {
         }
         //check for failed query
         if (res == null) {
-            return null;
-            /*
             Group [] nullData = {new Group()};
             return nullData;
-            */
         }
         
         try {
@@ -265,8 +262,11 @@ public class DbConnection {
                  ResultSet userRes = st.executeQuery(queryStatement);
                 //check for failed query
                 if (userRes == null) {
+                     return null;
+                    /*
                     Group [] nullData = {new Group()};
                     return nullData;
+                    */
                 }
                 //assemble user list for group
                 ArrayList<User> users = new ArrayList<User>();

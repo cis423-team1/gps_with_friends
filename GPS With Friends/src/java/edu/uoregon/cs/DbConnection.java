@@ -103,7 +103,7 @@ public class DbConnection {
      * returns a location or null if there is an error
      */
     public Location getLastLocation(int uid) {
-        ResultSet res = query("SELECT * FROM `Track_History` WHERE `UID`="+uid+" ORDER BY `Date`, `Time`");
+        ResultSet res = query("SELECT * FROM `Track_History` WHERE `UID`="+uid+" ORDER BY `Date` DESC, `Time` DESC");
         //check for failed query
         if (res == null) {
             return new Location();
@@ -115,7 +115,7 @@ public class DbConnection {
             //return location
             return new Location(uid, res.getLong("Location_x"), res.getLong("Location_y"), date);
         } catch (SQLException ex) {
-            return new Location();
+            return new Location(0,0,0,"sqlexception");
         }
     }
     

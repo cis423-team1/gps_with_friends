@@ -56,7 +56,6 @@ public class DbConnection {
         }catch(Exception e){
             return null;
         }
-        closeConnection(conn);
         return res;
     }
     
@@ -103,19 +102,35 @@ public class DbConnection {
      * returns a location or null if there is an error
      */
     public Location getLastLocation(int uid) {
-        ResultSet res = query("SELECT * FROM `Track_History` WHERE `UID`="+uid+" ORDER BY `Date` DESC, `Time` DESC");
+        String queryStatement = "SELECT * FROM `Track_History` WHERE `UID`="+uid+" ORDER BY `Date` DESC, `Time` DESC";
+        Connection conn = openConnection();
+        ResultSet res;
+        Statement st;
+        try{
+        st = conn.createStatement();
+        res = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return new Location (0,0,0,"execute error");
+        }
         //check for failed query
         if (res == null) {
             return new Location(0,0,0,"nullres");
         }
         try {
-            if (!res.next()) {
-                return new Location(0,0,0,"sqlexceptionatnext");
-            }
-            //Assemble date
+            res.next();
+            //get information
             String date = res.getString("Date") + " " + res.getString("Time");
+            double lat = res.getBigDecimal("Location_x").longValue();
+            double lon = res.getBigDecimal("Location_y").longValue();
+            
+            //close connection
+            try { if (res != null) res.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
+            
             //return location
-            return new Location(uid, res.getBigDecimal("Location_x").longValue(), res.getBigDecimal("Location_y").longValue(), date);
+            return new Location(uid, lat, lon, date);
+            
         } catch (SQLException ex) {
             return new Location(0,0,0,"sqlexception");
         }

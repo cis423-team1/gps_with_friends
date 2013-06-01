@@ -5,8 +5,8 @@ package edu.uoregon.cs;
 
 public class Location {
     public int uid;
-    public long latitude;
-    public long longitude;
+    public double latitude;
+    public double longitude;
     public String date;
     
     public Location() {
@@ -14,7 +14,7 @@ public class Location {
         latitude = -1;
         longitude = -1;
     }
-    public Location(int u, long lat, long lon, String d) {
+    public Location(int u, double lat, double lon, String d) {
         uid = u;
         latitude = lat;
         longitude = lon;

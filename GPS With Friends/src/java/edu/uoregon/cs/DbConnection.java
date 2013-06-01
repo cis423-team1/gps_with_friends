@@ -80,8 +80,8 @@ public class DbConnection {
      */
     public Status insertLocation(Location loc, int user) {
         //get and prepare values for database
-        long lat = loc.latitude;
-        long lon = loc.longitude;
+        double lat = loc.latitude;
+        double lon = loc.longitude;
         String date = loc.date;
         String [] timeRay = date.split(" ");
         date = timeRay[0];
@@ -115,7 +115,7 @@ public class DbConnection {
             //Assemble date
             String date = res.getString("Date") + " " + res.getString("Time");
             //return location
-            return new Location(uid, res.getLong("Location_x"), res.getLong("Location_y"), date);
+            return new Location(uid, res.getBigDecimal("Location_x").longValue(), res.getBigDecimal("Location_y").longValue(), date);
         } catch (SQLException ex) {
             return new Location(0,0,0,"sqlexception");
         }

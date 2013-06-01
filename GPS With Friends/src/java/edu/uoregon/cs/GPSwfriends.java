@@ -38,7 +38,7 @@ public class GPSwfriends {
      * attempts to add this location with the time received to the database. Returns a status detailing error messages and/or if it was successful.
      */
     @WebMethod(operationName = "setLocation")
-    public Status setLocation(@WebParam(name = "uid") int uid, @WebParam(name = "latitude") long latitude, @WebParam(name = "longitude") long longitude) {
+    public Status setLocation(@WebParam(name = "uid") int uid, @WebParam(name = "latitude") double latitude, @WebParam(name = "longitude") double longitude) {
         DbConnection db = new DbConnection();
         //get current time and date
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

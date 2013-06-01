@@ -11,7 +11,7 @@ import java.util.Date;
  * Hibernate (http://www.hibernate.org/) package should be used here.
  */
 public class DbConnection {
-    private String url = "jdbc:mysql://ec2-54-244-86-37.us-west-2.compute.amazonaws.com:3306/";
+    private String url = "jdbc:mysql://ec2-54-244-86-37.us-west-2.compute.amazonaws.com:3306@/";
     private String dbName = "mydb";
     private String username = "root";
     private String password = "12345";

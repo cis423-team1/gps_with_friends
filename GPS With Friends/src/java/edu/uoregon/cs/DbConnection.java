@@ -109,7 +109,9 @@ public class DbConnection {
             return new Location(0,0,0,"nullres");
         }
         try {
-            res.next();
+            if (!res.next()) {
+                return new Location(0,0,0,"sqlexceptionatnext");
+            }
             //Assemble date
             String date = res.getString("Date") + " " + res.getString("Time");
             //return location

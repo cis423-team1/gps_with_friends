@@ -259,14 +259,12 @@ public class DbConnection {
             ArrayList<Group> groups = new ArrayList<Group>();
             while (res.next()) {
                  queryStatement = "SELECT * FROM `User` JOIN `Group_Lists` ON `Group_Lists`.`UID`=`User`.`UID` WHERE `Group_Lists`.`Group_GroupID`="+res.getInt("GroupID");
-                 ResultSet userRes = st.executeQuery(queryStatement);
+                 Statement st2 = conn.createStatement();
+                 ResultSet userRes = st2.executeQuery(queryStatement);
                 //check for failed query
                 if (userRes == null) {
-                     return null;
-                    /*
                     Group [] nullData = {new Group()};
                     return nullData;
-                    */
                 }
                 //assemble user list for group
                 ArrayList<User> users = new ArrayList<User>();
@@ -274,8 +272,9 @@ public class DbConnection {
                     users.add(new User(userRes.getInt("UID"), userRes.getString("Fname"), userRes.getString("Lname"), userRes.getString("Email")));
                 }
                 
-                //close userres
+                //close userRes
                 try { if (userRes != null) userRes.close(); } catch (Exception e) {};
+                try { if (st2 != null) st2.close(); } catch (Exception e) {};
                 
                 User [] userRay = users.toArray(new User[users.size()]);
                 groups.add(new Group(userRay, res.getString("GroupName"), res.getInt("OwnerID"), res.getString("Date_Of_Creation")));

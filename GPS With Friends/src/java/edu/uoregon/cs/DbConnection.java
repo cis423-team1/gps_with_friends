@@ -251,8 +251,11 @@ public class DbConnection {
         }
         //check for failed query
         if (res == null) {
+            return null;
+            /*
             Group [] nullData = {new Group()};
             return nullData;
+            */
         }
         
         try {

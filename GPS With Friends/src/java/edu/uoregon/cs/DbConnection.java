@@ -106,7 +106,7 @@ public class DbConnection {
         ResultSet res = query("SELECT * FROM `Track_History` WHERE `UID`="+uid+" ORDER BY `Date` DESC, `Time` DESC");
         //check for failed query
         if (res == null) {
-            return new Location();
+            return new Location(0,0,0,"nullres");
         }
         try {
             res.next();

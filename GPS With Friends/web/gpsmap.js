@@ -6,23 +6,30 @@ function changeCenter(latLng){
 	this.map.setCenter(latLng);
 }
 
+function makeLatLng(lat, lng){
+	var loc = new google.maps.LatLng(lat, lng);
+	return loc;
+}
+
 function addMarker(name, latLng){
+	var infowindow = new google.maps.InfoWindow({
+	    content: name,
+	    maxWidth: 25
+	});
+	
 	this.markers[name] = new google.maps.Marker({	
 		position: latLng,
 		map: this.map,
 		title: name
 	});
+	
+	infowindow.open(this.map, this.markers[name]);
 }
 
 function showGroup(group){
-	
 	var length = group.length;
-	alert("group: " + group[1].name);
-	alert("length is: " + length);
-	alert("group.length is: " + group.length);
 	var element = null;
 	for(var i=0; i < length; i++){
-		alert("inside loop");
 		element = group[i];
 		var newloc = new google.maps.LatLng(element.lat, element.lng);
 		this.markLoc(element.name, newloc);
@@ -42,6 +49,7 @@ function mymap(){
 	this.setView = changeCenter;
 	this.markLoc = addMarker;
 	this.displayGroup = showGroup;
+	this.createLatLng = makeLatLng;
 }
 
 function setCoordinates(){

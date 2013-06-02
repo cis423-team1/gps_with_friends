@@ -1,6 +1,6 @@
 <%-- 
-    Document   : showOnMap
-    Created on : Jun 2, 2013, 1:17:30 PM
+    Document   : showHistory.jsp
+    Created on : Jun 2, 2013, 2:25:36 PM
     Author     : ahmad
 --%>
 
@@ -12,6 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <h1>Hello World!</h1>
         
        <%
         edu.uoregon.cs.client.User user = new edu.uoregon.cs.client.User();
@@ -26,7 +27,6 @@
 	// TODO handle custom exceptions here
     }
     %> 
-        
     <%-- start web service invocation --%><hr/>
     <%
     try {
@@ -34,9 +34,9 @@
 	edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
 	 // TODO initialize WS operation arguments here
 	int uid = user.getUid();
+	int number =100 ;
 	// TODO process result here
-	edu.uoregon.cs.client.Location result = port.getLocation(uid);
-	out.println("Result = "+result);
+	java.util.List<edu.uoregon.cs.client.Location> result = port.getHistory(uid, number);
     } catch (Exception ex) {
 	// TODO handle custom exceptions here
     }

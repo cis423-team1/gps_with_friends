@@ -141,6 +141,21 @@ public interface GPSwfriends {
 
     /**
      * 
+     * @param email
+     * @return
+     *     returns edu.uoregon.cs.client.User
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getUser", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.GetUser")
+    @ResponseWrapper(localName = "getUserResponse", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.GetUserResponse")
+    @Action(input = "http://cs.uoregon.edu/GPSwfriends/getUserRequest", output = "http://cs.uoregon.edu/GPSwfriends/getUserResponse")
+    public User getUser(
+        @WebParam(name = "email", targetNamespace = "")
+        String email);
+
+    /**
+     * 
      * @param gid
      * @return
      *     returns java.util.List<edu.uoregon.cs.client.User>
@@ -189,5 +204,23 @@ public interface GPSwfriends {
         int uid,
         @WebParam(name = "gid", targetNamespace = "")
         int gid);
+
+    /**
+     * 
+     * @param uid
+     * @param number
+     * @return
+     *     returns java.util.List<edu.uoregon.cs.client.Location>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getHistory", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.GetHistory")
+    @ResponseWrapper(localName = "getHistoryResponse", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.GetHistoryResponse")
+    @Action(input = "http://cs.uoregon.edu/GPSwfriends/getHistoryRequest", output = "http://cs.uoregon.edu/GPSwfriends/getHistoryResponse")
+    public List<Location> getHistory(
+        @WebParam(name = "uid", targetNamespace = "")
+        int uid,
+        @WebParam(name = "number", targetNamespace = "")
+        int number);
 
 }

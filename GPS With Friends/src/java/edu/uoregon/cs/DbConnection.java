@@ -396,4 +396,87 @@ public class DbConnection {
         //return data
         return users.toArray(new User[users.size()]);
     }
+    
+        public User getUser(String email) {
+        String queryStatement = "SELECT * FROM `User` WHERE `Email`='"+email+"'";
+        //connect to db
+        Connection conn = openConnection();
+        ResultSet res;
+        Statement st;
+        //attempt to get result
+        try{
+        st = conn.createStatement();
+        res = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return null;
+        }
+        //check for failed query
+        if (res == null) {
+            return null;
+        }
+        try {
+            //get first (and only) line
+            res.next();
+            //get information
+            String fname = res.getString("Fname");
+            String lname = res.getString("Lname");
+            int uid = res.getInt("UID");
+           
+            //close connection
+            try { if (res != null) res.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
+            
+            //return location
+            return new User(uid, fname, lname, email);
+            
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+        
+         public Location[] getHistory(int uid, int limit) {
+        String queryStatement = "SELECT * FROM `Track_History` WHERE `UID`="+uid+" ORDER BY `Date` DESC, `Time` DESC LIMIT "+limit;
+        //connect to db
+        Connection conn = openConnection();
+        ResultSet res;
+        Statement st;
+        //attempt to get result
+        try{
+        st = conn.createStatement();
+        res = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return null;
+        }
+        //check for failed query
+        if (res == null) {
+            return null;
+        }
+        ArrayList<Location> locationList = new ArrayList<Location>();
+        try {
+            //get first (and only) line
+            while (res.next()){
+            //get information
+            String date = res.getString("Date") + " " + res.getString("Time");
+            double lat = res.getBigDecimal("Location_x").longValue();
+            double lon = res.getBigDecimal("Location_y").longValue();
+            
+            
+            //return location
+            locationList.add(new Location(uid, lat, lon, date));
+            }
+            
+            //close connection
+            try { if (res != null) res.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
+            
+            return locationList.toArray(new Location[locationList.size()]);
+            
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+    
+    
 }

@@ -140,7 +140,6 @@ public class DbConnection {
      */
     public Status insertLocation(Location loc, int user) {
         //get and prepare values for database
-        DecimalFormat df = new DecimalFormat("#.0000000000");
         double lat = loc.latitude;
         double lon = loc.longitude;
         String date = loc.date;
@@ -150,7 +149,7 @@ public class DbConnection {
         
         //insert values into database
         int res = update("INSERT INTO `Track_History` (UID, Date, Time, Location_x, Location_y, UserList_UID) VALUES"
-                + " ("+user+", '"+date+"', '"+time+"', "+df.format(lat)+", "+df.format(lon)+", "+user+")");
+                + " ("+user+", '"+date+"', '"+time+"', "+lat+", "+lon+", "+user+")");
         
         //convert int to boolean
         if (res == 1) {

@@ -49,8 +49,8 @@
         
         if (result.isSuccess())
         {
-           System.out.println("The selected user is removed from group.");
-            System.out.println("<input type='hidden' name='glist' value='"+gid+"'>");
+           out.println("The selected user is removed from group.");
+            out.println("<input type='hidden' name='glist' value='"+gid+"'>");
         }
     } catch (Exception ex) {
 	// TODO handle custom exceptions here

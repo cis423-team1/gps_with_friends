@@ -33,6 +33,9 @@
 	int uid = 0;
 	// TODO process result here
 	result = port.getGroups(uid);
+        
+        out.println("my uid is " + uid + " and my result's name is " + result.get(0).getName());
+        
     } catch (Exception ex) {
 	
         // TODO handle custom exceptions here
@@ -46,7 +49,7 @@
     for (int i = 0;i<result.size();i++)
     {
         edu.uoregon.cs.client.Group g = result.get(i);
-        System.out.println("<option value=' " + g.getGid() + "'> "+ g.getName() + "</option>");
+        out.println("<option value=' " + g.getGid() + "'> "+ g.getName() + "</option>");
     }
     
     %>

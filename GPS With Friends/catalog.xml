@@ -2,4 +2,6 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://localhost:8080/GPSwfriends/GPSwfriends?wsdl" uri="src/conf/xml-resources/web-service-references/GPSwfriends/wsdl/localhost_8080/GPSwfriends/GPSwfriends.wsdl"/>
     <system systemId="http://localhost:8080/GPSwfriends/GPSwfriends?xsd=1" uri="src/conf/xml-resources/web-service-references/GPSwfriends/wsdl/localhost_8080/GPSwfriends/GPSwfriends.xsd_1.xsd"/>
+    <system systemId="http://ec2-54-244-86-37.us-west-2.compute.amazonaws.com/GPSwfriends/GPSwfriends?wsdl" uri="src/conf/xml-resources/web-service-references/GPSwfriends_1/wsdl/ec2-54-244-86-37.us-west-2.compute.amazonaws.com/GPSwfriends/GPSwfriends.wsdl"/>
+    <system systemId="http://ec2-54-244-86-37.us-west-2.compute.amazonaws.com:80/GPSwfriends/GPSwfriends?xsd=1" uri="src/conf/xml-resources/web-service-references/GPSwfriends_1/wsdl/ec2-54-244-86-37.us-west-2.compute.amazonaws.com_80/GPSwfriends/GPSwfriends.xsd_1.xsd"/>
 </catalog>

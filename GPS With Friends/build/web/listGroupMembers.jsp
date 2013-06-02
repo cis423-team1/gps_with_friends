@@ -38,7 +38,7 @@
     for (int i = 0;i<result.size();i++)
     {
         edu.uoregon.cs.client.User g = result.get(i);
-        System.out.println("<option value=' " + g.getUid() + "'> "+ g.getEmail() + "</option>");
+        out.println("<option value=' " + g.getUid() + "'> "+ g.getEmail() + "</option>");
     }
     
     %>

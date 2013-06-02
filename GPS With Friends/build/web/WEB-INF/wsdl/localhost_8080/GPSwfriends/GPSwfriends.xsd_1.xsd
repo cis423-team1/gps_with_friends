@@ -16,6 +16,10 @@
 
 <xs:element name="getGroupsResponse" type="tns:getGroupsResponse"/>
 
+<xs:element name="getHistory" type="tns:getHistory"/>
+
+<xs:element name="getHistoryResponse" type="tns:getHistoryResponse"/>
+
 <xs:element name="getLocation" type="tns:getLocation"/>
 
 <xs:element name="getLocationResponse" type="tns:getLocationResponse"/>
@@ -23,6 +27,10 @@
 <xs:element name="getMembers" type="tns:getMembers"/>
 
 <xs:element name="getMembersResponse" type="tns:getMembersResponse"/>
+
+<xs:element name="getUser" type="tns:getUser"/>
+
+<xs:element name="getUserResponse" type="tns:getUserResponse"/>
 
 <xs:element name="register" type="tns:register"/>
 
@@ -84,6 +92,18 @@
 <xs:element name="fName" type="xs:string" minOccurs="0"/>
 <xs:element name="lName" type="xs:string" minOccurs="0"/>
 <xs:element name="email" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUser">
+<xs:sequence>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:user" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -174,6 +194,19 @@
 <xs:complexType name="removeMemberResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:status" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getHistory">
+<xs:sequence>
+<xs:element name="uid" type="xs:int"/>
+<xs:element name="number" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getHistoryResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:location" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 

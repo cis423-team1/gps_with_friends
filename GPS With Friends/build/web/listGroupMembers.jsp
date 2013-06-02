@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>GPS for Friends</h1>
         
         
     <%-- start web service invocation --%><hr/>
@@ -32,7 +32,7 @@
     %>
     
      <form action="showOnMap.jsp" method="POST">
-        <select name="uList">
+        <select name="userSelected">
     <%
     
     for (int i = 0;i<result.size();i++)
@@ -43,12 +43,22 @@
     
     %>
         </select>
-    <input type="submit" value=" show list" />
+    <input type="button" action="showOnMap.jsp" method="POST" value=" view on Map" />
+    <input type="button" action="removeFromGroup.jsp" method="POST" value=" remove from group" />
+    <input type="button" action="showHistory.jsp" method="POST" value=" Show the history" />
 
+           
     
     <%-- end web service invocation --%><hr/>
     </form>
     
+    
+    <form name ="<%= request.getParameter("glist") %>" action="addMember.jsp" method="POST">
+        
+        <input type="text" value="enter the email" name="emailUser" />
+        <input type="hidden" value="<%= request.getParameter("glist")%>" name="hiddenGName">
+        <input type="submit" value="invite" />
+    </form>
     <%-- end web service invocation --%><hr/>
     </body>
 </html>

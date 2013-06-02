@@ -40,6 +40,12 @@
 <message name="getGroupsResponse">
 <part name="parameters" element="tns:getGroupsResponse"/>
 </message>
+<message name="getUser">
+<part name="parameters" element="tns:getUser"/>
+</message>
+<message name="getUserResponse">
+<part name="parameters" element="tns:getUserResponse"/>
+</message>
 <message name="getMembers">
 <part name="parameters" element="tns:getMembers"/>
 </message>
@@ -57,6 +63,12 @@
 </message>
 <message name="addMemberResponse">
 <part name="parameters" element="tns:addMemberResponse"/>
+</message>
+<message name="getHistory">
+<part name="parameters" element="tns:getHistory"/>
+</message>
+<message name="getHistoryResponse">
+<part name="parameters" element="tns:getHistoryResponse"/>
 </message>
 <portType name="GPSwfriends">
 <operation name="register">
@@ -83,6 +95,10 @@
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/getGroupsRequest" message="tns:getGroups"/>
 <output wsam:Action="http://cs.uoregon.edu/GPSwfriends/getGroupsResponse" message="tns:getGroupsResponse"/>
 </operation>
+<operation name="getUser">
+<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/getUserRequest" message="tns:getUser"/>
+<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/getUserResponse" message="tns:getUserResponse"/>
+</operation>
 <operation name="getMembers">
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/getMembersRequest" message="tns:getMembers"/>
 <output wsam:Action="http://cs.uoregon.edu/GPSwfriends/getMembersResponse" message="tns:getMembersResponse"/>
@@ -94,6 +110,10 @@
 <operation name="addMember">
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/addMemberRequest" message="tns:addMember"/>
 <output wsam:Action="http://cs.uoregon.edu/GPSwfriends/addMemberResponse" message="tns:addMemberResponse"/>
+</operation>
+<operation name="getHistory">
+<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/getHistoryRequest" message="tns:getHistory"/>
+<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/getHistoryResponse" message="tns:getHistoryResponse"/>
 </operation>
 </portType>
 <binding name="GPSwfriendsPortBinding" type="tns:GPSwfriends">
@@ -152,6 +172,15 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="getUser">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="getMembers">
 <soap:operation soapAction=""/>
 <input>
@@ -171,6 +200,15 @@
 </output>
 </operation>
 <operation name="addMember">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getHistory">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

@@ -101,4 +101,28 @@ public class GPSwfriends {
         DbConnection db = new DbConnection();
         return db.GetMembers(gid);
     }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getUser")
+    public User getUser(@WebParam(name = "email") String email) {
+        //TODO write your implementation code here:
+        DbConnection db = new DbConnection();
+        
+        return db.getUser(email);
+        
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getHistory")
+    public Location[] getHistory(@WebParam(name = "uid") int uid, @WebParam(name = "number") int number) {
+        //TODO write your implementation code here:
+                DbConnection db = new DbConnection();
+                
+                return db.getHistory(uid, number);
+
+    }
 }

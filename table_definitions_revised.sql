@@ -61,8 +61,8 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`Track_History` (
   `UID` INT NOT NULL ,
   `Date` DATE NULL ,
   `Time` TIME NULL ,
-  `Location_x` DECIMAL(10,10) NULL ,
-  `Location_y` DECIMAL(10,10) NULL ,
+  `Location_x` DECIMAL(20,4) NULL ,
+  `Location_y` DECIMAL(20,4) NULL ,
   `UserList_UID` INT NOT NULL ,
   INDEX `fk_Track_History_UserList1` (`UserList_UID` ASC) ,
   CONSTRAINT `fk_Track_History_UserList1`

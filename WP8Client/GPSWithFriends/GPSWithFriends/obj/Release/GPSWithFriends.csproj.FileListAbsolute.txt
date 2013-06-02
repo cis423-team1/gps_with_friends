@@ -21,3 +21,6 @@ C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWit
 C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GPSWithFriends\Bin\Release\Microsoft.Phone.Controls.Toolkit.dll
 C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GPSWithFriends\obj\Release\GPSWithFriends.csprojResolveAssemblyReference.cache
 C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GPSWithFriends\obj\Release\DetailPage.g.cs
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GPSWithFriends\Bin\Release\JeffWilcox.PhoneThemeManager.dll
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GPSWithFriends\Bin\Release\JeffWilcox.PhoneThemeManager.pdb
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GPSWithFriends\obj\Release\RegisterPage.g.cs

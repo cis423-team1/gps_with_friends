@@ -11,6 +11,9 @@ using GPSWithFriends.Resources;
 using Windows.Devices.Geolocation;
 using Microsoft.Phone.Tasks;
 using System.Device.Location;
+using System.Windows.Shapes;
+using System.Windows.Media;
+using Microsoft.Phone.Maps.Controls;
 
 namespace GPSWithFriends
 {
@@ -89,7 +92,7 @@ namespace GPSWithFriends
 
         private async void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
-            BingMapsTask _tskBingmap = new BingMapsTask();
+            //BingMapsTask _tskBingmap = new BingMapsTask();
 
             try
             {
@@ -111,6 +114,26 @@ namespace GPSWithFriends
                 //_tskBingmap.Center = new GeoCoordinate(latitude,longitude);
                 //_tskBingmap.Show();
                 MyMap.Center = new GeoCoordinate(latitude, longitude);
+
+                // Create a small circle to mark the current location.
+                Ellipse myCircle = new Ellipse();
+                myCircle.Fill = new SolidColorBrush(Colors.Blue);
+                myCircle.Height = 20;
+                myCircle.Width = 20;
+                myCircle.Opacity = 50;
+
+                // Create a MapOverlay to contain the circle.
+                MapOverlay myLocationOverlay = new MapOverlay();
+                myLocationOverlay.Content = myCircle;
+                myLocationOverlay.PositionOrigin = new Point(0.5, 0.5);
+                myLocationOverlay.GeoCoordinate = MyMap.Center;
+
+                // Create a MapLayer to contain the MapOverlay.
+                MapLayer myLocationLayer = new MapLayer();
+                myLocationLayer.Add(myLocationOverlay);
+
+                // Add the MapLayer to the Map.
+                MyMap.Layers.Add(myLocationLayer);
             }
         }
 

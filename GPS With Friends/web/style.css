@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+
+html {
+	background-color:white;
+}
+
+body {
+	width:60%;
+	border:4px solid;
+	background-color:#CCFF99;
+	margin:75px auto 75px auto;	
+}
+
+input {
+	margin-top:10px;
+}
+
+#registrationForm {
+	display:none;
+}
+
+#startForms {
+	margin:50px auto 100px auto;
+	width:200px;
+	
+}

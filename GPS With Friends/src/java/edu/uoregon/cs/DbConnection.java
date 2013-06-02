@@ -82,6 +82,55 @@ public class DbConnection {
         closeConnection(conn);
         return res;
     }
+    
+    /*
+     * returns a status detailing whether it was a success or failure along with an error message
+     */
+    public Status addUser(User user) {
+        //create user id
+        String queryStatement = "SELECT COUNT(*) FROM `User`";
+        Connection conn = openConnection();
+        ResultSet result;
+        Statement st;
+        try{
+        st = conn.createStatement();
+        result = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return new Status(false, "Counting the number of users failed");
+        }
+        //check if query failed
+        if (result == null) {
+            return new Status(false, "Counting the number of users failed");
+        }
+        //get count and set it as the new group id (ids start at zero)
+        int uid;
+        try {
+            if (result.next()) {
+                uid = result.getInt("Count(*)");
+            } else {
+                return new Status(false, "Failed to get count from user");
+            }
+        } catch (SQLException ex) {
+            return new Status(false, "Failed to get count from user");
+        }
+        
+        //close connection
+        try { if (result != null) result.close(); } catch (Exception e) {return new Status(false, "Counting the number of users failed");};
+        try { if (st != null) st.close(); } catch (Exception e) {return new Status(false, "Counting the number of users failed");};
+        try { if (conn != null) conn.close(); } catch (Exception e) {return new Status(false, "Counting the number of users failed");};
+        
+        //insert values into database
+        int res = update("INSERT INTO `User` (UID, Fname, Lname, Email) VALUES"
+                + " ("+uid+", '"+user.fName+"', '"+user.lName+"', '"+user.email+"')");
+        
+        //convert int to boolean
+        if (res == 1) {
+            return new Status(true, "success");
+        } else {
+            return new Status(false, "Failed to insert user into database");
+        }
+    }
+    
     /*
      * returns a status detailing whether it was a success or failure along with an error message
      */

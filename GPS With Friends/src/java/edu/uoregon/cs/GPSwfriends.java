@@ -30,8 +30,8 @@ public class GPSwfriends {
      */
     @WebMethod(operationName = "register")
     public Status register(@WebParam(name = "email") String email, @WebParam(name = "password") String password, @WebParam(name = "fname") String fname, @WebParam(name = "lname") String lname) {
-        //TODO write your implementation code here:
-        return new Status(false, "Authentication not set up");
+        DbConnection db = new DbConnection();
+        return db.addUser(new User(-1, fname, lname, email));
     }
 
     /**

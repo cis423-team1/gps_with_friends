@@ -17,8 +17,8 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="uid" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="latitude" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="longitude" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="latitude" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="longitude" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,8 +36,8 @@ import javax.xml.bind.annotation.XmlType;
 public class SetLocation {
 
     protected int uid;
-    protected long latitude;
-    protected long longitude;
+    protected double latitude;
+    protected double longitude;
 
     /**
      * Gets the value of the uid property.
@@ -59,7 +59,7 @@ public class SetLocation {
      * Gets the value of the latitude property.
      * 
      */
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -67,7 +67,7 @@ public class SetLocation {
      * Sets the value of the latitude property.
      * 
      */
-    public void setLatitude(long value) {
+    public void setLatitude(double value) {
         this.latitude = value;
     }
 
@@ -75,7 +75,7 @@ public class SetLocation {
      * Gets the value of the longitude property.
      * 
      */
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -83,7 +83,7 @@ public class SetLocation {
      * Sets the value of the longitude property.
      * 
      */
-    public void setLongitude(long value) {
+    public void setLongitude(double value) {
         this.longitude = value;
     }
 

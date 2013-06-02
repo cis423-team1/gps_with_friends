@@ -339,7 +339,7 @@ public class DbConnection {
                 try { if (st2 != null) st2.close(); } catch (Exception e) {};
                 
                 User [] userRay = users.toArray(new User[users.size()]);
-                groups.add(new Group(userRay, res.getString("GroupName"), res.getInt("OwnerID"), res.getString("Date_Of_Creation")));
+                groups.add(new Group(userRay, res.getString("GroupName"), res.getInt("OwnerID"), res.getString("Date_Of_Creation"),res.getInt("GroupID")));
             }
             
             //close connection

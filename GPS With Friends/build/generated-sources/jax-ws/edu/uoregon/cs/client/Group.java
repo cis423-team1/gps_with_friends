@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="users" type="{http://cs.uoregon.edu/}user" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="gid" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="owner" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="date_created" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
@@ -35,6 +36,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "group", propOrder = {
     "users",
     "name",
+    "gid",
     "owner",
     "dateCreated"
 })
@@ -43,6 +45,7 @@ public class Group {
     @XmlElement(nillable = true)
     protected List<User> users;
     protected String name;
+    protected int gid;
     protected int owner;
     @XmlElement(name = "date_created")
     protected String dateCreated;
@@ -98,6 +101,22 @@ public class Group {
      */
     public void setName(String value) {
         this.name = value;
+    }
+
+    /**
+     * Gets the value of the gid property.
+     * 
+     */
+    public int getGid() {
+        return gid;
+    }
+
+    /**
+     * Sets the value of the gid property.
+     * 
+     */
+    public void setGid(int value) {
+        this.gid = value;
     }
 
     /**

@@ -20,6 +20,28 @@ namespace GPSWithFriends
             InitializeComponent();
             ReadLastLoginUser();
         }
+       
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {            
+            this.NavigationService.RemoveBackEntry();
+            ReadLastLoginUser();
+        }
+
+
+        private void LOGINBUTTON_Click(object sender, RoutedEventArgs e)
+        {
+            if (Login(LoginUsernameTextBox.Text, LoginPasswordBox.Password))
+            {
+                SaveLastLoginUser(LoginUsernameTextBox.Text);
+                this.NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            }
+            else
+            {
+                MessageBox.Show("Login Failed. Please try again.");
+                LoginPasswordBox.Password = "";
+                LoginPasswordBox.Focus();
+            }
+        }
 
         private void ReadLastLoginUser()
         {
@@ -36,16 +58,12 @@ namespace GPSWithFriends
                 LoginUsernameTextBox.Text = "";
         }
 
-        private void LOGINBUTTON_Click(object sender, RoutedEventArgs e)
+        private void SaveLastLoginUser(string lastLoginUser)
         {
-            if (Login(LoginUsernameTextBox.Text, LoginPasswordBox.Password))
-                this.NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            if (_appSettings.Contains("LAST_LOGIN_USERNAME"))
+                _appSettings["LAST_LOGIN_USERNAME"] = lastLoginUser;
             else
-            {
-                MessageBox.Show("Login Failed. Please try again.");
-                LoginPasswordBox.Password = "";
-                LoginPasswordBox.Focus();
-            }
+                _appSettings.Add("LAST_LOGIN_USERNAME", lastLoginUser);
         }
 
         private bool Login(string username, string password)
@@ -74,7 +92,7 @@ namespace GPSWithFriends
 
         private void LoginPasswordBox_Loaded(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.RemoveBackEntry();
+            //this.NavigationService.RemoveBackEntry();
         }
     }
 }

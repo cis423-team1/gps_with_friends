@@ -32,13 +32,12 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <maps:Map Grid.Row="0" x:Name="MyMap" Center="37.6097, 119.3331"  ZoomLevel="12"/>
+                    <maps:Map Grid.Row="0" x:Name="MyMap" Center="37.6097, 119.3331"  ZoomLevel="14" Pitch="45"/>
                     <TextBlock Grid.Row="0" Name="GPSLocationTextblock" VerticalAlignment="Bottom" Foreground="Black">Location:</TextBlock>
-                    <ListBox x:Name="FriendsListBox"  ItemsSource="{Binding Friends}" Grid.Row="1" HorizontalContentAlignment="Stretch">
+                    <ListBox x:Name="FriendsListBox"  ItemsSource="{Binding Friends}" Grid.Row="1" HorizontalContentAlignment="Stretch" SelectionChanged="FriendsListBox_SelectionChanged">
                         <ListBox.ItemTemplate >
                             <DataTemplate>
-                                <Button HorizontalAlignment="Stretch" Padding="0" BorderThickness="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="456" Height="100">
-                                    <Grid>
+                                <Grid HorizontalAlignment="Stretch" MinWidth="456" Height="100">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="100"/>
                                             <ColumnDefinition Width="*"/>
@@ -50,11 +49,10 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="{Binding ImagePath}"></Image>
-                                        <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Name}" FontSize="32" VerticalAlignment="Bottom"></TextBlock>
+                                        <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding NickName}" FontSize="32" VerticalAlignment="Bottom"></TextBlock>
                                         <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Status}" FontSize="16" VerticalAlignment="Bottom"></TextBlock>
                                         <TextBlock Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Distance}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
                                     </Grid>
-                                </Button>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -146,7 +144,7 @@
 
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Minimized" Opacity="1.0" IsMenuEnabled="False" IsVisible="True">
+        <shell:ApplicationBar Mode="Default" Opacity="1.0" IsMenuEnabled="False" IsVisible="True">
             <shell:ApplicationBarIconButton IconUri="/Assets/locate.png" Text="Me" Click="ApplicationBarIconButton_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

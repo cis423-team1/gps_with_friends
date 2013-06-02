@@ -63,10 +63,10 @@ namespace GPSWithFriends.ViewModels
         public void LoadData()
         {
             // Sample data; replace with real data
-            this.Friends.Add(new Friend() { Name = "Joshua", Status = "UO, 30 seconds ago", Distance = "7287 km", ImagePath = "/Assets/fakePor.png", Email = "Jushua@gmail.com" });
-            this.Friends.Add(new Friend() { Name = "Kate", Status = "Beijing, 20 minutes ago", Distance = "1 km", ImagePath = "/Assets/fakePor.png", Email = "Kate@gmail.com" });
-            this.Friends.Add(new Friend() { Name = "Bao", Status = "Unreachable", Distance = "???", ImagePath = "/Assets/fakePor.png", Email = "Bao@gmail.com" });
-            this.Friends.Add(new Friend() { Name = "Stranger", Status = "Unreachable", Distance = "???", ImagePath = "/Assets/fakePor.png", Email = "Stranger@gmail.com" });
+            this.Friends.Add(new Friend() { NickName = "Joshua", Status = "UO, 30 seconds ago", Distance = "7287 km", ImagePath = "/Assets/fakePor.png", Email = "Jushua@gmail.com" ,Latitude=20.01, Longitude=100 });
+            this.Friends.Add(new Friend() { NickName = "Kate", Status = "Beijing, 20 minutes ago", Distance = "1 km", ImagePath = "/Assets/fakePor.png", Email = "Kate@gmail.com", Latitude = 20.02, Longitude = 100 });
+            this.Friends.Add(new Friend() { NickName = "Bao", Status = "Unreachable", Distance = "???", ImagePath = "/Assets/fakePor.png", Email = "Bao@gmail.com", Latitude = 20.03, Longitude = 100 });
+            this.Friends.Add(new Friend() { NickName = "Stranger", Status = "Unreachable", Distance = "???", ImagePath = "/Assets/fakePor.png", Email = "Stranger@gmail.com", Latitude = 20.04, Longitude = 100 });
 
             this.Requests.Add(new Request() { Content = "Yu wants to friend you", Time="8/5/2013 13:04" });
             this.Requests.Add(new Request() { Content = "Hongye wants to friend you", Time = "7/5/2013 12:44" });

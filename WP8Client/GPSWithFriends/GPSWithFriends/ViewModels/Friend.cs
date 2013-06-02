@@ -12,19 +12,38 @@ namespace GPSWithFriends.ViewModels
 {
     public class Friend : INotifyPropertyChanged
     {
-        private string name;
-        public string Name
+       public Friend()
+        {
+            nickName = "";
+            status = "";
+            distance = "";
+            email = "";
+            isFriend = false;
+            imagePath = "";
+            latitude = 181;
+            longitude = 181;
+        }
+
+       public bool isLocated()
+       {
+           if (latitude < 180 && longitude < 180 && latitude > -180 && longitude > -180)
+               return true;
+           else return false;
+       }
+
+        private string nickName;
+        public string NickName
         {
             get
             {
-                return name;
+                return nickName;
             }
             set
             {
-                if (value != name)
+                if (value != nickName)
                 {
-                    name = value;
-                    NotifyPropertyChanged("Name");
+                    nickName = value;
+                    NotifyPropertyChanged("NickName");
                 }
             }
         }
@@ -110,6 +129,40 @@ namespace GPSWithFriends.ViewModels
                 {
                     imagePath = value;
                     NotifyPropertyChanged("ImagePath");
+                }
+            }
+        }
+
+        private double latitude;
+        public double Latitude
+        {
+            get
+            {
+                return latitude;
+            }
+            set
+            {
+                if (value != latitude)
+                {
+                    latitude = value;
+                    NotifyPropertyChanged("Latitude");
+                }
+            }
+        }
+
+        private double longitude;
+        public double Longitude
+        {
+            get
+            {
+                return longitude;
+            }
+            set
+            {
+                if (value != longitude)
+                {
+                    longitude = value;
+                    NotifyPropertyChanged("Longitude");
                 }
             }
         }

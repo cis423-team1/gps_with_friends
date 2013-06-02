@@ -48,8 +48,8 @@
         
         if (result.isSuccess())
         {
-           System.out.println("The invitation happened successfully.");
-            System.out.println("<input type='hidden' name='glist' value='"+gid+"'>");
+           out.println("The invitation happened successfully.");
+            out.println("<input type='hidden' name='glist' value='"+gid+"'>");
         }
     } catch (Exception ex) {
 	// TODO handle custom exceptions here

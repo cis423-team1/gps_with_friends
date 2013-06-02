@@ -2,6 +2,7 @@ package edu.uoregon.cs;
 
 import java.sql.*;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,9 +90,11 @@ public class DbConnection {
     public Status addUser(User user) {
         //create user id
         String queryStatement = "SELECT COUNT(*) FROM `User`";
+        //connect to db
         Connection conn = openConnection();
         ResultSet result;
         Statement st;
+        //try to get result
         try{
         st = conn.createStatement();
         result = st.executeQuery(queryStatement);
@@ -105,6 +108,7 @@ public class DbConnection {
         //get count and set it as the new group id (ids start at zero)
         int uid;
         try {
+            //get count and save to uid
             if (result.next()) {
                 uid = result.getInt("Count(*)");
             } else {
@@ -159,10 +163,12 @@ public class DbConnection {
      * returns a location or null if there is an error
      */
     public Location getLastLocation(int uid) {
-        String queryStatement = "SELECT * FROM `Track_History` WHERE `UID`="+uid+" ORDER BY `Date` DESC, `Time` DESC";
+        String queryStatement = "SELECT * FROM `Track_History` WHERE `UID`="+uid+" ORDER BY `Date` DESC, `Time` DESC LIMIT 1";
+        //connect to db
         Connection conn = openConnection();
         ResultSet res;
         Statement st;
+        //attempt to get result
         try{
         st = conn.createStatement();
         res = st.executeQuery(queryStatement);
@@ -174,6 +180,7 @@ public class DbConnection {
             return new Location(0,0,0,"nullres");
         }
         try {
+            //get first (and only) line
             res.next();
             //get information
             String date = res.getString("Date") + " " + res.getString("Time");
@@ -202,9 +209,11 @@ public class DbConnection {
         String date = dateFormat.format(fullDate);
         //create group id
         String queryStatement = "SELECT COUNT(*) FROM `Group`";
+        //connect to db
         Connection conn = openConnection();
         ResultSet result;
         Statement st;
+        //try to get result
         try{
         st = conn.createStatement();
         result = st.executeQuery(queryStatement);
@@ -289,9 +298,11 @@ public class DbConnection {
      */
     public Group[] GetGroups(int uid) {
         String queryStatement = "SELECT * FROM `Group` JOIN `Group_Lists` WHERE `Group_Lists`.`UID`="+uid;
+        //connect to db
         Connection conn = openConnection();
         ResultSet res;
         Statement st;
+        //try to get result
         try{
         st = conn.createStatement();
         res = st.executeQuery(queryStatement);
@@ -306,8 +317,10 @@ public class DbConnection {
         
         try {
             ArrayList<Group> groups = new ArrayList<Group>();
+            //for each group get the user list and add group to groups
             while (res.next()) {
                  queryStatement = "SELECT * FROM `User` JOIN `Group_Lists` ON `Group_Lists`.`UID`=`User`.`UID` WHERE `Group_Lists`.`Group_GroupID`="+res.getInt("GroupID");
+                 //execute querry and get result
                  Statement st2 = conn.createStatement();
                  ResultSet userRes = st2.executeQuery(queryStatement);
                 //check for failed query
@@ -336,6 +349,7 @@ public class DbConnection {
             
             //return groups
             return groups.toArray(new Group[groups.size()]);
+            
         } catch (SQLException ex) {
             Group [] nullData = {new Group()};
             return nullData;
@@ -347,9 +361,11 @@ public class DbConnection {
      */
     public User[] GetMembers(int gid) {
         String queryStatement = "SELECT * FROM `User` JOIN `Group_Lists` ON `Group_Lists`.`UID`=`User`.`UID` WHERE `Group_Lists`.`Group_GroupID`="+gid;
+        //connect to db
         Connection conn = openConnection();
         ResultSet res;
         Statement st;
+        //try to get result
         try{
         st = conn.createStatement();
         res = st.executeQuery(queryStatement);

@@ -112,7 +112,7 @@ namespace GPSWithFriends
                  friend.Latitude, friend.Longitude);
             GPSLocationTextblock.Text += positionString;
 
-            MyMap.Center = new GeoCoordinate(friend.Latitude, friend.Longitude);
+            MyMap.SetView(new GeoCoordinate(friend.Latitude, friend.Longitude), MyMap.ZoomLevel, MapAnimationKind.Parabolic);
 
             // Create a small circle to mark the current location.
             Ellipse myCircle = new Ellipse();
@@ -133,7 +133,7 @@ namespace GPSWithFriends
             MapOverlay myLocationOverlay = new MapOverlay();
             myLocationOverlay.Content = stackpanel;
             myLocationOverlay.PositionOrigin = new Point(0.5, 0.5);
-            myLocationOverlay.GeoCoordinate = MyMap.Center;
+            myLocationOverlay.GeoCoordinate = new GeoCoordinate(friend.Latitude, friend.Longitude);
 
             // Create a MapLayer to contain the MapOverlay.
             MapLayer myLocationLayer = new MapLayer();
@@ -148,7 +148,9 @@ namespace GPSWithFriends
             ListBox listbox = sender as ListBox;
             int index = listbox.SelectedIndex;
             Friend friend = App.ViewModel.Friends[index];
-            MyMap.Center = new GeoCoordinate(friend.Latitude, friend.Longitude);
+
+            MyMap.SetView(new GeoCoordinate(friend.Latitude, friend.Longitude), MyMap.ZoomLevel, MapAnimationKind.Parabolic);
+            //MyMap.Center = new GeoCoordinate(friend.Latitude, friend.Longitude);
         }
 
         // Sample code for building a localized ApplicationBar

@@ -167,10 +167,16 @@
     <None Include="Service References\Server\GPSWithFriends.Server.getGroupsResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\Server\GPSWithFriends.Server.getHistoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\Server\GPSWithFriends.Server.getLocationResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\Server\GPSWithFriends.Server.getMembersResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Server\GPSWithFriends.Server.getUserResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\Server\GPSWithFriends.Server.registerResponse.datasource">

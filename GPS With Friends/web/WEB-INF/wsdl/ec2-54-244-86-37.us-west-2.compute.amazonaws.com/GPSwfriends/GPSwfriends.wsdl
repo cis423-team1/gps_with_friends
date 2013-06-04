@@ -4,6 +4,18 @@
 <xsd:import namespace="http://cs.uoregon.edu/" schemaLocation="http://ec2-54-244-86-37.us-west-2.compute.amazonaws.com:80/GPSwfriends/GPSwfriends?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="getGroup">
+<part name="parameters" element="tns:getGroup"/>
+</message>
+<message name="getGroupResponse">
+<part name="parameters" element="tns:getGroupResponse"/>
+</message>
+<message name="getUserByID">
+<part name="parameters" element="tns:getUserByID"/>
+</message>
+<message name="getUserByIDResponse">
+<part name="parameters" element="tns:getUserByIDResponse"/>
+</message>
 <message name="authenticate">
 <part name="parameters" element="tns:authenticate"/>
 </message>
@@ -71,6 +83,14 @@
 <part name="parameters" element="tns:addMemberResponse"/>
 </message>
 <portType name="GPSwfriends">
+<operation name="getGroup">
+<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/getGroupRequest" message="tns:getGroup"/>
+<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/getGroupResponse" message="tns:getGroupResponse"/>
+</operation>
+<operation name="getUserByID">
+<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/getUserByIDRequest" message="tns:getUserByID"/>
+<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/getUserByIDResponse" message="tns:getUserByIDResponse"/>
+</operation>
 <operation name="authenticate">
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/authenticateRequest" message="tns:authenticate"/>
 <output wsam:Action="http://cs.uoregon.edu/GPSwfriends/authenticateResponse" message="tns:authenticateResponse"/>
@@ -118,6 +138,24 @@
 </portType>
 <binding name="GPSwfriendsPortBinding" type="tns:GPSwfriends">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="getGroup">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getUserByID">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="authenticate">
 <soap:operation soapAction=""/>
 <input>

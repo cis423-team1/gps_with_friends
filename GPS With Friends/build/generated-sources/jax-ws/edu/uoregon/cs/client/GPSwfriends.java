@@ -27,6 +27,36 @@ public interface GPSwfriends {
 
     /**
      * 
+     * @param gid
+     * @return
+     *     returns edu.uoregon.cs.client.Group
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getGroup", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.GetGroup")
+    @ResponseWrapper(localName = "getGroupResponse", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.GetGroupResponse")
+    @Action(input = "http://cs.uoregon.edu/GPSwfriends/getGroupRequest", output = "http://cs.uoregon.edu/GPSwfriends/getGroupResponse")
+    public Group getGroup(
+        @WebParam(name = "gid", targetNamespace = "")
+        int gid);
+
+    /**
+     * 
+     * @param uid
+     * @return
+     *     returns edu.uoregon.cs.client.User
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getUserByID", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.GetUserByID")
+    @ResponseWrapper(localName = "getUserByIDResponse", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.GetUserByIDResponse")
+    @Action(input = "http://cs.uoregon.edu/GPSwfriends/getUserByIDRequest", output = "http://cs.uoregon.edu/GPSwfriends/getUserByIDResponse")
+    public User getUserByID(
+        @WebParam(name = "uid", targetNamespace = "")
+        int uid);
+
+    /**
+     * 
      * @param email
      * @param password
      * @return

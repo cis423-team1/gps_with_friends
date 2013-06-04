@@ -247,6 +247,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link UserStatus }
+     * 
+     */
+    public UserStatus createUserStatus() {
+        return new UserStatus();
+    }
+
+    /**
      * Create an instance of {@link Group }
      * 
      */

@@ -180,8 +180,18 @@
 
 <xs:complexType name="authenticateResponse">
 <xs:sequence>
-<xs:element name="return" type="tns:status" minOccurs="0"/>
+<xs:element name="return" type="tns:userStatus" minOccurs="0"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="userStatus">
+<xs:complexContent>
+<xs:extension base="tns:status">
+<xs:sequence>
+<xs:element name="user" type="tns:user" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
 </xs:complexType>
 
 <xs:complexType name="removeMember">

@@ -30,14 +30,14 @@ public interface GPSwfriends {
      * @param email
      * @param password
      * @return
-     *     returns edu.uoregon.cs.client.Status
+     *     returns edu.uoregon.cs.client.UserStatus
      */
     @WebMethod
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "authenticate", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.Authenticate")
     @ResponseWrapper(localName = "authenticateResponse", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.AuthenticateResponse")
     @Action(input = "http://cs.uoregon.edu/GPSwfriends/authenticateRequest", output = "http://cs.uoregon.edu/GPSwfriends/authenticateResponse")
-    public Status authenticate(
+    public UserStatus authenticate(
         @WebParam(name = "email", targetNamespace = "")
         String email,
         @WebParam(name = "password", targetNamespace = "")

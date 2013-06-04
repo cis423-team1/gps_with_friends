@@ -31,7 +31,7 @@
         out.println("error before uid");
 	edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
 	 // TODO initialize WS operation arguments here
-	int uid = 0;
+	int uid = Integer.parseInt(request.getParameter("uid"));
 	// TODO process result here
 	result = port.getGroups(uid);
         

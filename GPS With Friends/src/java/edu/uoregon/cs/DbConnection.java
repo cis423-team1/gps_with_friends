@@ -459,8 +459,8 @@ public class DbConnection {
             while (res.next()){
             //get information
             String date = res.getString("Date") + " " + res.getString("Time");
-            double lat = res.getBigDecimal("Location_x").longValue();
-            double lon = res.getBigDecimal("Location_y").longValue();
+            double lat = res.getBigDecimal("Location_x").doubleValue();
+            double lon = res.getBigDecimal("Location_y").doubleValue();
             
             
             //return location

@@ -9,7 +9,11 @@
 	<h1>Welcome to GPS with Friends!</h1><br><h2>WARNING: ALL PASSWORDS ARE STORED IN PLAINTEXT IN THE DATABASE! DO NOT USE A REAL PASSWORD!</h2><hr>
 	<div id="startForms">
             <%
-                out.println("<h4>"+request.getParameter("message")+"<h4>");
+                String message = request.getParameter("message");
+                if (message.equals("null") || message == null) {
+                    message = "";
+                }
+                out.println("<h4>"+message+"<h4>");
             %>
 		<form id="loginForm" action="authenticate.jsp" method="POST">
 			<label for="username">Email: </label><input type="text" name="username"><br>

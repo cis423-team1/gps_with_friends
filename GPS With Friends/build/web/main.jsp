@@ -28,30 +28,31 @@
         java.util.List<edu.uoregon.cs.client.Group> result = new java.util.ArrayList<edu.uoregon.cs.client.Group> () ;
     try {
 	edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
-        out.println("error before uid");
 	edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
 	 // TODO initialize WS operation arguments here
 	int uid = Integer.parseInt(request.getParameter("uid"));
 	// TODO process result here
 	result = port.getGroups(uid);
         
-        out.println("my uid is " + uid + " and my result's name is " + result.get(0).getName());
-        
     } catch (Exception ex) {
 	
         out.println(ex.getMessage());
     }
+     if (result.size() < 1) {
+            out.println("You do not belong to any groups!");
+    } else {
     %>
     
     <form action="group.jsp" method="POST">
         <select name="glist">
     <%
-    
+   
     for (int i = 0;i<result.size();i++)
     {
         edu.uoregon.cs.client.Group g = result.get(i);
         out.println("<option value='" + g.getGid() + "'> "+ g.getName() + "</option>");
     }
+    
     
     %>
         </select>
@@ -61,7 +62,7 @@
     <%-- end web service invocation --%><hr/>
     </form>
     
-    
+   <% } %>
     
     </body>
 </html>

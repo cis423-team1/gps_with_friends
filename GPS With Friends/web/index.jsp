@@ -9,9 +9,9 @@
 	<h1>Welcome to GPS with Friends!</h1><br><h2>WARNING: ALL PASSWORDS ARE STORED IN PLAINTEXT IN THE DATABASE! DO NOT USE A REAL PASSWORD!</h2><hr>
 	<div id="startForms">
             <%
-                String message = request.getParameter("message");
-                if (message.equals("null") || message == null) {
-                    message = "";
+                String message = "";
+                if (request.getParameter("message") != null) {
+                    message = request.getParameter("message");
                 }
                 out.println("<h4>"+message+"<h4>");
             %>

@@ -27,14 +27,14 @@
                     if (result.isSuccess()) {
                         %>
                        <jsp:forward page='main.jsp'>
-                           <jsp:param name='uid' value="{<%=result.getUser().getUid()%>}"/>
+                           <jsp:param name='uid' value="<%=result.getUser().getUid()%>"/>
                        </jsp:forward>
                         <%
                     }
                     else {
                         %>
-                       <jsp:forward page='index.html'>
-                           <jsp:param name='message' value='{<%= result.getError()%>}'/>
+                       <jsp:forward page='index.jsp'>
+                           <jsp:param name='message' value="<%= result.getError()%>"/>
                        </jsp:forward>
                         <%
                     }
@@ -56,15 +56,15 @@
                     edu.uoregon.cs.client.Status result = port.register(email, password, fname, lname);
                     if (result.isSuccess()) {
                         %>
-                       <jsp:forward page='index.html'>
-                           <jsp:param name='message' value='{<%= result.getError()%>}'/>
+                       <jsp:forward page='index.jsp'>
+                           <jsp:param name='message' value="<%= result.getError()%>"/>
                        </jsp:forward>
                         <%
                     }
                     else {
                         %>
-                       <jsp:forward page='index.html'>
-                           <jsp:param name='message' value='{<%= result.getError()%>}'/>
+                       <jsp:forward page='index.jsp'>
+                           <jsp:param name='message' value="<%= result.getError()%>"/>
                        </jsp:forward>
                         <%
                     }

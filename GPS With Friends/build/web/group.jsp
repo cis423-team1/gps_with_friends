@@ -23,10 +23,8 @@
 	edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
 	 // TODO initialize WS operation arguments here
 	int gid = Integer.parseInt(request.getParameter("glist"));
-        out.println("Group ID = "+gid);
 	// TODO process result here
 	result = port.getMembers(gid);
-	out.println("First Member = "+result.get(0).getEmail());
     } catch (Exception ex) {
 	out.println(ex.getMessage());
     }

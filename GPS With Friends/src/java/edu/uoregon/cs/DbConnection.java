@@ -1,5 +1,6 @@
 package edu.uoregon.cs;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -612,6 +613,42 @@ public class DbConnection {
             
         } catch (SQLException ex) {
             return null;
+        }
+    }
+    
+    public void test() {
+        String queryStatement = "SELECT * FROM `Track_History` WHERE `UID`=0 ORDER BY `Date` DESC, `Time` DESC LIMIT 1";
+        //connect to db
+        Connection conn = openConnection();
+        ResultSet res = null;
+        Statement st = null;
+        //attempt to get result
+        try{
+        st = conn.createStatement();
+        res = st.executeQuery(queryStatement);
+        }catch(Exception e){
+        }
+        //check for failed query
+        if (res == null) {
+        }
+        try {
+            //get first (and only) line
+            res.next();
+            //get information
+            BigDecimal latBD = res.getBigDecimal("Location_x");
+            BigDecimal lonBD = res.getBigDecimal("Location_y");
+            double latDoub = res.getDouble("Location_x");
+            double lonDoub = res.getDouble("Location_y");
+            
+            System.out.println("getBigDecimal results: " + latBD + ", " + lonBD);
+            System.out.println("getDouble results: " + latDoub + ", " + lonDoub);
+            
+            //close connection
+            try { if (res != null) res.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
+            
+        } catch (SQLException ex) {
         }
     }
 }

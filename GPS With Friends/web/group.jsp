@@ -100,8 +100,7 @@
             var m = new mymap();
             m.start();
     <%
-        //display top of page
-            
+            //plot each user's last location to the map
             out.println("var group = [");
             for (int i = 0; i < result.getUsers().size(); i++) {
                 edu.uoregon.cs.client.User user = result.getUsers().get(i);

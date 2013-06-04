@@ -96,6 +96,7 @@
     <Compile Include="DetailPage.xaml.cs">
       <DependentUpon>DetailPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InverseBooleanConverter.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -192,6 +193,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Assets\Circle&amp;Arrow.png" />
     <Content Include="Assets\logo_1044.png" />
     <Content Include="Assets\logo_300.png" />
     <Content Include="Assets\logo_500.png" />

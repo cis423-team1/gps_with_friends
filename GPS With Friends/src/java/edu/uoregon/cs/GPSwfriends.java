@@ -121,4 +121,22 @@ public class GPSwfriends {
         return db.getHistory(uid, number);
 
     }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getGroup")
+    public Group getGroup(@WebParam(name = "gid") int gid) {
+        DbConnection db = new DbConnection();
+        return db.getGroup(gid);
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getUserByID")
+    public User getUserByID(@WebParam(name = "uid") int uid) {
+        DbConnection db = new DbConnection();
+        return db.getUserByID(uid);
+    }
 }

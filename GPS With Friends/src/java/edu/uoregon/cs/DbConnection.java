@@ -523,5 +523,95 @@ public class DbConnection {
         }
     }
     
+    public User getUserByID(int uid) {
+        String queryStatement = "SELECT * FROM `User` WHERE `UID`='"+uid+"'";
+        //connect to db
+        Connection conn = openConnection();
+        ResultSet res;
+        Statement st;
+        //attempt to get result
+        try{
+        st = conn.createStatement();
+        res = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return null;
+        }
+        //check for failed query
+        if (res == null) {
+            return null;
+        }
+        try {
+            //get first (and only) line
+            res.next();
+            //get information
+            String fname = res.getString("Fname");
+            String lname = res.getString("Lname");
+            String email = res.getString("Email");
+           
+            //close connection
+            try { if (res != null) res.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
+            
+            //return location
+            return new User(uid, fname, lname, email);
+            
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
     
+    public Group getGroup(int gid) {
+        String queryStatement = "SELECT * FROM `Group` WHERE `GroupID`='"+gid+"'";
+        //connect to db
+        Connection conn = openConnection();
+        ResultSet res;
+        Statement st;
+        //attempt to get result
+        try{
+        st = conn.createStatement();
+        res = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return null;
+        }
+        //check for failed query
+        if (res == null) {
+            return null;
+        }
+        try {
+            res.next();
+            queryStatement = "SELECT * FROM `User` JOIN `Group_Lists` ON `Group_Lists`.`UID`=`User`.`UID` WHERE `Group_Lists`.`Group_GroupID`="+res.getInt("GroupID");
+            //execute querry and get result
+            Statement st2 = conn.createStatement();
+            ResultSet userRes = st2.executeQuery(queryStatement);
+           //check for failed query
+           if (userRes == null) {
+               return null;
+           }
+           //assemble user list for group
+           ArrayList<User> users = new ArrayList<User>();
+           while (userRes.next()) {
+               users.add(new User(userRes.getInt("UID"), userRes.getString("Fname"), userRes.getString("Lname"), userRes.getString("Email")));
+           }
+           
+           //close userRes
+           try { if (userRes != null) userRes.close(); } catch (Exception e) {};
+           try { if (st2 != null) st2.close(); } catch (Exception e) {};
+           
+           String name = res.getString("GroupName");
+           int owner = res.getInt("OwnerID");
+           String date = res.getString("Date_Of_Creation");
+           
+           //close connection
+            try { if (res != null) res.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
+
+           User [] userRay = users.toArray(new User[users.size()]);
+           return new Group(userRay, name, owner, date,gid);
+            
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
 }

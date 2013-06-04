@@ -12,9 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>GPS for Friends</h1>
-        
-        
+          
     <%-- start web service invocation --%><hr/>
     <%
         java.util.List<edu.uoregon.cs.client.User> result = new java.util.ArrayList<edu.uoregon.cs.client.User>();

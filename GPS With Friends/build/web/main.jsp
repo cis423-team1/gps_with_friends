@@ -22,7 +22,7 @@
     </head>
     <body>
     
-
+<h1>Pick a group to view</h1>
     <%-- start web service invocation --%><hr/>
     <%
         java.util.List<edu.uoregon.cs.client.Group> result = new java.util.ArrayList<edu.uoregon.cs.client.Group> () ;
@@ -56,13 +56,30 @@
     
     %>
         </select>
-    <input type="submit" value=" show list" />
+    <input type="submit" value="View Group" />
 
     
     <%-- end web service invocation --%><hr/>
     </form>
     
    <% } %>
+   
+   <h4>Create a Group</h4>
+   
+   <div id="startForms">
+            <%
+                String message = "";
+                if (request.getParameter("message") != null) {
+                    message = request.getParameter("message");
+                }
+                out.println("<h4>"+message+"<h4>");
+            %>
+		<form id="createGroupForm" action="createGroup.jsp" method="POST">
+			Group Name: <input type="text" name="groupName"><br>
+                        <input type="hidden" name="uid" value="<%= request.getParameter("uid") %>">
+			<input type="submit" value="Create a Group">
+		</form>
+	</div>
     
     </body>
 </html>

@@ -57,7 +57,7 @@
                     if (result.isSuccess()) {
                         %>
                        <jsp:forward page='index.jsp'>
-                           <jsp:param name='message' value="<%= result.getError()%>"/>
+                           <jsp:param name='message' value="Registered Succesfully"/>
                        </jsp:forward>
                         <%
                     }

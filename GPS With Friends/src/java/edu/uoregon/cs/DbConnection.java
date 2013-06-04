@@ -297,7 +297,7 @@ public class DbConnection {
      * returns null on error
      */
     public Group[] GetGroups(int uid) {
-        String queryStatement = "SELECT * FROM `Group` JOIN `Group_Lists` WHERE `Group_Lists`.`UID`="+uid;
+        String queryStatement = "SELECT * FROM `Group` JOIN `Group_Lists` ON `Group_Lists`.`Group_GroupID`=`Group`.`GroupID` WHERE `Group_Lists`.`UID`="+uid;
         //connect to db
         Connection conn = openConnection();
         ResultSet res;

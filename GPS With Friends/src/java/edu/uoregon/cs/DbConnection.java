@@ -640,7 +640,8 @@ public class DbConnection {
             double latDoub = res.getDouble("Location_x");
             double lonDoub = res.getDouble("Location_y");
             
-            String [] testCode = {("getBigDecimal results: " + latBD + ", " + lonBD), ("getDouble results: " + latDoub + ", " + lonDoub)};
+            String [] testCode = {("getBigDecimal results: " + latBD + ", " + lonBD), ("getDouble results: " + latDoub + ", " + lonDoub), 
+                ("getBigDecimal Converted results: " + latBD.doubleValue() + ", " + lonBD.doubleValue())};
             return testCode;
 
         } catch (SQLException ex) {

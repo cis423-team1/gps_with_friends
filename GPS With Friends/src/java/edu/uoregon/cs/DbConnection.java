@@ -185,8 +185,8 @@ public class DbConnection {
             res.next();
             //get information
             String date = res.getString("Date") + " " + res.getString("Time");
-            double lat = res.getBigDecimal("Location_x").longValue();
-            double lon = res.getBigDecimal("Location_y").longValue();
+            double lat = res.getBigDecimal("Location_x").doubleValue();
+            double lon = res.getBigDecimal("Location_y").doubleValue();
             
             //close connection
             try { if (res != null) res.close(); } catch (Exception e) {return new Location(0,0,0,"sqlexception");};
@@ -614,38 +614,5 @@ public class DbConnection {
         } catch (SQLException ex) {
             return null;
         }
-    }
-    
-    public String[] test() {
-        String queryStatement = "SELECT * FROM `Track_History` WHERE `UID`=0 ORDER BY `Date` DESC, `Time` DESC LIMIT 1";
-        //connect to db
-        Connection conn = openConnection();
-        ResultSet res = null;
-        Statement st = null;
-        //attempt to get result
-        try{
-        st = conn.createStatement();
-        res = st.executeQuery(queryStatement);
-        }catch(Exception e){
-        }
-        //check for failed query
-        if (res == null) {
-        }
-        try {
-            //get first (and only) line
-            res.next();
-            //get information
-            BigDecimal latBD = res.getBigDecimal("Location_x");
-            BigDecimal lonBD = res.getBigDecimal("Location_y");
-            double latDoub = res.getDouble("Location_x");
-            double lonDoub = res.getDouble("Location_y");
-            
-            String [] testCode = {("getBigDecimal results: " + latBD + ", " + lonBD), ("getDouble results: " + latDoub + ", " + lonDoub), 
-                ("getBigDecimal Converted results: " + latBD.doubleValue() + ", " + lonBD.doubleValue())};
-            return testCode;
-
-        } catch (SQLException ex) {
-        }
-        return new String[]{""};
     }
 }

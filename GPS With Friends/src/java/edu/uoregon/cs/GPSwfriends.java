@@ -139,13 +139,4 @@ public class GPSwfriends {
         DbConnection db = new DbConnection();
         return db.getUserByID(uid);
     }
-
-    /**
-     * Web service operation
-     */
-    @WebMethod(operationName = "test")
-    public String[] test() {
-        DbConnection db = new DbConnection();
-        return db.test();
-    }
 }

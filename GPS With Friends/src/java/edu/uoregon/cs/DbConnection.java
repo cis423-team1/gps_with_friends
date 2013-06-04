@@ -87,7 +87,7 @@ public class DbConnection {
     /*
      * returns a status detailing whether it was a success or failure along with an error message
      */
-    public Status addUser(User user) {
+    public Status addUser(User user, String password) {
         //create user id
         String queryStatement = "SELECT COUNT(*) FROM `User`";
         //connect to db
@@ -124,8 +124,8 @@ public class DbConnection {
         try { if (conn != null) conn.close(); } catch (Exception e) {return new Status(false, "Counting the number of users failed");};
         
         //insert values into database
-        int res = update("INSERT INTO `User` (UID, Fname, Lname, Email) VALUES"
-                + " ("+uid+", '"+user.fName+"', '"+user.lName+"', '"+user.email+"')");
+        int res = update("INSERT INTO `User` (UID, Fname, Lname, Email, Password) VALUES"
+                + " ("+uid+", '"+user.fName+"', '"+user.lName+"', '"+user.email+"', + '"+password+"')");
         
         //convert int to boolean
         if (res == 1) {
@@ -475,6 +475,51 @@ public class DbConnection {
             
         } catch (SQLException ex) {
             return null;
+        }
+    }
+         
+    public UserStatus authenticate(String email, String pass) {
+        String queryStatement = "SELECT * FROM `User` WHERE `Email`='"+email+"'";
+        //connect to db
+        Connection conn = openConnection();
+        ResultSet res;
+        Statement st;
+        //attempt to get result
+        try{
+        st = conn.createStatement();
+        res = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return new UserStatus(null, false, "Incorrect email or password");
+        }
+        //check for failed query
+        if (res == null) {
+            return new UserStatus(null, false, "Incorrect email or password");
+        }
+        try {
+            //get first (and only) line
+            res.next();
+            //get information
+            boolean match = res.getString("Password").equals(pass);
+            
+            //check for matching passwords
+            String message = "Incorrect email or password";
+            User user = null;
+            if (match) {
+                message = "success";
+                user = new User(res.getInt("UID"), res.getString("Fname"), res.getString("Lname"), res.getString("Email"));
+            }
+            
+            //close connection
+            try { if (res != null) res.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
+
+            
+            //return Status of authentication
+            return new UserStatus (user, match, message);
+            
+        } catch (SQLException ex) {
+            return new UserStatus(null, false, "Incorrect email or password");
         }
     }
     

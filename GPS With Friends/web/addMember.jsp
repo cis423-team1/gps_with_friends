@@ -20,8 +20,6 @@
     try {
 	edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
 	edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
-	 // TODO initialize WS operation arguments here
-	java.lang.String email = "";
 	// TODO process result here
 	user = port.getUser(request.getParameter("emailUser"));
     } catch (Exception ex) {
@@ -49,8 +47,10 @@
         if (result.isSuccess())
         {
            out.println("The invitation happened successfully.");
-            out.println("<input type='hidden' name='glist' value='"+gid+"'>");
+        } else {
+           out.println("That user does not exist!");
         }
+        out.println("<input type='hidden' name='glist' value='"+gid+"'>");
     } catch (Exception ex) {
 	// TODO handle custom exceptions here
     }

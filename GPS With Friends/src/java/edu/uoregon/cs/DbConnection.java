@@ -616,7 +616,7 @@ public class DbConnection {
         }
     }
     
-    public void test() {
+    public String[] test() {
         String queryStatement = "SELECT * FROM `Track_History` WHERE `UID`=0 ORDER BY `Date` DESC, `Time` DESC LIMIT 1";
         //connect to db
         Connection conn = openConnection();
@@ -640,15 +640,11 @@ public class DbConnection {
             double latDoub = res.getDouble("Location_x");
             double lonDoub = res.getDouble("Location_y");
             
-            System.out.println("getBigDecimal results: " + latBD + ", " + lonBD);
-            System.out.println("getDouble results: " + latDoub + ", " + lonDoub);
-            
-            //close connection
-            try { if (res != null) res.close(); } catch (Exception e) {};
-            try { if (st != null) st.close(); } catch (Exception e) {};
-            try { if (conn != null) conn.close(); } catch (Exception e) {};
-            
+            String [] testCode = {("getBigDecimal results: " + latBD + ", " + lonBD), ("getDouble results: " + latDoub + ", " + lonDoub)};
+            return testCode;
+
         } catch (SQLException ex) {
         }
+        return new String[]{""};
     }
 }

@@ -23,6 +23,7 @@
 		</script>
     	
                 <script src="gpsmap.js"></script>
+                <script src="infobox.js"></script>
         <%
             
         //if View on Map was selected show last known location on map

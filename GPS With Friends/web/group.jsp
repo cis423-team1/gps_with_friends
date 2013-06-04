@@ -8,10 +8,21 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style type="text/css">
+      		html { height: 100% }
+      		body { height: 100%; margin: 0; padding: 0 }
+			#map-canvas { height:600px; width:800px;}
+    	</style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
     <body>
+        <script 
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5U_RwN3gt5ZpvGNIWyZEb1MgqP5kx05k&sensor=false">
+		</script>
+    	
+                <script src="gpsmap.js"></script>
+                <script src="infobox.js"></script>
     <table> 
     <%-- start web service invocation --%><hr/>
     <%
@@ -85,8 +96,29 @@
                 Owner: <%= owner.getEmail() %>
                 </td></tr>
     </table>
-    <%-- start web service invocation --%><hr/>
-    
-    <%-- end web service invocation --%><hr/>
-    </body>
+                
+    <h3>Current Locations for <%= result.getUsers().size()%> group members</h3>
+    <div id='map-canvas'/>
+    <script>
+            var m = new mymap();
+            m.start();
+    <%
+        //display top of page
+            
+            out.println("var group = [");
+            for (int i = 0; i < result.getUsers().size(); i++) {
+                edu.uoregon.cs.client.User user = result.getUsers().get(i);
+                edu.uoregon.cs.client.Location curLoc = user.getLastLoc();
+                out.print("{ name: '" + user.getEmail() + "', lat: " + curLoc.getLatitude()+ ", lng: " + curLoc.getLongitude() + " }");
+                if (i < result.getUsers().size() - 1) {
+                    out.println(",");
+                }
+            }
+            out.println("];");
+            %>
+                
+            m.displayGroup(group);
+        
+    </script>
+            </body>
 </html>

@@ -331,7 +331,7 @@ public class DbConnection {
                 //assemble user list for group
                 ArrayList<User> users = new ArrayList<User>();
                 while (userRes.next()) {
-                    users.add(new User(userRes.getInt("UID"), userRes.getString("Fname"), userRes.getString("Lname"), userRes.getString("Email")));
+                    users.add(new User(userRes.getInt("UID"), userRes.getString("Fname"), userRes.getString("Lname"), userRes.getString("Email"), getLastLocation(userRes.getInt("UID"))));
                 }
                 
                 //close userRes
@@ -381,7 +381,7 @@ public class DbConnection {
         ArrayList<User> users = new ArrayList<User>();
         try {
             while (res.next()) {
-                users.add(new User(res.getInt("UID"), res.getString("Fname"), res.getString("Lname"), res.getString("Email")));
+                users.add(new User(res.getInt("UID"), res.getString("Fname"), res.getString("Lname"), res.getString("Email"), getLastLocation(res.getInt("UID"))));
             }
         } catch (SQLException ex) {
             User [] nullData = {new User()};
@@ -428,7 +428,7 @@ public class DbConnection {
             try { if (conn != null) conn.close(); } catch (Exception e) {};
             
             //return location
-            return new User(uid, fname, lname, email);
+            return new User(uid, fname, lname, email, getLastLocation(uid));
             
         } catch (SQLException ex) {
             return null;
@@ -506,7 +506,7 @@ public class DbConnection {
             User user = null;
             if (match) {
                 message = "success";
-                user = new User(res.getInt("UID"), res.getString("Fname"), res.getString("Lname"), res.getString("Email"));
+                user = new User(res.getInt("UID"), res.getString("Fname"), res.getString("Lname"), res.getString("Email"), getLastLocation(res.getInt("UID")));
             }
             
             //close connection
@@ -554,7 +554,7 @@ public class DbConnection {
             try { if (conn != null) conn.close(); } catch (Exception e) {};
             
             //return location
-            return new User(uid, fname, lname, email);
+            return new User(uid, fname, lname, email, getLastLocation(uid));
             
         } catch (SQLException ex) {
             return null;
@@ -591,7 +591,7 @@ public class DbConnection {
            //assemble user list for group
            ArrayList<User> users = new ArrayList<User>();
            while (userRes.next()) {
-               users.add(new User(userRes.getInt("UID"), userRes.getString("Fname"), userRes.getString("Lname"), userRes.getString("Email")));
+               users.add(new User(userRes.getInt("UID"), userRes.getString("Fname"), userRes.getString("Lname"), userRes.getString("Email"), getLastLocation(userRes.getInt("UID"))));
            }
            
            //close userRes

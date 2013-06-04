@@ -39,8 +39,8 @@ public class ObjectFactory {
     private final static QName _Authenticate_QNAME = new QName("http://cs.uoregon.edu/", "authenticate");
     private final static QName _GetLocation_QNAME = new QName("http://cs.uoregon.edu/", "getLocation");
     private final static QName _CreateGroup_QNAME = new QName("http://cs.uoregon.edu/", "createGroup");
-    private final static QName _GetHistory_QNAME = new QName("http://cs.uoregon.edu/", "getHistory");
     private final static QName _GetMembers_QNAME = new QName("http://cs.uoregon.edu/", "getMembers");
+    private final static QName _GetHistory_QNAME = new QName("http://cs.uoregon.edu/", "getHistory");
     private final static QName _GetLocationResponse_QNAME = new QName("http://cs.uoregon.edu/", "getLocationResponse");
     private final static QName _RemoveMemberResponse_QNAME = new QName("http://cs.uoregon.edu/", "removeMemberResponse");
     private final static QName _GetGroupsResponse_QNAME = new QName("http://cs.uoregon.edu/", "getGroupsResponse");
@@ -87,19 +87,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetHistory }
-     * 
-     */
-    public GetHistory createGetHistory() {
-        return new GetHistory();
-    }
-
-    /**
      * Create an instance of {@link GetMembers }
      * 
      */
     public GetMembers createGetMembers() {
         return new GetMembers();
+    }
+
+    /**
+     * Create an instance of {@link GetHistory }
+     * 
+     */
+    public GetHistory createGetHistory() {
+        return new GetHistory();
     }
 
     /**
@@ -398,21 +398,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetHistory }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getHistory")
-    public JAXBElement<GetHistory> createGetHistory(GetHistory value) {
-        return new JAXBElement<GetHistory>(_GetHistory_QNAME, GetHistory.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetMembers }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getMembers")
     public JAXBElement<GetMembers> createGetMembers(GetMembers value) {
         return new JAXBElement<GetMembers>(_GetMembers_QNAME, GetMembers.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetHistory }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getHistory")
+    public JAXBElement<GetHistory> createGetHistory(GetHistory value) {
+        return new JAXBElement<GetHistory>(_GetHistory_QNAME, GetHistory.class, null, value);
     }
 
     /**

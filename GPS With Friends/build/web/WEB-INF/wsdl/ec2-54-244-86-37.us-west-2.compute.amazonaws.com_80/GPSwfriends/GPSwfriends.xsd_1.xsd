@@ -197,18 +197,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getMembers">
-<xs:sequence>
-<xs:element name="gid" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getMembersResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:user" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="getHistory">
 <xs:sequence>
 <xs:element name="uid" type="xs:int"/>
@@ -219,6 +207,18 @@
 <xs:complexType name="getHistoryResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:location" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMembers">
+<xs:sequence>
+<xs:element name="gid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMembersResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:user" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>

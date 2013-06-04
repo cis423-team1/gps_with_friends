@@ -12,10 +12,28 @@ function makeLatLng(lat, lng){
 }
 
 function addMarker(name, latLng){
-	var infowindow = new google.maps.InfoWindow({
-	    content: name,
-	    maxWidth: 25
-	});
+	var boxText = document.createElement("div");
+    boxText.style.cssText = "border: 1px solid black; background: white; padding: 5px;";
+    boxText.innerHTML = name;
+    
+	var myOptions = {
+			 content: boxText
+			,disableAutoPan: false
+			,maxWidth: 0
+			,pixelOffset: new google.maps.Size(16, -32)
+			,zIndex: null
+			,boxStyle: { 
+			  background: "url('tipbox.gif') no-repeat"
+			  ,opacity: 0.75
+			  ,width: "80px"
+			 }
+			,closeBoxMargin: "10px 2px 2px 2px"
+			,closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif"
+			,infoBoxClearance: new google.maps.Size(1, 1)
+			,isHidden: false
+			,pane: "floatPane"
+			,enableEventPropagation: false
+		};
 	
 	this.markers[name] = new google.maps.Marker({	
 		position: latLng,
@@ -23,7 +41,8 @@ function addMarker(name, latLng){
 		title: name
 	});
 	
-	infowindow.open(this.map, this.markers[name]);
+	var ib = new InfoBox(myOptions);
+	ib.open(this.map, this.markers[name]);
 }
 
 function showGroup(group){

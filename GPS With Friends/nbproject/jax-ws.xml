@@ -7,41 +7,9 @@
   </services>
   <clients>
     <client name="GPSwfriends">
-      <wsdl-url>http://localhost:8080/GPSwfriends/GPSwfriends?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8080/GPSwfriends/GPSwfriends.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">edu.uoregon.cs.client</package-name>
-      <catalog-file>catalog.xml</catalog-file>
-      <wsimport-options>
-        <wsimport-option>
-          <wsimport-option-name>extension</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>verbose</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/GPSwfriends/GPSwfriends?wsdl</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xnocompile</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xendorsed</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>edu.uoregon.cs.client</wsimport-option-value>
-        </wsimport-option>
-      </wsimport-options>
-    </client>
-    <client name="GPSwfriends_1">
       <wsdl-url>http://ec2-54-244-86-37.us-west-2.compute.amazonaws.com/GPSwfriends/GPSwfriends?wsdl</wsdl-url>
       <local-wsdl-file>ec2-54-244-86-37.us-west-2.compute.amazonaws.com/GPSwfriends/GPSwfriends.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">edu.uoregon.cs.second.client</package-name>
+      <package-name forceReplace="true">edu.uoregon.cs.client</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
         <wsimport-option>
@@ -66,7 +34,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>edu.uoregon.cs.second.client</wsimport-option-value>
+          <wsimport-option-value>edu.uoregon.cs.client</wsimport-option-value>
         </wsimport-option>
       </wsimport-options>
     </client>

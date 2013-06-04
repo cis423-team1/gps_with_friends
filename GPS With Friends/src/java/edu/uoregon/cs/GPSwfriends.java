@@ -107,9 +107,7 @@ public class GPSwfriends {
      */
     @WebMethod(operationName = "getUser")
     public User getUser(@WebParam(name = "email") String email) {
-        //TODO write your implementation code here:
         DbConnection db = new DbConnection();
-        
         return db.getUser(email);
         
     }
@@ -119,10 +117,8 @@ public class GPSwfriends {
      */
     @WebMethod(operationName = "getHistory")
     public Location[] getHistory(@WebParam(name = "uid") int uid, @WebParam(name = "number") int number) {
-        //TODO write your implementation code here:
-                DbConnection db = new DbConnection();
-                
-                return db.getHistory(uid, number);
+        DbConnection db = new DbConnection();
+        return db.getHistory(uid, number);
 
     }
 }

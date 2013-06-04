@@ -28,6 +28,7 @@
         java.util.List<edu.uoregon.cs.client.Group> result = new java.util.ArrayList<edu.uoregon.cs.client.Group> () ;
     try {
 	edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
+        out.println("error before uid");
 	edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
 	 // TODO initialize WS operation arguments here
 	int uid = 0;
@@ -38,18 +39,18 @@
         
     } catch (Exception ex) {
 	
-        // TODO handle custom exceptions here
+        out.println(ex.getMessage());
     }
     %>
     
-    <form action="listGroupMembers.jsp" method="POST">
+    <form action="group.jsp" method="POST">
         <select name="glist">
     <%
     
     for (int i = 0;i<result.size();i++)
     {
         edu.uoregon.cs.client.Group g = result.get(i);
-        out.println("<option value=' " + g.getGid() + "'> "+ g.getName() + "</option>");
+        out.println("<option value='" + g.getGid() + "'> "+ g.getName() + "</option>");
     }
     
     %>

@@ -30,7 +30,7 @@
     %>
     <%-- end web service invocation --%><hr/>
     
-    <form action="listGroupMembers.jsp" method="POST">
+    <form action="group.jsp" method="POST">
         
     
     <%-- start web service invocation --%><hr/>

@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "GPSwfriends", targetNamespace = "http://cs.uoregon.edu/", wsdlLocation = "http://localhost:8080/GPSwfriends/GPSwfriends?wsdl")
+@WebServiceClient(name = "GPSwfriends", targetNamespace = "http://cs.uoregon.edu/", wsdlLocation = "http://ec2-54-244-86-37.us-west-2.compute.amazonaws.com/GPSwfriends/GPSwfriends?wsdl")
 public class GPSwfriends_Service
     extends Service
 {
@@ -30,7 +30,7 @@ public class GPSwfriends_Service
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:8080/GPSwfriends/GPSwfriends?wsdl");
+            url = new URL("http://ec2-54-244-86-37.us-west-2.compute.amazonaws.com/GPSwfriends/GPSwfriends?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

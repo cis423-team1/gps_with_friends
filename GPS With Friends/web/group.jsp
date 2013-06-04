@@ -23,29 +23,31 @@
 	edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
 	 // TODO initialize WS operation arguments here
 	int gid = Integer.parseInt(request.getParameter("glist"));
+        out.println("Group ID = "+gid);
 	// TODO process result here
 	result = port.getMembers(gid);
-	out.println("Result = "+result);
+	out.println("First Member = "+result.get(0).getEmail());
     } catch (Exception ex) {
-	// TODO handle custom exceptions here
+	out.println(ex.getMessage());
     }
     %>
     
-     <form action="showOnMap.jsp" method="POST">
+     <form action="groupAction.jsp" method="POST">
         <select name="userSelected">
     <%
     
     for (int i = 0;i<result.size();i++)
     {
         edu.uoregon.cs.client.User g = result.get(i);
-        out.println("<option value=' " + g.getUid() + "'> "+ g.getEmail() + "</option>");
+        out.println("<option value='" + g.getEmail() + "'>"+ g.getEmail() + "</option>");
     }
     
     %>
         </select>
-    <input type="button" action="showOnMap.jsp" method="POST" value=" view on Map" />
-    <input type="button" action="removeFromGroup.jsp" method="POST" value=" remove from group" />
-    <input type="button" action="showHistory.jsp" method="POST" value=" Show the history" />
+    <input type="hidden" value="<%= request.getParameter("glist")%>" name="hiddenGName">
+    <input type="submit" name="action" value="View on Map" />
+    <input type="submit" name="action" value="Remove From Group" />
+    <input type="submit" name="action" value="Show History" />
 
            
     

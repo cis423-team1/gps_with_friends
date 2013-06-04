@@ -25,18 +25,16 @@
                     java.lang.String password = request.getParameter("password");
                     edu.uoregon.cs.client.UserStatus result = port.authenticate(email, password);
                     if (result.isSuccess()) {
-                        %>
-                       <jsp:forward page='main.jsp'>
-                           <jsp:param name='uid' value=' <%= result.getUser().getUid()%>'/>
-                       </jsp:forward>
-                        <%
+                        
+                       out.println("<jsp:forward page='main.jsp'>");
+                           out.println("<jsp:param name='uid' value='"+result.getUser().getUid()+"'/>");
+                       out.println("</jsp:forward>");
+                        
                     }
                     else {
-                        %>
-                       <jsp:forward page='index.html'>
-                           <jsp:param name='message' value=' <%= result.getError()%>'/>
-                       </jsp:forward>
-                        <%
+                        out.println("<jsp:forward page='index.jsp'>");
+                           out.println("<jsp:param name='message' value='"+result.getError()+"'/>");
+                       out.println("</jsp:forward>");
                     }
                 } catch (Exception ex) {
                     // TODO handle custom exceptions here
@@ -54,20 +52,9 @@
                     java.lang.String lname = request.getParameter("lName");
                     // TODO process result here
                     edu.uoregon.cs.client.Status result = port.register(email, password, fname, lname);
-                    if (result.isSuccess()) {
-                        %>
-                       <jsp:forward page='index.html'>
-                           <jsp:param name='message' value=' <%= result.getError()%>'/>
-                       </jsp:forward>
-                        <%
-                    }
-                    else {
-                        %>
-                       <jsp:forward page='index.html'>
-                           <jsp:param name='message' value=' <%= result.getError()%>'/>
-                       </jsp:forward>
-                        <%
-                    }
+                    out.println("<jsp:forward page='index.jsp'>");
+                           out.println("<jsp:param name='message' value='"+result.getError()+"'/>");
+                       out.println("</jsp:forward>");
                 } catch (Exception ex) {
                     // TODO handle custom exceptions here
                 }

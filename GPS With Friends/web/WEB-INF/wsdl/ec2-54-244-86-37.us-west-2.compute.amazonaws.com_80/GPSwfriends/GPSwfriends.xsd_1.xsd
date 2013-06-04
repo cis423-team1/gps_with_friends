@@ -100,6 +100,16 @@
 <xs:element name="fName" type="xs:string" minOccurs="0"/>
 <xs:element name="lName" type="xs:string" minOccurs="0"/>
 <xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="lastLoc" type="tns:location" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="location">
+<xs:sequence>
+<xs:element name="uid" type="xs:int"/>
+<xs:element name="latitude" type="xs:double"/>
+<xs:element name="longitude" type="xs:double"/>
+<xs:element name="date" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -152,15 +162,6 @@
 <xs:complexType name="getLocationResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:location" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="location">
-<xs:sequence>
-<xs:element name="uid" type="xs:int"/>
-<xs:element name="latitude" type="xs:double"/>
-<xs:element name="longitude" type="xs:double"/>
-<xs:element name="date" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 

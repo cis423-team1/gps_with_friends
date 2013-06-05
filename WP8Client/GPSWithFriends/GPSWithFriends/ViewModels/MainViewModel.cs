@@ -80,10 +80,10 @@ namespace GPSWithFriends.ViewModels
         public void LoadData()
         {
             // Sample data; replace with real data
-            this.Friends.Add(new Friend() { NickName = "Joshua", Status = "UO, 30 seconds ago", Distance = "7287 km", ImagePath = "/Assets/fakePor.png", Email = "Jushua@gmail.com", Latitude = 39.7677, Longitude = 116.3602});
-            this.Friends.Add(new Friend() { NickName = "Kate", Status = "Beijing, 20 minutes ago", Distance = "1 km", ImagePath = "/Assets/fakePor.png", Email = "Kate@gmail.com", Latitude = 39.7588, Longitude = 116.3510 });
-            this.Friends.Add(new Friend() { NickName = "Bao", Status = "Unreachable", Distance = "???", ImagePath = "/Assets/fakePor.png", Email = "Bao@gmail.com", Latitude = 39.7532, Longitude = 116.3452 });
-            this.Friends.Add(new Friend() { NickName = "Stranger", Status = "Unreachable", Distance = "???", ImagePath = "/Assets/fakePor.png", Email = "Stranger@gmail.com", Latitude = 39.7600, Longitude = 116.3502 });
+            this.Friends.Add(new Friend() { NickName = "Wang Cong", Status = "updated in 16:20", Distance = "1.5 km", ImagePath = "/Assets/fakePor.png", Email = "Jushua@gmail.com", Latitude = 39.7677, Longitude = 116.3602});
+            this.Friends.Add(new Friend() { NickName = "Yu Zhe", Status = "updated in 16:22", Distance = "1 km", ImagePath = "/Assets/fakePor.png", Email = "Kate@gmail.com", Latitude = 39.7588, Longitude = 116.3510 });
+            this.Friends.Add(new Friend() { NickName = "Kate.Xu", Status = "updated in 15:30", Distance = "1.3 km", ImagePath = "/Assets/fakePor.png", Email = "Bao@gmail.com", Latitude = 39.7532, Longitude = 116.3452 });
+            this.Friends.Add(new Friend() { NickName = "Rye", Status = "updated in 16:12", Distance = "3 km", ImagePath = "/Assets/fakePor.png", Email = "Stranger@gmail.com", Latitude = 39.7532, Longitude = 116.3602 });
 
             this.Requests.Add(new Request() { Content = "Yu wants to friend you", Time="8/5/2013 13:04",SenderName="Yu",SenderEmail="Yu@163.com" });
             this.Requests.Add(new Request() { Content = "Hongye wants to friend you", Time = "7/5/2013 12:44", SenderName = "Hongye", SenderEmail = "Hongye@163.com" });

@@ -15,6 +15,8 @@ namespace GPSWithFriends
     {
         private IsolatedStorageSettings _appSettings = IsolatedStorageSettings.ApplicationSettings;
 
+        Server.GPSwfriendsClient proxy = new Server.GPSwfriendsClient();
+
         public LoginPage()
         {
             InitializeComponent();
@@ -30,7 +32,15 @@ namespace GPSWithFriends
 
         private void LOGINBUTTON_Click(object sender, RoutedEventArgs e)
         {
-            if (Login(LoginUsernameTextBox.Text, LoginPasswordBox.Password))
+            proxy.authenticateCompleted += proxy_authenticateCompleted;
+            proxy.authenticateAsync(LoginUsernameTextBox.Text, LoginPasswordBox.Password);
+            LOGINBUTTON.IsEnabled = false;
+            REGISTERBUTTON.IsEnabled = false;
+        }
+
+        private void proxy_authenticateCompleted(object sender, Server.authenticateCompletedEventArgs e)
+        {
+            if (e.Result.success)
             {
                 SaveLastLoginUser(LoginUsernameTextBox.Text);
                 this.NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
@@ -41,7 +51,10 @@ namespace GPSWithFriends
                 LoginPasswordBox.Password = "";
                 LoginPasswordBox.Focus();
             }
+            LOGINBUTTON.IsEnabled = true;
+            REGISTERBUTTON.IsEnabled = true;
         }
+
 
         private void ReadLastLoginUser()
         {
@@ -64,11 +77,6 @@ namespace GPSWithFriends
                 _appSettings["LAST_LOGIN_USERNAME"] = lastLoginUser;
             else
                 _appSettings.Add("LAST_LOGIN_USERNAME", lastLoginUser);
-        }
-
-        private bool Login(string username, string password)
-        {
-            return true;
         }
 
         private void REGISTERBUTTON_Click(object sender, RoutedEventArgs e)

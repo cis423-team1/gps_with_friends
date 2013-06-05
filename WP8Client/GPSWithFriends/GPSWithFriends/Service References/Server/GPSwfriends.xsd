@@ -6,6 +6,8 @@
   <xs:element name="authenticateResponse" type="tns:authenticateResponse" />
   <xs:element name="createGroup" type="tns:createGroup" />
   <xs:element name="createGroupResponse" type="tns:createGroupResponse" />
+  <xs:element name="getGroup" type="tns:getGroup" />
+  <xs:element name="getGroupResponse" type="tns:getGroupResponse" />
   <xs:element name="getGroups" type="tns:getGroups" />
   <xs:element name="getGroupsResponse" type="tns:getGroupsResponse" />
   <xs:element name="getHistory" type="tns:getHistory" />
@@ -15,6 +17,8 @@
   <xs:element name="getMembers" type="tns:getMembers" />
   <xs:element name="getMembersResponse" type="tns:getMembersResponse" />
   <xs:element name="getUser" type="tns:getUser" />
+  <xs:element name="getUserByID" type="tns:getUserByID" />
+  <xs:element name="getUserByIDResponse" type="tns:getUserByIDResponse" />
   <xs:element name="getUserResponse" type="tns:getUserResponse" />
   <xs:element name="register" type="tns:register" />
   <xs:element name="registerResponse" type="tns:registerResponse" />
@@ -64,6 +68,15 @@
       <xs:element minOccurs="0" name="fName" type="xs:string" />
       <xs:element minOccurs="0" name="lName" type="xs:string" />
       <xs:element minOccurs="0" name="email" type="xs:string" />
+      <xs:element minOccurs="0" name="lastLoc" type="tns:location" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="location">
+    <xs:sequence>
+      <xs:element name="uid" type="xs:int" />
+      <xs:element name="latitude" type="xs:double" />
+      <xs:element name="longitude" type="xs:double" />
+      <xs:element minOccurs="0" name="date" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getUser">
@@ -110,14 +123,6 @@
       <xs:element minOccurs="0" name="return" type="tns:location" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="location">
-    <xs:sequence>
-      <xs:element name="uid" type="xs:int" />
-      <xs:element name="latitude" type="xs:double" />
-      <xs:element name="longitude" type="xs:double" />
-      <xs:element minOccurs="0" name="date" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
   <xs:complexType name="register">
     <xs:sequence>
       <xs:element minOccurs="0" name="email" type="xs:string" />
@@ -139,8 +144,17 @@
   </xs:complexType>
   <xs:complexType name="authenticateResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:status" />
+      <xs:element minOccurs="0" name="return" type="tns:userStatus" />
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="userStatus">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:status">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="user" type="tns:user" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="removeMember">
     <xs:sequence>
@@ -172,6 +186,26 @@
   <xs:complexType name="getMembersResponse">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="return" nillable="true" type="tns:user" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUserByID">
+    <xs:sequence>
+      <xs:element name="uid" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUserByIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:user" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getGroup">
+    <xs:sequence>
+      <xs:element name="gid" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getGroupResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:group" />
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

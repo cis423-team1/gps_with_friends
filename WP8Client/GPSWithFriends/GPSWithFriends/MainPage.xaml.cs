@@ -51,7 +51,7 @@ namespace GPSWithFriends
             myGeoLocator.MovementThreshold = 50;            
         }
 
-        private void MapExtensionsSetup(Map map)
+        public void MapExtensionsSetup(Map map)
         {
             ObservableCollection<DependencyObject> children = MapExtensions.GetChildren(map);
             var runtimeFields = this.GetType().GetRuntimeFields();
@@ -95,26 +95,9 @@ namespace GPSWithFriends
 
             this.FriendsLocationMarkerList.ItemsSource = App.ViewModel.Friends;
             MyLocationMarker.DataContext = this.Me;            
-        }
+        }        
 
-        private void SetProperMapZoomLevel()
-        {
-            LocationRectangle locationRectangle;
-
-            List<Friend> temp = new List<Friend>();
-
-            foreach (var item in App.ViewModel.Friends)
-            {
-                if (item.isLocated())
-                    temp.Add(item);
-            }
-
-            locationRectangle = LocationRectangle.CreateBoundingRectangle(from Friend in temp select Friend.Geocoordinate);
-
-            this.MyMap.SetView(locationRectangle, new Thickness(20, 20, 20, 20));
-        }
-
-        private string GetCoordinateString(Geocoordinate geocoordinate)
+        public string GetCoordinateString(Geocoordinate geocoordinate)
         {
             string positionString = string.Format("Lat: {0:0.0000}, Long: {1:0.0000}, Acc: {2}m",
                  geocoordinate.Latitude, geocoordinate.Longitude, geocoordinate.Accuracy);
@@ -128,8 +111,8 @@ namespace GPSWithFriends
             await LocateMe();
             SetProperMapZoomLevel();
         }
-        
-        private async System.Threading.Tasks.Task LocateMe()
+
+        public async System.Threading.Tasks.Task LocateMe()
         {
             try
             {
@@ -175,7 +158,7 @@ namespace GPSWithFriends
             InputFriendEmail();
         }
 
-        private void InputFriendEmail()
+        public void InputFriendEmail()
         {
             TextBox emailInputBox = new TextBox()
             {
@@ -216,8 +199,9 @@ namespace GPSWithFriends
             messageBox.Show();
         }
 
-        public static void SendFriendRequest(string result)
+        public static bool SendFriendRequest(string result)
         {
+            return false;
             //throw new NotImplementedException();
         }
 
@@ -232,7 +216,7 @@ namespace GPSWithFriends
             }
         }
 
-        private void RequestHandle(Request request)
+        public void RequestHandle(Request request)
         {
             CustomMessageBox messageBox = new CustomMessageBox()
             {
@@ -264,7 +248,7 @@ namespace GPSWithFriends
             messageBox.Show();
         }
 
-        private void RequestDone(Request request, bool p)
+        public void RequestDone(Request request, bool p)
         {
             //1. send request handle info to cloud
             App.ViewModel.Requests.Remove(request);
@@ -295,9 +279,9 @@ namespace GPSWithFriends
                 App.ViewModel.CurrentFriend = App.ViewModel.Friends[index];
                 this.NavigationService.Navigate(new Uri("/DetailPage.xaml", UriKind.Relative));
             }
-        }        
+        }
 
-        private void FriendList_Route(object sender, RoutedEventArgs e)
+        public void FriendList_Route(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -310,7 +294,7 @@ namespace GPSWithFriends
                 MyCoordinates.Add(new GeoCoordinate(friend.Latitude, friend.Longitude));
                 MyQuery.Waypoints = MyCoordinates;
                 MyQuery.QueryCompleted += MyQuery_QueryCompleted;
-                MyQuery.QueryAsync();
+                MyQuery.QueryAsync();                
                 //MyMap.SetView(new LocationRectangle(new GeoCoordinate(Me.Latitude, Me.Longitude),new GeoCoordinate(friend.Latitude, friend.Longitude)));
             }
             catch (Exception)
@@ -331,6 +315,12 @@ namespace GPSWithFriends
                 MyMapRoute = new MapRoute(MyRoute);
                 MyMap.AddRoute(MyMapRoute);                
                 MyQuery.Dispose();
+
+                LocationRectangle locationRectangle;
+
+                locationRectangle = LocationRectangle.CreateBoundingRectangle(MyRoute.Geometry);
+
+                this.MyMap.SetView(locationRectangle, new Thickness(10, 10, 10, 10));
             }
         }
 
@@ -342,6 +332,40 @@ namespace GPSWithFriends
         private void ApplicationBarIconShowAllButton_Click(object sender, EventArgs e)
         {
             SetProperMapZoomLevel();
+        }
+
+        private void SetProperMapZoomLevel()
+        {
+            LocationRectangle locationRectangle;
+
+            List<Friend> temp = new List<Friend>();
+
+            foreach (var item in App.ViewModel.Friends)
+            {
+                if (item.isLocated())
+                    temp.Add(item);
+            }
+
+            if (Me.isLocated()) temp.Add(Me);
+
+            locationRectangle = LocationRectangle.CreateBoundingRectangle(from Friend in temp select Friend.Geocoordinate);
+
+            this.MyMap.SetView(locationRectangle, new Thickness(10, 10, 10, 10));
+        }
+
+        private void Add_Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {            
+            if (MyMap.ZoomLevel <=18)
+                MyMap.ZoomLevel += 1;
+            MyMap.SetView(MyMap.Center, MyMap.ZoomLevel, MapAnimationKind.Linear);
+        }
+
+        private void Minus_Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+            if (MyMap.ZoomLevel >= 2)
+                MyMap.ZoomLevel -= 1;
+            MyMap.SetView(MyMap.Center, MyMap.ZoomLevel, MapAnimationKind.Linear);
         }
         
         // Sample code for building a localized ApplicationBar

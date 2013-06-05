@@ -172,6 +172,9 @@
     <None Include="Service References\Server\GPSWithFriends.Server.createGroupResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\Server\GPSWithFriends.Server.getGroupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\Server\GPSWithFriends.Server.getGroupsResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -182,6 +185,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\Server\GPSWithFriends.Server.getMembersResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Server\GPSWithFriends.Server.getUserByIDResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\Server\GPSWithFriends.Server.getUserResponse.datasource">
@@ -200,7 +206,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Assets\add.png" />
     <Content Include="Assets\Circle&amp;Arrow.png" />
+    <Content Include="Assets\minus.png" />
     <Content Include="Assets\showall.png" />
     <Content Include="Assets\logo_1044.png" />
     <Content Include="Assets\logo_300.png" />

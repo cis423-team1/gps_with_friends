@@ -1,0 +1,16 @@
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\Assets\ApplicationIcon.png
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\Assets\Tiles\FlipCycleTileLarge.png
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\Assets\Tiles\FlipCycleTileMedium.png
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\Assets\Tiles\FlipCycleTileSmall.png
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\Assets\Tiles\IconicTileMediumLarge.png
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\Assets\Tiles\IconicTileSmall.png
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\GWFUnitTestProject.dll
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\GWFUnitTestProject.pdb
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\GPSWithFriends.dll
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\Microsoft.Phone.Controls.Toolkit.dll
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\JeffWilcox.PhoneThemeManager.dll
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\GPSWithFriends.pdb
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\bin\Release\JeffWilcox.PhoneThemeManager.pdb
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\obj\Release\GWFUnitTestProject.csprojResolveAssemblyReference.cache
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\obj\Release\GWFUnitTestProject.dll
+C:\Users\bunny_000\Documents\SS\0G000 Group\UO\gps_with_friends\WP8Client\GPSWithFriends\GWFUnitTestProject\obj\Release\GWFUnitTestProject.pdb

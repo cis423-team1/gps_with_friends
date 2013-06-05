@@ -15,6 +15,8 @@ namespace GPSWithFriends
     {
         private IsolatedStorageSettings _appSettings = IsolatedStorageSettings.ApplicationSettings;
 
+        Server.GPSwfriendsClient proxy = new Server.GPSwfriendsClient();
+
         public RegisterPage()
         {
             InitializeComponent();
@@ -22,18 +24,28 @@ namespace GPSWithFriends
 
         private void Submit_Button_Click(object sender, RoutedEventArgs e)
         {
+            proxy.registerCompleted += proxy_registerCompleted;
             if (ContentCheck())
             {
-                if (Register(RegisterEmailTextBox.Text, RegisterPasswordBox.Password, RegisterNickNameTextBox.Text))
-                {
-                    SaveLastLoginUser(RegisterEmailTextBox.Text);
-                    this.NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative));
-                }
-                else
-                    MessageBox.Show("Register failed. Please try again.");
+                proxy.registerAsync(RegisterEmailTextBox.Text, RegisterPasswordBox.Password, RegisterNickNameTextBox.Text, RegisterNickNameTextBox.Text);
+                SUBMITBUTTON.IsEnabled = false;
             }
             else
                 MessageBox.Show("Input incomplete or password not match. Please try again.");
+        }
+
+        void proxy_registerCompleted(object sender, Server.registerCompletedEventArgs e)
+        {
+            if (e.Result.success)
+            {
+                SaveLastLoginUser(RegisterEmailTextBox.Text);
+                this.NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative));
+            }
+            else
+            {
+                MessageBox.Show("Register failed. Please try again.");
+            }
+            SUBMITBUTTON.IsEnabled = true;
         }
 
         private void SaveLastLoginUser(string lastLoginUser)
@@ -50,7 +62,7 @@ namespace GPSWithFriends
             return true;
         }
 
-        private bool ContentCheck()
+        public bool ContentCheck()
         {
             if (RegisterEmailTextBox.Text.Length > 0 &&
                 RegisterNickNameTextBox.Text.Length > 0 &&

@@ -45,7 +45,7 @@
             <PasswordBox Grid.Row="2" Name="RegisterPasswordAgainBox" VerticalAlignment="Center" Canvas.ZIndex="1" ></PasswordBox>
             <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center"  Opacity="0.5">Nick Name</TextBlock>
             <TextBox Grid.Row="3" Name="RegisterNickNameTextBox" VerticalAlignment="Center" Canvas.ZIndex="1" ></TextBox>
-            <Button Grid.Row="4" Click="Submit_Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center">Submit</Button>
+            <Button Name="SUBMITBUTTON" Grid.Row="4" Click="Submit_Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center">Submit</Button>
         </Grid>
     </Grid>
 

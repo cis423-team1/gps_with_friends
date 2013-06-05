@@ -6,9 +6,9 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maptk="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -16,28 +16,7 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded"
     toolkit:TiltEffect.IsTiltEnabled="True"
-    >
-
-    <toolkit:TransitionService.NavigationInTransition>
-        <toolkit:NavigationInTransition>
-            <toolkit:NavigationInTransition.Backward>
-                <toolkit:TurnstileTransition Mode="BackwardIn"/>
-            </toolkit:NavigationInTransition.Backward>
-            <toolkit:NavigationInTransition.Forward>
-                <toolkit:TurnstileTransition Mode="ForwardIn"/>
-            </toolkit:NavigationInTransition.Forward>
-        </toolkit:NavigationInTransition>
-    </toolkit:TransitionService.NavigationInTransition>
-    <toolkit:TransitionService.NavigationOutTransition>
-        <toolkit:NavigationOutTransition>
-            <toolkit:NavigationOutTransition.Backward>
-                <toolkit:TurnstileTransition Mode="BackwardOut"/>
-            </toolkit:NavigationOutTransition.Backward>
-            <toolkit:NavigationOutTransition.Forward>
-                <toolkit:TurnstileTransition Mode="ForwardOut"/>
-            </toolkit:NavigationOutTransition.Forward>
-        </toolkit:NavigationOutTransition>
-    </toolkit:TransitionService.NavigationOutTransition>
+    >    
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
@@ -52,7 +31,18 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <maps:Map Grid.Row="0" x:Name="MyMap" Center="37.6097, 119.3331"  ZoomLevel="14" Pitch="45"/>
+                    <maps:Map Grid.Row="0" x:Name="MyMap" Center="37.6097, 119.3331"  ZoomLevel="14" Pitch="45">
+                        <maptk:MapExtensions.Children>
+                            <maptk:MapItemsControl  ItemsSource="{Binding Friends}" Name="FriendsLocationMarkerList">
+                                <maptk:MapItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <maptk:Pushpin Visibility="Visible" GeoCoordinate="{Binding Geocoordinate}" Content="{Binding NickName}" />
+                                    </DataTemplate>
+                                </maptk:MapItemsControl.ItemTemplate>
+                            </maptk:MapItemsControl>
+                            <maptk:UserLocationMarker DataContext="Me" GeoCoordinate="{Binding Geocoordinate}" Name="MyLocationMarker" Visibility="Collapsed"></maptk:UserLocationMarker>
+                        </maptk:MapExtensions.Children>
+                    </maps:Map>
                     <TextBlock Grid.Row="0" Name="GPSLocationTextblock" VerticalAlignment="Bottom" Foreground="Black">Location:</TextBlock>
                     <ListBox x:Name="FriendsListBox"  ItemsSource="{Binding Friends}" Grid.Row="1" HorizontalContentAlignment="Stretch" SelectionChanged="FriendsListBox_SelectionChanged">
                         <ListBox.ItemTemplate >
@@ -76,8 +66,7 @@
                                         <TextBlock Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Text="{Binding Distance}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
                                         <toolkit:ContextMenuService.ContextMenu>
                                             <toolkit:ContextMenu toolkit:TiltEffect.IsTiltEnabled="True">
-                                                <toolkit:MenuItem Header="Refresh" Foreground="Black" Click="FriendList_Refresh"/>
-                                                <toolkit:MenuItem Header="Get Route" Foreground="Black" Click="FriendList_Route"  Tag=""/>
+                                                <toolkit:MenuItem Header="Get Route" Foreground="Black" Click="FriendList_Route"/>
                                             </toolkit:ContextMenu>
                                         </toolkit:ContextMenuService.ContextMenu>
                                 </Grid>
@@ -167,7 +156,8 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default" Opacity="1.0" IsMenuEnabled="False" IsVisible="True">
-            <shell:ApplicationBarIconButton IconUri="/Assets/locate.png" Text="Me" Click="ApplicationBarIconButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/locate.png" Text="Me" Click="ApplicationBarIconLocateMeButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/showall.png" Text="Show All Friends" Click="ApplicationBarIconShowAllButton_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

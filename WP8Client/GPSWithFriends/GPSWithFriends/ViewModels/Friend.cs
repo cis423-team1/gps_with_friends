@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Phone.Maps.Controls;
+using System;
 using System.ComponentModel;
+using System.Device.Location;
 using System.Diagnostics;
 using System.Net;
 using System.Windows;
@@ -22,11 +24,23 @@ namespace GPSWithFriends.ViewModels
             imagePath = "";
             latitude = 181;
             longitude = 181;
+            if (this.isLocated())
+                CalculteGeoCoordinate();
         }
+
+       private void CalculteGeoCoordinate()
+       {
+           if (latitude > -90 && latitude < 90 && longitude > -180 && longitude < 180)
+           {
+               ///Geocoordinate.Latitude = latitude;
+               //Geocoordinate.Longitude = longitude;
+               Geocoordinate = new GeoCoordinate(latitude, longitude);
+           }
+       }
 
        public bool isLocated()
        {
-           if (latitude < 180 && longitude < 180 && latitude > -180 && longitude > -180)
+           if (latitude < 90 && longitude < 180 && latitude > -90 && longitude > -180)
                return true;
            else return false;
        }
@@ -146,6 +160,7 @@ namespace GPSWithFriends.ViewModels
                 {
                     latitude = value;
                     NotifyPropertyChanged("Latitude");
+                    CalculteGeoCoordinate();
                 }
             }
         }
@@ -163,11 +178,29 @@ namespace GPSWithFriends.ViewModels
                 {
                     longitude = value;
                     NotifyPropertyChanged("Longitude");
+                    CalculteGeoCoordinate();
                 }
             }
         }
 
+        private GeoCoordinate geocoordinate;
+        [TypeConverter(typeof(GeoCoordinateConverter))]
+        public GeoCoordinate Geocoordinate
+        {
+            get
+            {
+                return geocoordinate;
+            }
+            set
+            {
+                if (value != geocoordinate)
+                {
+                    geocoordinate = value;
+                    NotifyPropertyChanged("Geocoordinate");
+                }
+            }
 
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)

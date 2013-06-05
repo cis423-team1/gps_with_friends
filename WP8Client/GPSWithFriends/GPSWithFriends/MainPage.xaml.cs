@@ -18,15 +18,19 @@ using GPSWithFriends.ViewModels;
 using Microsoft.Phone.Maps.Services;
 using Microsoft.Phone.Maps.Toolkit;
 
+using System.Collections.ObjectModel;
+using System.Reflection;
+using System.Threading.Tasks;
+using Windows.Foundation;
+
+
 namespace GPSWithFriends
 {
     public partial class MainPage : PhoneApplicationPage
     {
         //GPS
         Geolocator myGeoLocator = new Geolocator();
-        Friend Me = new Friend() { Latitude = -1, Longitude = -1, NickName="Me"};
-        UserLocationMarker myLocationMarker = new UserLocationMarker();
-        UserLocationMarker[] userLocationMarker;
+        Friend Me = new Friend() { Latitude = 181, Longitude = 181, NickName="Me"};
         RouteQuery MyQuery = null;
         MapRoute MyMapRoute = null;
         List<GeoCoordinate> MyCoordinates = new List<GeoCoordinate>();
@@ -36,6 +40,7 @@ namespace GPSWithFriends
         {
             InitializeComponent();
 
+            this.MapExtensionsSetup(this.MyMap);
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
 
@@ -43,33 +48,70 @@ namespace GPSWithFriends
             //BuildLocalizedApplicationBar();
 
             myGeoLocator.DesiredAccuracy = PositionAccuracy.High;
-            myGeoLocator.MovementThreshold = 50;
+            myGeoLocator.MovementThreshold = 50;            
         }
 
+        private void MapExtensionsSetup(Map map)
+        {
+            ObservableCollection<DependencyObject> children = MapExtensions.GetChildren(map);
+            var runtimeFields = this.GetType().GetRuntimeFields();
+
+            foreach (DependencyObject i in children)
+            {
+                var info = i.GetType().GetProperty("Name");
+
+                if (info != null)
+                {
+                    string name = (string)info.GetValue(i);
+
+                    if (name != null)
+                    {
+                        foreach (FieldInfo j in runtimeFields)
+                        {
+                            if (j.Name == name)
+                            {
+                                j.SetValue(this, i);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         // Load data for the ViewModel Items
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (!App.ViewModel.IsDataLoaded)
             {
                 App.ViewModel.LoadData();
-            }
+            }            
+
             while (this.NavigationService.CanGoBack)
             {
                 this.NavigationService.RemoveBackEntry();
             }
 
-            userLocationMarker = new UserLocationMarker[App.ViewModel.Friends.Count];
-            for (int i = 0; i < userLocationMarker.Length; i++)
-            {
-                userLocationMarker[i] = new UserLocationMarker();
-            }
+            this.FriendsLocationMarkerList.ItemsSource = App.ViewModel.Friends;
+            MyLocationMarker.DataContext = this.Me;            
+        }
 
-            await LocateMe();
+        private void SetProperMapZoomLevel()
+        {
+            LocationRectangle locationRectangle;
+
+            List<Friend> temp = new List<Friend>();
+
             foreach (var item in App.ViewModel.Friends)
             {
-                if(item.isLocated())
-                FindSomeone(item);
+                if (item.isLocated())
+                    temp.Add(item);
             }
+
+            locationRectangle = LocationRectangle.CreateBoundingRectangle(from Friend in temp select Friend.Geocoordinate);
+
+            this.MyMap.SetView(locationRectangle, new Thickness(20, 20, 20, 20));
         }
 
         private string GetCoordinateString(Geocoordinate geocoordinate)
@@ -81,17 +123,12 @@ namespace GPSWithFriends
             return positionString;
         }
 
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            //this.NavigationService.RemoveBackEntry();
-        }
-
-        private async void ApplicationBarIconButton_Click(object sender, EventArgs e)
-        {
-            //BingMapsTask _tskBingmap = new BingMapsTask();
             await LocateMe();
+            SetProperMapZoomLevel();
         }
-
+        
         private async System.Threading.Tasks.Task LocateMe()
         {
             try
@@ -112,49 +149,10 @@ namespace GPSWithFriends
             {
                 if (Me.isLocated())
                 {
-                    FindSomeone(Me);
+                    MyLocationMarker.Visibility = System.Windows.Visibility.Visible;
                     MyMap.SetView(new GeoCoordinate(Me.Latitude, Me.Longitude), MyMap.ZoomLevel, MapAnimationKind.Parabolic);
                 }
-                //LocateSomeone(new Friend() { Latitude = Me.Latitude + 0.01, Longitude = Me.Longitude + 0.01, NickName = "TEST" });
             }
-        }
-
-        private void FindSomeone(Friend friend)
-        {
-            GPSLocationTextblock.Text = "Location: ";
-            string positionString = string.Format("Lat: {0:0.0000}, Long: {1:0.0000}",
-                 friend.Latitude, friend.Longitude);
-            GPSLocationTextblock.Text += positionString;
-
-            //MyMap.SetView(new GeoCoordinate(friend.Latitude, friend.Longitude), MyMap.ZoomLevel, MapAnimationKind.Parabolic);
-
-            // Create a small circle to mark the current location.
-            Ellipse myCircle = new Ellipse();
-            myCircle.Stroke = new SolidColorBrush(Colors.Black);
-            myCircle.StrokeThickness = 5;
-            myCircle.Fill = new SolidColorBrush((Color)Application.Current.Resources["PhoneAccentColor"]);
-            myCircle.Height = 20;
-            myCircle.Width = 20;
-            myCircle.Opacity = 50;
-
-            StackPanel stackpanel = new StackPanel();
-            stackpanel.Children.Add(myCircle);
-            TextBlock name = new TextBlock();
-            name.Text = friend.NickName;
-            stackpanel.Children.Add(name);
-
-            // Create a MapOverlay to contain the circle.
-            MapOverlay myLocationOverlay = new MapOverlay();
-            myLocationOverlay.Content = stackpanel;
-            myLocationOverlay.PositionOrigin = new Point(0.5, 0.5);
-            myLocationOverlay.GeoCoordinate = new GeoCoordinate(friend.Latitude, friend.Longitude);
-
-            // Create a MapLayer to contain the MapOverlay.
-            MapLayer myLocationLayer = new MapLayer();
-            myLocationLayer.Add(myLocationOverlay);
-
-            // Add the MapLayer to the Map.
-            MyMap.Layers.Add(myLocationLayer);
         }
 
         private void FriendsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -297,18 +295,7 @@ namespace GPSWithFriends
                 App.ViewModel.CurrentFriend = App.ViewModel.Friends[index];
                 this.NavigationService.Navigate(new Uri("/DetailPage.xaml", UriKind.Relative));
             }
-        }
-
-        private void FriendList_Refresh(object sender, RoutedEventArgs e)
-        {
-            MyMap.Layers.Clear();
-            App.ViewModel.Friends[0].Longitude += 0.01;
-            foreach (var item in App.ViewModel.Friends)
-            {
-                if (item.isLocated())
-                    FindSomeone(item);
-            }
-        }
+        }        
 
         private void FriendList_Route(object sender, RoutedEventArgs e)
         {
@@ -318,6 +305,7 @@ namespace GPSWithFriends
                 MyQuery = new RouteQuery();
                 Friend friend = App.ViewModel.Friends[selectedIndex];
                 //MyCoordinates.Add(e.Result[0].GeoCoordinate);
+                MyCoordinates.Clear();
                 MyCoordinates.Add(new GeoCoordinate(Me.Latitude, Me.Longitude));
                 MyCoordinates.Add(new GeoCoordinate(friend.Latitude, friend.Longitude));
                 MyQuery.Waypoints = MyCoordinates;
@@ -340,11 +328,20 @@ namespace GPSWithFriends
                 {
                     MyMap.RemoveRoute(MyMapRoute);
                 }
-                MyMap.Layers.Clear();
                 MyMapRoute = new MapRoute(MyRoute);
                 MyMap.AddRoute(MyMapRoute);                
                 MyQuery.Dispose();
             }
+        }
+
+        private async void ApplicationBarIconLocateMeButton_Click(object sender, EventArgs e)
+        {
+            await LocateMe();
+        }
+
+        private void ApplicationBarIconShowAllButton_Click(object sender, EventArgs e)
+        {
+            SetProperMapZoomLevel();
         }
         
         // Sample code for building a localized ApplicationBar

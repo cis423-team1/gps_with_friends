@@ -6,11 +6,12 @@
 <title>GPS Tracking System</title>
 </head>
 <body>
-	<h1>Welcome to GPS with Friends!</h1><hr>
+	<h1>Welcome to GPS with Friends! WARNING: ALL PASSWORDS ARE STORED IN PLAINTEXT IN THE DATABASE! DO NOT USE A REAL PASSWORD!</h1><hr>
 	<div id="startForms">
 		<form id="loginForm" action="authenticate.jsp" method="POST">
 			<label for="username">Email: </label><input type="text" name="username"><br>
 			<label for="password">Password: </label><input type="text" name="password"><br>
+                        <input type="hidden" name="formType" value="login">
 			<input type="submit">
 		</form>
 		<form id="registrationForm" action="authenticate.jsp" method="POST">
@@ -19,6 +20,7 @@
 			Email: <input type="text" name="email"><br>
 			Password: <input type="password" name="pass"><br>
 			Verify Password: <input type="password" name="vPass"><br>
+                        <input type="hidden" name="formType" value="register">
 			<input type="submit">
 		</form>
 		<input type="button" id="switch" onclick="startFormsToggle()" value="Register">

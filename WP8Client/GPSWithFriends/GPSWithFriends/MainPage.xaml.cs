@@ -16,6 +16,7 @@ using System.Windows.Media;
 using Microsoft.Phone.Maps.Controls;
 using GPSWithFriends.ViewModels;
 using Microsoft.Phone.Maps.Services;
+using Microsoft.Phone.Maps.Toolkit;
 
 namespace GPSWithFriends
 {
@@ -24,9 +25,12 @@ namespace GPSWithFriends
         //GPS
         Geolocator myGeoLocator = new Geolocator();
         Friend Me = new Friend() { Latitude = -1, Longitude = -1, NickName="Me"};
+        UserLocationMarker myLocationMarker = new UserLocationMarker();
+        UserLocationMarker[] userLocationMarker;
         RouteQuery MyQuery = null;
-        GeocodeQuery Mygeocodequery = null;
-
+        MapRoute MyMapRoute = null;
+        List<GeoCoordinate> MyCoordinates = new List<GeoCoordinate>();
+        
         // Constructor
         public MainPage()
         {
@@ -54,9 +58,16 @@ namespace GPSWithFriends
                 this.NavigationService.RemoveBackEntry();
             }
 
+            userLocationMarker = new UserLocationMarker[App.ViewModel.Friends.Count];
+            for (int i = 0; i < userLocationMarker.Length; i++)
+            {
+                userLocationMarker[i] = new UserLocationMarker();
+            }
+
             await LocateMe();
             foreach (var item in App.ViewModel.Friends)
             {
+                if(item.isLocated())
                 FindSomeone(item);
             }
         }
@@ -100,7 +111,10 @@ namespace GPSWithFriends
             finally
             {
                 if (Me.isLocated())
+                {
                     FindSomeone(Me);
+                    MyMap.SetView(new GeoCoordinate(Me.Latitude, Me.Longitude), MyMap.ZoomLevel, MapAnimationKind.Parabolic);
+                }
                 //LocateSomeone(new Friend() { Latitude = Me.Latitude + 0.01, Longitude = Me.Longitude + 0.01, NickName = "TEST" });
             }
         }
@@ -112,7 +126,7 @@ namespace GPSWithFriends
                  friend.Latitude, friend.Longitude);
             GPSLocationTextblock.Text += positionString;
 
-            MyMap.Center = new GeoCoordinate(friend.Latitude, friend.Longitude);
+            //MyMap.SetView(new GeoCoordinate(friend.Latitude, friend.Longitude), MyMap.ZoomLevel, MapAnimationKind.Parabolic);
 
             // Create a small circle to mark the current location.
             Ellipse myCircle = new Ellipse();
@@ -133,7 +147,7 @@ namespace GPSWithFriends
             MapOverlay myLocationOverlay = new MapOverlay();
             myLocationOverlay.Content = stackpanel;
             myLocationOverlay.PositionOrigin = new Point(0.5, 0.5);
-            myLocationOverlay.GeoCoordinate = MyMap.Center;
+            myLocationOverlay.GeoCoordinate = new GeoCoordinate(friend.Latitude, friend.Longitude);
 
             // Create a MapLayer to contain the MapOverlay.
             MapLayer myLocationLayer = new MapLayer();
@@ -147,10 +161,192 @@ namespace GPSWithFriends
         {
             ListBox listbox = sender as ListBox;
             int index = listbox.SelectedIndex;
-            Friend friend = App.ViewModel.Friends[index];
-            MyMap.Center = new GeoCoordinate(friend.Latitude, friend.Longitude);
+            if (index > -1 && index < App.ViewModel.Friends.Count)
+            {
+                Friend friend = App.ViewModel.Friends[index];
+                if (friend.isLocated())
+                {
+                    MyMap.SetView(new GeoCoordinate(friend.Latitude, friend.Longitude), MyMap.ZoomLevel, MapAnimationKind.Parabolic);
+                    //MyMap.Center = new GeoCoordinate(friend.Latitude, friend.Longitude);
+                }
+            }
         }
 
+        private void InviteButton_Click(object sender, RoutedEventArgs e)
+        {
+            InputFriendEmail();
+        }
+
+        private void InputFriendEmail()
+        {
+            TextBox emailInputBox = new TextBox()
+            {
+                //InputScope=System.Windows.Input.InputScopeNameValue.EmailSmtpAddress
+            };
+            TiltEffect.SetIsTiltEnabled(emailInputBox, true);
+            CustomMessageBox messageBox = new CustomMessageBox()
+            {
+                Caption = "Please input Email Address:",
+                Message = "Please input email address of the friend that you want to add.",
+                Content = emailInputBox,
+                LeftButtonContent = "Add",
+                RightButtonContent = "Cancel",
+                IsFullScreen = false,
+            };
+
+            messageBox.Dismissed += (s1, e1) =>
+            {
+                switch (e1.Result)
+                {
+                    case CustomMessageBoxResult.LeftButton:
+                        string result = "";
+                        result = emailInputBox.Text;
+                        if (result.Length > 0)
+                            SendFriendRequest(result);
+                        break;
+                    case CustomMessageBoxResult.RightButton:
+                        // Do something.
+                        break;
+                    case CustomMessageBoxResult.None:
+                        // Do something.
+                        break;
+                    default:
+                        break;
+                }
+            };
+
+            messageBox.Show();
+        }
+
+        public static void SendFriendRequest(string result)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void RequestsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox listbox = sender as ListBox;
+            int index = listbox.SelectedIndex;            
+            if (index > -1 && index < App.ViewModel.Requests.Count)
+            {
+                Request request = App.ViewModel.Requests[index];
+                RequestHandle(request);
+            }
+        }
+
+        private void RequestHandle(Request request)
+        {
+            CustomMessageBox messageBox = new CustomMessageBox()
+            {
+                Caption = "Request Accept?",
+                Message = request.Content,
+                LeftButtonContent = "Accept",
+                RightButtonContent = "Reject",
+                IsFullScreen = false,
+            };
+
+            messageBox.Dismissed += (s1, e1) =>
+            {
+                switch (e1.Result)
+                {
+                    case CustomMessageBoxResult.LeftButton:
+                        RequestDone(request, true);
+                        break;
+                    case CustomMessageBoxResult.RightButton:
+                        RequestDone(request, false);
+                        break;
+                    case CustomMessageBoxResult.None:
+                        // Do something.
+                        break;
+                    default:
+                        break;
+                }
+            };
+
+            messageBox.Show();
+        }
+
+        private void RequestDone(Request request, bool p)
+        {
+            //1. send request handle info to cloud
+            App.ViewModel.Requests.Remove(request);
+            if (p)
+            {
+                //2. get friend from cloud
+                //3. add friend
+
+                //temp
+                App.ViewModel.Friends.Add(new Friend
+                {
+                    IsFriend = true,
+                    Email = request.SenderEmail,
+                    NickName = request.SenderName,
+                    Distance="???",
+                    ImagePath = "/Assets/fakePor.png"
+                });
+                //throw new NotImplementedException();
+            }
+        }
+
+        private void FriendsManageListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox listbox = sender as ListBox;
+            int index = listbox.SelectedIndex;
+            if (index > -1 && index < App.ViewModel.Friends.Count)
+            {
+                App.ViewModel.CurrentFriend = App.ViewModel.Friends[index];
+                this.NavigationService.Navigate(new Uri("/DetailPage.xaml", UriKind.Relative));
+            }
+        }
+
+        private void FriendList_Refresh(object sender, RoutedEventArgs e)
+        {
+            MyMap.Layers.Clear();
+            App.ViewModel.Friends[0].Longitude += 0.01;
+            foreach (var item in App.ViewModel.Friends)
+            {
+                if (item.isLocated())
+                    FindSomeone(item);
+            }
+        }
+
+        private void FriendList_Route(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int selectedIndex = App.ViewModel.Friends.IndexOf((sender as MenuItem).DataContext as Friend);
+                MyQuery = new RouteQuery();
+                Friend friend = App.ViewModel.Friends[selectedIndex];
+                //MyCoordinates.Add(e.Result[0].GeoCoordinate);
+                MyCoordinates.Add(new GeoCoordinate(Me.Latitude, Me.Longitude));
+                MyCoordinates.Add(new GeoCoordinate(friend.Latitude, friend.Longitude));
+                MyQuery.Waypoints = MyCoordinates;
+                MyQuery.QueryCompleted += MyQuery_QueryCompleted;
+                MyQuery.QueryAsync();
+                //MyMap.SetView(new LocationRectangle(new GeoCoordinate(Me.Latitude, Me.Longitude),new GeoCoordinate(friend.Latitude, friend.Longitude)));
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something gotta wrong.");
+            }
+        }
+
+        private void MyQuery_QueryCompleted(object sender, QueryCompletedEventArgs<Route> e)
+        {
+            if (e.Error == null)
+            {
+                Route MyRoute = e.Result;
+                if (MyMapRoute != null)
+                {
+                    MyMap.RemoveRoute(MyMapRoute);
+                }
+                MyMap.Layers.Clear();
+                MyMapRoute = new MapRoute(MyRoute);
+                MyMap.AddRoute(MyMapRoute);                
+                MyQuery.Dispose();
+            }
+        }
+        
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()
         //{

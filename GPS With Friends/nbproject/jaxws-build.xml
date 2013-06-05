@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
         *** GENERATED FROM jax-ws.xml - DO NOT EDIT !                             ***
         *** TO MODIFY wsimport options USE Web Service node -> Edit WS Attributes ***
         *** TO CHANGE TARGETS GENERATED TO jaxws-build.xml COPY THOSE             ***
         *** TARGETS TO ../build.xml AND MODIFY THAT FILE INSTEAD                  ***
 
-        -->
-<project xmlns:xalan="http://xml.apache.org/xslt" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1">
+        --><project xmlns:xalan="http://xml.apache.org/xslt" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1">
     <!--
                 ===================
                 JAX-WS WSGEN SECTION
@@ -47,8 +45,8 @@
     </target>
     <target name="wsimport-client-GPSwfriends" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/GPSwfriends"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/GPSwfriends" destdir="${build.generated.dir}/jax-wsCache/GPSwfriends" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/GPSwfriends/wsdl/localhost_8080/GPSwfriends/GPSwfriends.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" wsdlLocation="http://localhost:8080/GPSwfriends/GPSwfriends?wsdl" xnocompile="true" xendorsed="true" package="edu.uoregon.cs.client">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/GPSwfriends/wsdl/localhost_8080/GPSwfriends/GPSwfriends.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/GPSwfriends" destdir="${build.generated.dir}/jax-wsCache/GPSwfriends" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/GPSwfriends/wsdl/ec2-54-244-86-37.us-west-2.compute.amazonaws.com/GPSwfriends/GPSwfriends.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" wsdlLocation="http://ec2-54-244-86-37.us-west-2.compute.amazonaws.com/GPSwfriends/GPSwfriends?wsdl" xnocompile="true" xendorsed="true" package="edu.uoregon.cs.client">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/GPSwfriends/wsdl/ec2-54-244-86-37.us-west-2.compute.amazonaws.com/GPSwfriends/GPSwfriends.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/GPSwfriends"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
@@ -61,21 +59,5 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/edu/uoregon/cs/client"/>
         <delete dir="${build.generated.dir}/jax-wsCache/GPSwfriends"/>
     </target>
-    <target name="wsimport-client-GPSwfriends_1" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/GPSwfriends_1"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/GPSwfriends_1" destdir="${build.generated.dir}/jax-wsCache/GPSwfriends_1" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/GPSwfriends_1/wsdl/ec2-54-244-86-37.us-west-2.compute.amazonaws.com/GPSwfriends/GPSwfriends.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" wsdlLocation="http://ec2-54-244-86-37.us-west-2.compute.amazonaws.com/GPSwfriends/GPSwfriends?wsdl" xnocompile="true" xendorsed="true" package="edu.uoregon.cs.second.client">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/GPSwfriends_1/wsdl/ec2-54-244-86-37.us-west-2.compute.amazonaws.com/GPSwfriends/GPSwfriends.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/GPSwfriends_1"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/GPSwfriends_1">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-GPSwfriends_1" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/edu/uoregon/cs/second/client"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/GPSwfriends_1"/>
-    </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-GPSwfriends, wsimport-client-GPSwfriends_1"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-GPSwfriends"/>
 </project>

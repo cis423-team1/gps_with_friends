@@ -13,6 +13,7 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`User` (
   `Fname` VARCHAR(45) NULL ,
   `Lname` VARCHAR(45) NULL ,
   `Email` VARCHAR(45) NULL ,
+  `Password` VARCHAR(45) NULL ,
   PRIMARY KEY (`UID`) )
 ENGINE = InnoDB;
 

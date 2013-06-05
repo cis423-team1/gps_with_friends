@@ -1,0 +1,147 @@
+<%-- 
+    Document   : groupAction
+    Created on : Jun 3, 2013, 4:23:03 PM
+    Author     : Andrew
+--%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head> 
+        <style type="text/css">
+      		html { height: 100% }
+      		body { height: 100%; margin: 0; padding: 0 }
+                        #title {padding:25px;}
+			#map-canvas { height:600px; width:800px; position:absolute; left:25px; top:100px;}
+    	</style>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5U_RwN3gt5ZpvGNIWyZEb1MgqP5kx05k&sensor=false"></script>
+        <script src="gpsmap.js"></script>
+        <script src="infobox.js"></script>
+        <%
+            
+        //if View on Map was selected show last known location on map
+        if (request.getParameter("action").equals("View on Map")) {
+            //initialize user object
+            edu.uoregon.cs.client.User user = new edu.uoregon.cs.client.User();
+            //get user from soap
+            try {
+                edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
+                edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
+                //get email from form
+                java.lang.String email = request.getParameter("userSelected");
+                user = port.getUser(email);
+            } catch (Exception ex) {}
+            //initilize location object
+            
+            //get last location from server
+            edu.uoregon.cs.client.Location lastLocation = new edu.uoregon.cs.client.Location();
+            try {
+                edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
+                edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
+                int uid = user.getUid();
+                // TODO process result here
+                lastLocation = port.getLocation(uid);
+
+
+            } catch (Exception ex) {}
+            //display top of page
+            out.println("<h1 id='title'>Last Know Location of "+user.getEmail()+"</h1>");
+            out.println("<div id='map-canvas'/>");
+            //print javascript to display location on map
+            out.println("<script>\n");
+            out.println("var m = new mymap();");
+            out.println("m.start();");
+            out.println("var group = [{ name: '" + lastLocation.getDate() + "', lat: " + lastLocation.getLatitude()+ ", lng: " + lastLocation.getLongitude() + " }];");
+            out.println("m.displayGroup(group);");
+            out.println("</script>");
+        }
+
+        else if (request.getParameter("action").equals("Remove From Group")) {
+            edu.uoregon.cs.client.User user = new edu.uoregon.cs.client.User();
+            try {
+                edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
+                edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
+                 // TODO initialize WS operation arguments here
+                java.lang.String email = "";
+                // TODO process result here
+                user = port.getUser(request.getParameter("userSelected"));
+            } catch (Exception ex) {
+                // TODO handle custom exceptions here
+            }
+            out.println("<form action='group.jsp' method='POST'>");
+            try {
+                edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
+                edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
+
+                 // TODO initialize WS operation arguments here
+                int uid =user.getUid();
+                int gid =Integer.parseInt(request.getParameter("hiddenGName"));
+                // TODO process result here
+                edu.uoregon.cs.client.Status result = port.removeMember(uid, gid);
+
+
+                if (result.isSuccess())
+                {
+                   out.println("The selected user is removed from group.");
+                   out.println("<input type='hidden' name='glist' value='"+gid+"'>");
+                } else 
+                {
+                   out.println("The selected user was not removed. An error occured. Error Message: " + result.getError());
+                   out.println("<input type='hidden' name='glist' value='"+gid+"'>");
+                }
+            } catch (Exception ex) {
+                out.println("An error occured. Message: " + ex.getMessage());
+            }
+            out.println("<input type ='submit' value='Back'/></form>");
+        }
+
+        else if (request.getParameter("action").equals("Show History")) {
+            edu.uoregon.cs.client.User user = new edu.uoregon.cs.client.User();
+            try {
+                edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
+                edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
+                 // TODO initialize WS operation arguments here
+                java.lang.String email = "";
+                // TODO process result here
+                user = port.getUser(request.getParameter("userSelected"));
+            } catch (Exception ex) {
+                // TODO handle custom exceptions here
+            }
+            java.util.List<edu.uoregon.cs.client.Location> locations = new java.util.ArrayList<edu.uoregon.cs.client.Location>();
+            try {
+                edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
+                edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
+                 // TODO initialize WS operation arguments here
+                int uid = user.getUid();
+                int number =100 ;
+                // TODO process result here
+                locations = port.getHistory(uid, number);
+            } catch (Exception ex) {}
+            //display top of page
+            out.println("<h1 id='title'>Last "+locations.size()+" recorded locations of "+user.getEmail()+"</h1>");
+            out.println("<div id='map-canvas'/>");
+            //print javascript to display location on map
+            out.println("<script>\n");
+            out.println("var m = new mymap();");
+            out.println("m.start();");
+            out.println("var group = [");
+            for (int i = 0; i < locations.size(); i++) {
+                edu.uoregon.cs.client.Location curLoc = locations.get(i);
+                out.print("{ name: '" + curLoc.getDate() + "', lat: " + curLoc.getLatitude()+ ", lng: " + curLoc.getLongitude() + " }");
+                if (i < locations.size() - 1) {
+                    out.println(",");
+                }
+            }
+            out.println("];");
+            out.println("m.displayGroup(group);");
+            out.println("</script>");
+        }
+        %>
+        
+        
+    </body>
+</html>

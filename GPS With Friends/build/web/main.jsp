@@ -22,7 +22,7 @@
     </head>
     <body>
     
-
+<h1>Pick a group to view</h1>
     <%-- start web service invocation --%><hr/>
     <%
         java.util.List<edu.uoregon.cs.client.Group> result = new java.util.ArrayList<edu.uoregon.cs.client.Group> () ;
@@ -30,37 +30,56 @@
 	edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
 	edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
 	 // TODO initialize WS operation arguments here
-	int uid = 0;
+	int uid = Integer.parseInt(request.getParameter("uid"));
 	// TODO process result here
 	result = port.getGroups(uid);
         
-        out.println("my uid is " + uid + " and my result's name is " + result.get(0).getName());
-        
     } catch (Exception ex) {
 	
-        // TODO handle custom exceptions here
+        out.println(ex.getMessage());
     }
+     if (result.size() < 1) {
+            out.println("You do not belong to any groups!");
+    } else {
     %>
     
-    <form action="listGroupMembers.jsp" method="POST">
+    <form action="group.jsp" method="POST">
         <select name="glist">
     <%
-    
+   
     for (int i = 0;i<result.size();i++)
     {
         edu.uoregon.cs.client.Group g = result.get(i);
-        out.println("<option value=' " + g.getGid() + "'> "+ g.getName() + "</option>");
+        out.println("<option value='" + g.getGid() + "'> "+ g.getName() + "</option>");
     }
+    
     
     %>
         </select>
-    <input type="submit" value=" show list" />
+    <input type="submit" value="View Group" />
 
     
     <%-- end web service invocation --%><hr/>
     </form>
     
-    
+   <% } %>
+   
+   <h4>Create a Group</h4>
+   
+   <div id="startForms">
+            <%
+                String message = "";
+                if (request.getParameter("message") != null) {
+                    message = request.getParameter("message");
+                }
+                out.println("<h4>"+message+"<h4>");
+            %>
+		<form id="createGroupForm" action="createGroup.jsp" method="POST">
+			Group Name: <input type="text" name="groupName"><br>
+                        <input type="hidden" name="uid" value="<%= request.getParameter("uid") %>">
+			<input type="submit" value="Create a Group">
+		</form>
+	</div>
     
     </body>
 </html>

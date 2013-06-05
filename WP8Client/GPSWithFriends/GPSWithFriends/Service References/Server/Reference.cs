@@ -60,11 +60,23 @@ namespace GPSWithFriends.Server {
         
         GPSWithFriends.Server.getGroupsResponse EndgetGroups(System.IAsyncResult result);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://cs.uoregon.edu/GPSwfriends/getUserRequest", ReplyAction="http://cs.uoregon.edu/GPSwfriends/getUserResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.IAsyncResult BegingetUser(GPSWithFriends.Server.getUserRequest request, System.AsyncCallback callback, object asyncState);
+        
+        GPSWithFriends.Server.getUserResponse EndgetUser(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://cs.uoregon.edu/GPSwfriends/removeMemberRequest", ReplyAction="http://cs.uoregon.edu/GPSwfriends/removeMemberResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.IAsyncResult BeginremoveMember(GPSWithFriends.Server.removeMemberRequest request, System.AsyncCallback callback, object asyncState);
         
         GPSWithFriends.Server.removeMemberResponse EndremoveMember(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://cs.uoregon.edu/GPSwfriends/getHistoryRequest", ReplyAction="http://cs.uoregon.edu/GPSwfriends/getHistoryResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.IAsyncResult BegingetHistory(GPSWithFriends.Server.getHistoryRequest request, System.AsyncCallback callback, object asyncState);
+        
+        GPSWithFriends.Server.getHistoryResponse EndgetHistory(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://cs.uoregon.edu/GPSwfriends/addMemberRequest", ReplyAction="http://cs.uoregon.edu/GPSwfriends/addMemberResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -123,19 +135,25 @@ namespace GPSWithFriends.Server {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cs.uoregon.edu/")]
     public partial class group : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private string[] uidsField;
+        private user[] usersField;
         
         private string nameField;
         
+        private int gidField;
+        
+        private int ownerField;
+        
+        private string date_createdField;
+        
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("uids", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true, Order=0)]
-        public string[] uids {
+        [System.Xml.Serialization.XmlElementAttribute("users", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true, Order=0)]
+        public user[] users {
             get {
-                return this.uidsField;
+                return this.usersField;
             }
             set {
-                this.uidsField = value;
-                this.RaisePropertyChanged("uids");
+                this.usersField = value;
+                this.RaisePropertyChanged("users");
             }
         }
         
@@ -148,6 +166,42 @@ namespace GPSWithFriends.Server {
             set {
                 this.nameField = value;
                 this.RaisePropertyChanged("name");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public int gid {
+            get {
+                return this.gidField;
+            }
+            set {
+                this.gidField = value;
+                this.RaisePropertyChanged("gid");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        public int owner {
+            get {
+                return this.ownerField;
+            }
+            set {
+                this.ownerField = value;
+                this.RaisePropertyChanged("owner");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        public string date_created {
+            get {
+                return this.date_createdField;
+            }
+            set {
+                this.date_createdField = value;
+                this.RaisePropertyChanged("date_created");
             }
         }
         
@@ -167,17 +221,59 @@ namespace GPSWithFriends.Server {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cs.uoregon.edu/")]
     public partial class user : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private string uidField;
+        private int uidField;
+        
+        private string fNameField;
+        
+        private string lNameField;
+        
+        private string emailField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public string uid {
+        public int uid {
             get {
                 return this.uidField;
             }
             set {
                 this.uidField = value;
                 this.RaisePropertyChanged("uid");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public string fName {
+            get {
+                return this.fNameField;
+            }
+            set {
+                this.fNameField = value;
+                this.RaisePropertyChanged("fName");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public string lName {
+            get {
+                return this.lNameField;
+            }
+            set {
+                this.lNameField = value;
+                this.RaisePropertyChanged("lName");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        public string email {
+            get {
+                return this.emailField;
+            }
+            set {
+                this.emailField = value;
+                this.RaisePropertyChanged("email");
             }
         }
         
@@ -197,15 +293,29 @@ namespace GPSWithFriends.Server {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://cs.uoregon.edu/")]
     public partial class location : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private long latitudeField;
+        private int uidField;
         
-        private long longitudeField;
+        private double latitudeField;
+        
+        private double longitudeField;
         
         private string dateField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public long latitude {
+        public int uid {
+            get {
+                return this.uidField;
+            }
+            set {
+                this.uidField = value;
+                this.RaisePropertyChanged("uid");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public double latitude {
             get {
                 return this.latitudeField;
             }
@@ -216,8 +326,8 @@ namespace GPSWithFriends.Server {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public long longitude {
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public double longitude {
             get {
                 return this.longitudeField;
             }
@@ -228,7 +338,7 @@ namespace GPSWithFriends.Server {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public string date {
             get {
                 return this.dateField;
@@ -349,12 +459,12 @@ namespace GPSWithFriends.Server {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string uid;
+        public int uid;
         
         public getLocationRequest() {
         }
         
-        public getLocationRequest(string uid) {
+        public getLocationRequest(int uid) {
             this.uid = uid;
         }
     }
@@ -385,12 +495,12 @@ namespace GPSWithFriends.Server {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string gid;
+        public int gid;
         
         public getMembersRequest() {
         }
         
-        public getMembersRequest(string gid) {
+        public getMembersRequest(int gid) {
             this.gid = gid;
         }
     }
@@ -421,13 +531,23 @@ namespace GPSWithFriends.Server {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute("uids", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
-        public string[] uids;
+        public System.Nullable<int>[] uids;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int owner;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string name;
         
         public createGroupRequest() {
         }
         
-        public createGroupRequest(string[] uids) {
+        public createGroupRequest(System.Nullable<int>[] uids, int owner, string name) {
             this.uids = uids;
+            this.owner = owner;
+            this.name = name;
         }
     }
     
@@ -457,20 +577,20 @@ namespace GPSWithFriends.Server {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string uid;
+        public int uid;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=1)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public long latitude;
+        public double latitude;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=2)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public long longitude;
+        public double longitude;
         
         public setLocationRequest() {
         }
         
-        public setLocationRequest(string uid, long latitude, long longitude) {
+        public setLocationRequest(int uid, double latitude, double longitude) {
             this.uid = uid;
             this.latitude = latitude;
             this.longitude = longitude;
@@ -503,12 +623,12 @@ namespace GPSWithFriends.Server {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string uid;
+        public int uid;
         
         public getGroupsRequest() {
         }
         
-        public getGroupsRequest(string uid) {
+        public getGroupsRequest(int uid) {
             this.uid = uid;
         }
     }
@@ -534,21 +654,57 @@ namespace GPSWithFriends.Server {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getUser", WrapperNamespace="http://cs.uoregon.edu/", IsWrapped=true)]
+    public partial class getUserRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string email;
+        
+        public getUserRequest() {
+        }
+        
+        public getUserRequest(string email) {
+            this.email = email;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getUserResponse", WrapperNamespace="http://cs.uoregon.edu/", IsWrapped=true)]
+    public partial class getUserResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public GPSWithFriends.Server.user @return;
+        
+        public getUserResponse() {
+        }
+        
+        public getUserResponse(GPSWithFriends.Server.user @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="removeMember", WrapperNamespace="http://cs.uoregon.edu/", IsWrapped=true)]
     public partial class removeMemberRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string uid;
+        public int uid;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=1)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string gid;
+        public int gid;
         
         public removeMemberRequest() {
         }
         
-        public removeMemberRequest(string uid, string gid) {
+        public removeMemberRequest(int uid, int gid) {
             this.uid = uid;
             this.gid = gid;
         }
@@ -575,21 +731,62 @@ namespace GPSWithFriends.Server {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getHistory", WrapperNamespace="http://cs.uoregon.edu/", IsWrapped=true)]
+    public partial class getHistoryRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int uid;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int number;
+        
+        public getHistoryRequest() {
+        }
+        
+        public getHistoryRequest(int uid, int number) {
+            this.uid = uid;
+            this.number = number;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getHistoryResponse", WrapperNamespace="http://cs.uoregon.edu/", IsWrapped=true)]
+    public partial class getHistoryResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true)]
+        public GPSWithFriends.Server.location[] @return;
+        
+        public getHistoryResponse() {
+        }
+        
+        public getHistoryResponse(GPSWithFriends.Server.location[] @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="addMember", WrapperNamespace="http://cs.uoregon.edu/", IsWrapped=true)]
     public partial class addMemberRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string uid;
+        public int uid;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://cs.uoregon.edu/", Order=1)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string gid;
+        public int gid;
         
         public addMemberRequest() {
         }
         
-        public addMemberRequest(string uid, string gid) {
+        public addMemberRequest(int uid, int gid) {
             this.uid = uid;
             this.gid = gid;
         }
@@ -752,6 +949,25 @@ namespace GPSWithFriends.Server {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class getUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public getUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public GPSWithFriends.Server.user Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((GPSWithFriends.Server.user)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class removeMemberCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
@@ -765,6 +981,25 @@ namespace GPSWithFriends.Server {
             get {
                 base.RaiseExceptionIfNecessary();
                 return ((GPSWithFriends.Server.status)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class getHistoryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public getHistoryCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public GPSWithFriends.Server.location[] Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((GPSWithFriends.Server.location[])(this.results[0]));
             }
         }
     }
@@ -834,11 +1069,23 @@ namespace GPSWithFriends.Server {
         
         private System.Threading.SendOrPostCallback ongetGroupsCompletedDelegate;
         
+        private BeginOperationDelegate onBegingetUserDelegate;
+        
+        private EndOperationDelegate onEndgetUserDelegate;
+        
+        private System.Threading.SendOrPostCallback ongetUserCompletedDelegate;
+        
         private BeginOperationDelegate onBeginremoveMemberDelegate;
         
         private EndOperationDelegate onEndremoveMemberDelegate;
         
         private System.Threading.SendOrPostCallback onremoveMemberCompletedDelegate;
+        
+        private BeginOperationDelegate onBegingetHistoryDelegate;
+        
+        private EndOperationDelegate onEndgetHistoryDelegate;
+        
+        private System.Threading.SendOrPostCallback ongetHistoryCompletedDelegate;
         
         private BeginOperationDelegate onBeginaddMemberDelegate;
         
@@ -913,7 +1160,11 @@ namespace GPSWithFriends.Server {
         
         public event System.EventHandler<getGroupsCompletedEventArgs> getGroupsCompleted;
         
+        public event System.EventHandler<getUserCompletedEventArgs> getUserCompleted;
+        
         public event System.EventHandler<removeMemberCompletedEventArgs> removeMemberCompleted;
+        
+        public event System.EventHandler<getHistoryCompletedEventArgs> getHistoryCompleted;
         
         public event System.EventHandler<addMemberCompletedEventArgs> addMemberCompleted;
         
@@ -1057,7 +1308,7 @@ namespace GPSWithFriends.Server {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        private System.IAsyncResult BegingetLocation(string uid, System.AsyncCallback callback, object asyncState) {
+        private System.IAsyncResult BegingetLocation(int uid, System.AsyncCallback callback, object asyncState) {
             GPSWithFriends.Server.getLocationRequest inValue = new GPSWithFriends.Server.getLocationRequest();
             inValue.uid = uid;
             return ((GPSWithFriends.Server.GPSwfriends)(this)).BegingetLocation(inValue, callback, asyncState);
@@ -1075,7 +1326,7 @@ namespace GPSWithFriends.Server {
         }
         
         private System.IAsyncResult OnBegingetLocation(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            string uid = ((string)(inValues[0]));
+            int uid = ((int)(inValues[0]));
             return this.BegingetLocation(uid, callback, asyncState);
         }
         
@@ -1092,11 +1343,11 @@ namespace GPSWithFriends.Server {
             }
         }
         
-        public void getLocationAsync(string uid) {
+        public void getLocationAsync(int uid) {
             this.getLocationAsync(uid, null);
         }
         
-        public void getLocationAsync(string uid, object userState) {
+        public void getLocationAsync(int uid, object userState) {
             if ((this.onBegingetLocationDelegate == null)) {
                 this.onBegingetLocationDelegate = new BeginOperationDelegate(this.OnBegingetLocation);
             }
@@ -1116,7 +1367,7 @@ namespace GPSWithFriends.Server {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        private System.IAsyncResult BegingetMembers(string gid, System.AsyncCallback callback, object asyncState) {
+        private System.IAsyncResult BegingetMembers(int gid, System.AsyncCallback callback, object asyncState) {
             GPSWithFriends.Server.getMembersRequest inValue = new GPSWithFriends.Server.getMembersRequest();
             inValue.gid = gid;
             return ((GPSWithFriends.Server.GPSwfriends)(this)).BegingetMembers(inValue, callback, asyncState);
@@ -1134,7 +1385,7 @@ namespace GPSWithFriends.Server {
         }
         
         private System.IAsyncResult OnBegingetMembers(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            string gid = ((string)(inValues[0]));
+            int gid = ((int)(inValues[0]));
             return this.BegingetMembers(gid, callback, asyncState);
         }
         
@@ -1151,11 +1402,11 @@ namespace GPSWithFriends.Server {
             }
         }
         
-        public void getMembersAsync(string gid) {
+        public void getMembersAsync(int gid) {
             this.getMembersAsync(gid, null);
         }
         
-        public void getMembersAsync(string gid, object userState) {
+        public void getMembersAsync(int gid, object userState) {
             if ((this.onBegingetMembersDelegate == null)) {
                 this.onBegingetMembersDelegate = new BeginOperationDelegate(this.OnBegingetMembers);
             }
@@ -1175,9 +1426,11 @@ namespace GPSWithFriends.Server {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        private System.IAsyncResult BegincreateGroup(string[] uids, System.AsyncCallback callback, object asyncState) {
+        private System.IAsyncResult BegincreateGroup(System.Nullable<int>[] uids, int owner, string name, System.AsyncCallback callback, object asyncState) {
             GPSWithFriends.Server.createGroupRequest inValue = new GPSWithFriends.Server.createGroupRequest();
             inValue.uids = uids;
+            inValue.owner = owner;
+            inValue.name = name;
             return ((GPSWithFriends.Server.GPSwfriends)(this)).BegincreateGroup(inValue, callback, asyncState);
         }
         
@@ -1193,8 +1446,10 @@ namespace GPSWithFriends.Server {
         }
         
         private System.IAsyncResult OnBegincreateGroup(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            string[] uids = ((string[])(inValues[0]));
-            return this.BegincreateGroup(uids, callback, asyncState);
+            System.Nullable<int>[] uids = ((System.Nullable<int>[])(inValues[0]));
+            int owner = ((int)(inValues[1]));
+            string name = ((string)(inValues[2]));
+            return this.BegincreateGroup(uids, owner, name, callback, asyncState);
         }
         
         private object[] OnEndcreateGroup(System.IAsyncResult result) {
@@ -1210,11 +1465,11 @@ namespace GPSWithFriends.Server {
             }
         }
         
-        public void createGroupAsync(string[] uids) {
-            this.createGroupAsync(uids, null);
+        public void createGroupAsync(System.Nullable<int>[] uids, int owner, string name) {
+            this.createGroupAsync(uids, owner, name, null);
         }
         
-        public void createGroupAsync(string[] uids, object userState) {
+        public void createGroupAsync(System.Nullable<int>[] uids, int owner, string name, object userState) {
             if ((this.onBegincreateGroupDelegate == null)) {
                 this.onBegincreateGroupDelegate = new BeginOperationDelegate(this.OnBegincreateGroup);
             }
@@ -1225,7 +1480,9 @@ namespace GPSWithFriends.Server {
                 this.oncreateGroupCompletedDelegate = new System.Threading.SendOrPostCallback(this.OncreateGroupCompleted);
             }
             base.InvokeAsync(this.onBegincreateGroupDelegate, new object[] {
-                        uids}, this.onEndcreateGroupDelegate, this.oncreateGroupCompletedDelegate, userState);
+                        uids,
+                        owner,
+                        name}, this.onEndcreateGroupDelegate, this.oncreateGroupCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1234,7 +1491,7 @@ namespace GPSWithFriends.Server {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        private System.IAsyncResult BeginsetLocation(string uid, long latitude, long longitude, System.AsyncCallback callback, object asyncState) {
+        private System.IAsyncResult BeginsetLocation(int uid, double latitude, double longitude, System.AsyncCallback callback, object asyncState) {
             GPSWithFriends.Server.setLocationRequest inValue = new GPSWithFriends.Server.setLocationRequest();
             inValue.uid = uid;
             inValue.latitude = latitude;
@@ -1254,9 +1511,9 @@ namespace GPSWithFriends.Server {
         }
         
         private System.IAsyncResult OnBeginsetLocation(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            string uid = ((string)(inValues[0]));
-            long latitude = ((long)(inValues[1]));
-            long longitude = ((long)(inValues[2]));
+            int uid = ((int)(inValues[0]));
+            double latitude = ((double)(inValues[1]));
+            double longitude = ((double)(inValues[2]));
             return this.BeginsetLocation(uid, latitude, longitude, callback, asyncState);
         }
         
@@ -1273,11 +1530,11 @@ namespace GPSWithFriends.Server {
             }
         }
         
-        public void setLocationAsync(string uid, long latitude, long longitude) {
+        public void setLocationAsync(int uid, double latitude, double longitude) {
             this.setLocationAsync(uid, latitude, longitude, null);
         }
         
-        public void setLocationAsync(string uid, long latitude, long longitude, object userState) {
+        public void setLocationAsync(int uid, double latitude, double longitude, object userState) {
             if ((this.onBeginsetLocationDelegate == null)) {
                 this.onBeginsetLocationDelegate = new BeginOperationDelegate(this.OnBeginsetLocation);
             }
@@ -1299,7 +1556,7 @@ namespace GPSWithFriends.Server {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        private System.IAsyncResult BegingetGroups(string uid, System.AsyncCallback callback, object asyncState) {
+        private System.IAsyncResult BegingetGroups(int uid, System.AsyncCallback callback, object asyncState) {
             GPSWithFriends.Server.getGroupsRequest inValue = new GPSWithFriends.Server.getGroupsRequest();
             inValue.uid = uid;
             return ((GPSWithFriends.Server.GPSwfriends)(this)).BegingetGroups(inValue, callback, asyncState);
@@ -1317,7 +1574,7 @@ namespace GPSWithFriends.Server {
         }
         
         private System.IAsyncResult OnBegingetGroups(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            string uid = ((string)(inValues[0]));
+            int uid = ((int)(inValues[0]));
             return this.BegingetGroups(uid, callback, asyncState);
         }
         
@@ -1334,11 +1591,11 @@ namespace GPSWithFriends.Server {
             }
         }
         
-        public void getGroupsAsync(string uid) {
+        public void getGroupsAsync(int uid) {
             this.getGroupsAsync(uid, null);
         }
         
-        public void getGroupsAsync(string uid, object userState) {
+        public void getGroupsAsync(int uid, object userState) {
             if ((this.onBegingetGroupsDelegate == null)) {
                 this.onBegingetGroupsDelegate = new BeginOperationDelegate(this.OnBegingetGroups);
             }
@@ -1353,12 +1610,71 @@ namespace GPSWithFriends.Server {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult GPSWithFriends.Server.GPSwfriends.BegingetUser(GPSWithFriends.Server.getUserRequest request, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BegingetUser(request, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        private System.IAsyncResult BegingetUser(string email, System.AsyncCallback callback, object asyncState) {
+            GPSWithFriends.Server.getUserRequest inValue = new GPSWithFriends.Server.getUserRequest();
+            inValue.email = email;
+            return ((GPSWithFriends.Server.GPSwfriends)(this)).BegingetUser(inValue, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        GPSWithFriends.Server.getUserResponse GPSWithFriends.Server.GPSwfriends.EndgetUser(System.IAsyncResult result) {
+            return base.Channel.EndgetUser(result);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        private GPSWithFriends.Server.user EndgetUser(System.IAsyncResult result) {
+            GPSWithFriends.Server.getUserResponse retVal = ((GPSWithFriends.Server.GPSwfriends)(this)).EndgetUser(result);
+            return retVal.@return;
+        }
+        
+        private System.IAsyncResult OnBegingetUser(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            string email = ((string)(inValues[0]));
+            return this.BegingetUser(email, callback, asyncState);
+        }
+        
+        private object[] OnEndgetUser(System.IAsyncResult result) {
+            GPSWithFriends.Server.user retVal = this.EndgetUser(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OngetUserCompleted(object state) {
+            if ((this.getUserCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.getUserCompleted(this, new getUserCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void getUserAsync(string email) {
+            this.getUserAsync(email, null);
+        }
+        
+        public void getUserAsync(string email, object userState) {
+            if ((this.onBegingetUserDelegate == null)) {
+                this.onBegingetUserDelegate = new BeginOperationDelegate(this.OnBegingetUser);
+            }
+            if ((this.onEndgetUserDelegate == null)) {
+                this.onEndgetUserDelegate = new EndOperationDelegate(this.OnEndgetUser);
+            }
+            if ((this.ongetUserCompletedDelegate == null)) {
+                this.ongetUserCompletedDelegate = new System.Threading.SendOrPostCallback(this.OngetUserCompleted);
+            }
+            base.InvokeAsync(this.onBegingetUserDelegate, new object[] {
+                        email}, this.onEndgetUserDelegate, this.ongetUserCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.IAsyncResult GPSWithFriends.Server.GPSwfriends.BeginremoveMember(GPSWithFriends.Server.removeMemberRequest request, System.AsyncCallback callback, object asyncState) {
             return base.Channel.BeginremoveMember(request, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        private System.IAsyncResult BeginremoveMember(string uid, string gid, System.AsyncCallback callback, object asyncState) {
+        private System.IAsyncResult BeginremoveMember(int uid, int gid, System.AsyncCallback callback, object asyncState) {
             GPSWithFriends.Server.removeMemberRequest inValue = new GPSWithFriends.Server.removeMemberRequest();
             inValue.uid = uid;
             inValue.gid = gid;
@@ -1377,8 +1693,8 @@ namespace GPSWithFriends.Server {
         }
         
         private System.IAsyncResult OnBeginremoveMember(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            string uid = ((string)(inValues[0]));
-            string gid = ((string)(inValues[1]));
+            int uid = ((int)(inValues[0]));
+            int gid = ((int)(inValues[1]));
             return this.BeginremoveMember(uid, gid, callback, asyncState);
         }
         
@@ -1395,11 +1711,11 @@ namespace GPSWithFriends.Server {
             }
         }
         
-        public void removeMemberAsync(string uid, string gid) {
+        public void removeMemberAsync(int uid, int gid) {
             this.removeMemberAsync(uid, gid, null);
         }
         
-        public void removeMemberAsync(string uid, string gid, object userState) {
+        public void removeMemberAsync(int uid, int gid, object userState) {
             if ((this.onBeginremoveMemberDelegate == null)) {
                 this.onBeginremoveMemberDelegate = new BeginOperationDelegate(this.OnBeginremoveMember);
             }
@@ -1415,12 +1731,74 @@ namespace GPSWithFriends.Server {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult GPSWithFriends.Server.GPSwfriends.BegingetHistory(GPSWithFriends.Server.getHistoryRequest request, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BegingetHistory(request, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        private System.IAsyncResult BegingetHistory(int uid, int number, System.AsyncCallback callback, object asyncState) {
+            GPSWithFriends.Server.getHistoryRequest inValue = new GPSWithFriends.Server.getHistoryRequest();
+            inValue.uid = uid;
+            inValue.number = number;
+            return ((GPSWithFriends.Server.GPSwfriends)(this)).BegingetHistory(inValue, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        GPSWithFriends.Server.getHistoryResponse GPSWithFriends.Server.GPSwfriends.EndgetHistory(System.IAsyncResult result) {
+            return base.Channel.EndgetHistory(result);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        private GPSWithFriends.Server.location[] EndgetHistory(System.IAsyncResult result) {
+            GPSWithFriends.Server.getHistoryResponse retVal = ((GPSWithFriends.Server.GPSwfriends)(this)).EndgetHistory(result);
+            return retVal.@return;
+        }
+        
+        private System.IAsyncResult OnBegingetHistory(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int uid = ((int)(inValues[0]));
+            int number = ((int)(inValues[1]));
+            return this.BegingetHistory(uid, number, callback, asyncState);
+        }
+        
+        private object[] OnEndgetHistory(System.IAsyncResult result) {
+            GPSWithFriends.Server.location[] retVal = this.EndgetHistory(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OngetHistoryCompleted(object state) {
+            if ((this.getHistoryCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.getHistoryCompleted(this, new getHistoryCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void getHistoryAsync(int uid, int number) {
+            this.getHistoryAsync(uid, number, null);
+        }
+        
+        public void getHistoryAsync(int uid, int number, object userState) {
+            if ((this.onBegingetHistoryDelegate == null)) {
+                this.onBegingetHistoryDelegate = new BeginOperationDelegate(this.OnBegingetHistory);
+            }
+            if ((this.onEndgetHistoryDelegate == null)) {
+                this.onEndgetHistoryDelegate = new EndOperationDelegate(this.OnEndgetHistory);
+            }
+            if ((this.ongetHistoryCompletedDelegate == null)) {
+                this.ongetHistoryCompletedDelegate = new System.Threading.SendOrPostCallback(this.OngetHistoryCompleted);
+            }
+            base.InvokeAsync(this.onBegingetHistoryDelegate, new object[] {
+                        uid,
+                        number}, this.onEndgetHistoryDelegate, this.ongetHistoryCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.IAsyncResult GPSWithFriends.Server.GPSwfriends.BeginaddMember(GPSWithFriends.Server.addMemberRequest request, System.AsyncCallback callback, object asyncState) {
             return base.Channel.BeginaddMember(request, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        private System.IAsyncResult BeginaddMember(string uid, string gid, System.AsyncCallback callback, object asyncState) {
+        private System.IAsyncResult BeginaddMember(int uid, int gid, System.AsyncCallback callback, object asyncState) {
             GPSWithFriends.Server.addMemberRequest inValue = new GPSWithFriends.Server.addMemberRequest();
             inValue.uid = uid;
             inValue.gid = gid;
@@ -1439,8 +1817,8 @@ namespace GPSWithFriends.Server {
         }
         
         private System.IAsyncResult OnBeginaddMember(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            string uid = ((string)(inValues[0]));
-            string gid = ((string)(inValues[1]));
+            int uid = ((int)(inValues[0]));
+            int gid = ((int)(inValues[1]));
             return this.BeginaddMember(uid, gid, callback, asyncState);
         }
         
@@ -1457,11 +1835,11 @@ namespace GPSWithFriends.Server {
             }
         }
         
-        public void addMemberAsync(string uid, string gid) {
+        public void addMemberAsync(int uid, int gid) {
             this.addMemberAsync(uid, gid, null);
         }
         
-        public void addMemberAsync(string uid, string gid, object userState) {
+        public void addMemberAsync(int uid, int gid, object userState) {
             if ((this.onBeginaddMemberDelegate == null)) {
                 this.onBeginaddMemberDelegate = new BeginOperationDelegate(this.OnBeginaddMember);
             }
@@ -1643,6 +2021,19 @@ namespace GPSWithFriends.Server {
                 return _result;
             }
             
+            public System.IAsyncResult BegingetUser(GPSWithFriends.Server.getUserRequest request, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = request;
+                System.IAsyncResult _result = base.BeginInvoke("getUser", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public GPSWithFriends.Server.getUserResponse EndgetUser(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                GPSWithFriends.Server.getUserResponse _result = ((GPSWithFriends.Server.getUserResponse)(base.EndInvoke("getUser", _args, result)));
+                return _result;
+            }
+            
             public System.IAsyncResult BeginremoveMember(GPSWithFriends.Server.removeMemberRequest request, System.AsyncCallback callback, object asyncState) {
                 object[] _args = new object[1];
                 _args[0] = request;
@@ -1653,6 +2044,19 @@ namespace GPSWithFriends.Server {
             public GPSWithFriends.Server.removeMemberResponse EndremoveMember(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 GPSWithFriends.Server.removeMemberResponse _result = ((GPSWithFriends.Server.removeMemberResponse)(base.EndInvoke("removeMember", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BegingetHistory(GPSWithFriends.Server.getHistoryRequest request, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = request;
+                System.IAsyncResult _result = base.BeginInvoke("getHistory", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public GPSWithFriends.Server.getHistoryResponse EndgetHistory(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                GPSWithFriends.Server.getHistoryResponse _result = ((GPSWithFriends.Server.getHistoryResponse)(base.EndInvoke("getHistory", _args, result)));
                 return _result;
             }
             

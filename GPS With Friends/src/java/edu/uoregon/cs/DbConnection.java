@@ -1,5 +1,6 @@
 package edu.uoregon.cs;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -87,7 +88,7 @@ public class DbConnection {
     /*
      * returns a status detailing whether it was a success or failure along with an error message
      */
-    public Status addUser(User user) {
+    public Status addUser(User user, String password) {
         //create user id
         String queryStatement = "SELECT COUNT(*) FROM `User`";
         //connect to db
@@ -124,8 +125,8 @@ public class DbConnection {
         try { if (conn != null) conn.close(); } catch (Exception e) {return new Status(false, "Counting the number of users failed");};
         
         //insert values into database
-        int res = update("INSERT INTO `User` (UID, Fname, Lname, Email) VALUES"
-                + " ("+uid+", '"+user.fName+"', '"+user.lName+"', '"+user.email+"')");
+        int res = update("INSERT INTO `User` (UID, Fname, Lname, Email, Password) VALUES"
+                + " ("+uid+", '"+user.fName+"', '"+user.lName+"', '"+user.email+"', + '"+password+"')");
         
         //convert int to boolean
         if (res == 1) {
@@ -184,8 +185,8 @@ public class DbConnection {
             res.next();
             //get information
             String date = res.getString("Date") + " " + res.getString("Time");
-            double lat = res.getBigDecimal("Location_x").longValue();
-            double lon = res.getBigDecimal("Location_y").longValue();
+            double lat = res.getBigDecimal("Location_x").doubleValue();
+            double lon = res.getBigDecimal("Location_y").doubleValue();
             
             //close connection
             try { if (res != null) res.close(); } catch (Exception e) {return new Location(0,0,0,"sqlexception");};
@@ -297,7 +298,7 @@ public class DbConnection {
      * returns null on error
      */
     public Group[] GetGroups(int uid) {
-        String queryStatement = "SELECT * FROM `Group` JOIN `Group_Lists` WHERE `Group_Lists`.`UID`="+uid;
+        String queryStatement = "SELECT * FROM `Group` JOIN `Group_Lists` ON `Group_Lists`.`Group_GroupID`=`Group`.`GroupID` WHERE `Group_Lists`.`UID`="+uid;
         //connect to db
         Connection conn = openConnection();
         ResultSet res;
@@ -331,7 +332,7 @@ public class DbConnection {
                 //assemble user list for group
                 ArrayList<User> users = new ArrayList<User>();
                 while (userRes.next()) {
-                    users.add(new User(userRes.getInt("UID"), userRes.getString("Fname"), userRes.getString("Lname"), userRes.getString("Email")));
+                    users.add(new User(userRes.getInt("UID"), userRes.getString("Fname"), userRes.getString("Lname"), userRes.getString("Email"), getLastLocation(userRes.getInt("UID"))));
                 }
                 
                 //close userRes
@@ -381,7 +382,7 @@ public class DbConnection {
         ArrayList<User> users = new ArrayList<User>();
         try {
             while (res.next()) {
-                users.add(new User(res.getInt("UID"), res.getString("Fname"), res.getString("Lname"), res.getString("Email")));
+                users.add(new User(res.getInt("UID"), res.getString("Fname"), res.getString("Lname"), res.getString("Email"), getLastLocation(res.getInt("UID"))));
             }
         } catch (SQLException ex) {
             User [] nullData = {new User()};
@@ -428,7 +429,7 @@ public class DbConnection {
             try { if (conn != null) conn.close(); } catch (Exception e) {};
             
             //return location
-            return new User(uid, fname, lname, email);
+            return new User(uid, fname, lname, email, getLastLocation(uid));
             
         } catch (SQLException ex) {
             return null;
@@ -458,8 +459,8 @@ public class DbConnection {
             while (res.next()){
             //get information
             String date = res.getString("Date") + " " + res.getString("Time");
-            double lat = res.getBigDecimal("Location_x").longValue();
-            double lon = res.getBigDecimal("Location_y").longValue();
+            double lat = res.getBigDecimal("Location_x").doubleValue();
+            double lon = res.getBigDecimal("Location_y").doubleValue();
             
             
             //return location
@@ -477,6 +478,141 @@ public class DbConnection {
             return null;
         }
     }
+         
+    public UserStatus authenticate(String email, String pass) {
+        String queryStatement = "SELECT * FROM `User` WHERE `Email`='"+email+"'";
+        //connect to db
+        Connection conn = openConnection();
+        ResultSet res;
+        Statement st;
+        //attempt to get result
+        try{
+        st = conn.createStatement();
+        res = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return new UserStatus(null, false, "Incorrect email or password");
+        }
+        //check for failed query
+        if (res == null) {
+            return new UserStatus(null, false, "Incorrect email or password");
+        }
+        try {
+            //get first (and only) line
+            res.next();
+            //get information
+            boolean match = res.getString("Password").equals(pass);
+            
+            //check for matching passwords
+            String message = "Incorrect email or password";
+            User user = null;
+            if (match) {
+                message = "success";
+                user = new User(res.getInt("UID"), res.getString("Fname"), res.getString("Lname"), res.getString("Email"), getLastLocation(res.getInt("UID")));
+            }
+            
+            //close connection
+            try { if (res != null) res.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
+
+            
+            //return Status of authentication
+            return new UserStatus (user, match, message);
+            
+        } catch (SQLException ex) {
+            return new UserStatus(null, false, "Incorrect email or password");
+        }
+    }
     
+    public User getUserByID(int uid) {
+        String queryStatement = "SELECT * FROM `User` WHERE `UID`='"+uid+"'";
+        //connect to db
+        Connection conn = openConnection();
+        ResultSet res;
+        Statement st;
+        //attempt to get result
+        try{
+        st = conn.createStatement();
+        res = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return null;
+        }
+        //check for failed query
+        if (res == null) {
+            return null;
+        }
+        try {
+            //get first (and only) line
+            res.next();
+            //get information
+            String fname = res.getString("Fname");
+            String lname = res.getString("Lname");
+            String email = res.getString("Email");
+           
+            //close connection
+            try { if (res != null) res.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
+            
+            //return location
+            return new User(uid, fname, lname, email, getLastLocation(uid));
+            
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
     
+    public Group getGroup(int gid) {
+        String queryStatement = "SELECT * FROM `Group` WHERE `GroupID`='"+gid+"'";
+        //connect to db
+        Connection conn = openConnection();
+        ResultSet res;
+        Statement st;
+        //attempt to get result
+        try{
+        st = conn.createStatement();
+        res = st.executeQuery(queryStatement);
+        }catch(Exception e){
+            return null;
+        }
+        //check for failed query
+        if (res == null) {
+            return null;
+        }
+        try {
+            res.next();
+            queryStatement = "SELECT * FROM `User` JOIN `Group_Lists` ON `Group_Lists`.`UID`=`User`.`UID` WHERE `Group_Lists`.`Group_GroupID`="+res.getInt("GroupID");
+            //execute querry and get result
+            Statement st2 = conn.createStatement();
+            ResultSet userRes = st2.executeQuery(queryStatement);
+           //check for failed query
+           if (userRes == null) {
+               return null;
+           }
+           //assemble user list for group
+           ArrayList<User> users = new ArrayList<User>();
+           while (userRes.next()) {
+               users.add(new User(userRes.getInt("UID"), userRes.getString("Fname"), userRes.getString("Lname"), userRes.getString("Email"), getLastLocation(userRes.getInt("UID"))));
+           }
+           
+           //close userRes
+           try { if (userRes != null) userRes.close(); } catch (Exception e) {};
+           try { if (st2 != null) st2.close(); } catch (Exception e) {};
+           
+           String name = res.getString("GroupName");
+           int owner = res.getInt("OwnerID");
+           String date = res.getString("Date_Of_Creation");
+           
+           //close connection
+            try { if (res != null) res.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
+
+           User [] userRay = users.toArray(new User[users.size()]);
+           return new Group(userRay, name, owner, date,gid);
+            
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
 }

@@ -20,9 +20,9 @@ public class GPSwfriends {
      * verifies credentials and sends the status of the authentication attempt back to the client. The user id is included in the status.
      */
     @WebMethod(operationName = "authenticate")
-    public Status authenticate(@WebParam(name = "email") String email, @WebParam(name = "password") String password) {
-        //TODO write your implementation code here:
-        return new Status(false, "Authentication not set up");
+    public UserStatus authenticate(@WebParam(name = "email") String email, @WebParam(name = "password") String password) {
+        DbConnection db = new DbConnection();
+        return db.authenticate(email, password);
     }
 
     /**
@@ -31,7 +31,7 @@ public class GPSwfriends {
     @WebMethod(operationName = "register")
     public Status register(@WebParam(name = "email") String email, @WebParam(name = "password") String password, @WebParam(name = "fname") String fname, @WebParam(name = "lname") String lname) {
         DbConnection db = new DbConnection();
-        return db.addUser(new User(-1, fname, lname, email));
+        return db.addUser(new User(-1, fname, lname, email), password);
     }
 
     /**
@@ -107,9 +107,7 @@ public class GPSwfriends {
      */
     @WebMethod(operationName = "getUser")
     public User getUser(@WebParam(name = "email") String email) {
-        //TODO write your implementation code here:
         DbConnection db = new DbConnection();
-        
         return db.getUser(email);
         
     }
@@ -119,10 +117,26 @@ public class GPSwfriends {
      */
     @WebMethod(operationName = "getHistory")
     public Location[] getHistory(@WebParam(name = "uid") int uid, @WebParam(name = "number") int number) {
-        //TODO write your implementation code here:
-                DbConnection db = new DbConnection();
-                
-                return db.getHistory(uid, number);
+        DbConnection db = new DbConnection();
+        return db.getHistory(uid, number);
 
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getGroup")
+    public Group getGroup(@WebParam(name = "gid") int gid) {
+        DbConnection db = new DbConnection();
+        return db.getGroup(gid);
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getUserByID")
+    public User getUserByID(@WebParam(name = "uid") int uid) {
+        DbConnection db = new DbConnection();
+        return db.getUserByID(uid);
     }
 }

@@ -4,11 +4,11 @@
 <xsd:import namespace="http://cs.uoregon.edu/" schemaLocation="http://ec2-54-244-86-37.us-west-2.compute.amazonaws.com:80/GPSwfriends/GPSwfriends?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="getHistory">
-<part name="parameters" element="tns:getHistory"/>
+<message name="getGroup">
+<part name="parameters" element="tns:getGroup"/>
 </message>
-<message name="getHistoryResponse">
-<part name="parameters" element="tns:getHistoryResponse"/>
+<message name="getGroupResponse">
+<part name="parameters" element="tns:getGroupResponse"/>
 </message>
 <message name="authenticate">
 <part name="parameters" element="tns:authenticate"/>
@@ -40,12 +40,6 @@
 <message name="createGroupResponse">
 <part name="parameters" element="tns:createGroupResponse"/>
 </message>
-<message name="setLocation">
-<part name="parameters" element="tns:setLocation"/>
-</message>
-<message name="setLocationResponse">
-<part name="parameters" element="tns:setLocationResponse"/>
-</message>
 <message name="getGroups">
 <part name="parameters" element="tns:getGroups"/>
 </message>
@@ -57,6 +51,24 @@
 </message>
 <message name="getUserResponse">
 <part name="parameters" element="tns:getUserResponse"/>
+</message>
+<message name="setLocation">
+<part name="parameters" element="tns:setLocation"/>
+</message>
+<message name="setLocationResponse">
+<part name="parameters" element="tns:setLocationResponse"/>
+</message>
+<message name="getHistory">
+<part name="parameters" element="tns:getHistory"/>
+</message>
+<message name="getHistoryResponse">
+<part name="parameters" element="tns:getHistoryResponse"/>
+</message>
+<message name="getUserByID">
+<part name="parameters" element="tns:getUserByID"/>
+</message>
+<message name="getUserByIDResponse">
+<part name="parameters" element="tns:getUserByIDResponse"/>
 </message>
 <message name="addMember">
 <part name="parameters" element="tns:addMember"/>
@@ -71,9 +83,9 @@
 <part name="parameters" element="tns:removeMemberResponse"/>
 </message>
 <portType name="GPSwfriends">
-<operation name="getHistory">
-<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/getHistoryRequest" message="tns:getHistory"/>
-<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/getHistoryResponse" message="tns:getHistoryResponse"/>
+<operation name="getGroup">
+<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/getGroupRequest" message="tns:getGroup"/>
+<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/getGroupResponse" message="tns:getGroupResponse"/>
 </operation>
 <operation name="authenticate">
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/authenticateRequest" message="tns:authenticate"/>
@@ -95,10 +107,6 @@
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/createGroupRequest" message="tns:createGroup"/>
 <output wsam:Action="http://cs.uoregon.edu/GPSwfriends/createGroupResponse" message="tns:createGroupResponse"/>
 </operation>
-<operation name="setLocation">
-<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/setLocationRequest" message="tns:setLocation"/>
-<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/setLocationResponse" message="tns:setLocationResponse"/>
-</operation>
 <operation name="getGroups">
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/getGroupsRequest" message="tns:getGroups"/>
 <output wsam:Action="http://cs.uoregon.edu/GPSwfriends/getGroupsResponse" message="tns:getGroupsResponse"/>
@@ -106,6 +114,18 @@
 <operation name="getUser">
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/getUserRequest" message="tns:getUser"/>
 <output wsam:Action="http://cs.uoregon.edu/GPSwfriends/getUserResponse" message="tns:getUserResponse"/>
+</operation>
+<operation name="setLocation">
+<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/setLocationRequest" message="tns:setLocation"/>
+<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/setLocationResponse" message="tns:setLocationResponse"/>
+</operation>
+<operation name="getHistory">
+<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/getHistoryRequest" message="tns:getHistory"/>
+<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/getHistoryResponse" message="tns:getHistoryResponse"/>
+</operation>
+<operation name="getUserByID">
+<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/getUserByIDRequest" message="tns:getUserByID"/>
+<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/getUserByIDResponse" message="tns:getUserByIDResponse"/>
 </operation>
 <operation name="addMember">
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/addMemberRequest" message="tns:addMember"/>
@@ -118,7 +138,7 @@
 </portType>
 <binding name="GPSwfriendsPortBinding" type="tns:GPSwfriends">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="getHistory">
+<operation name="getGroup">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -172,15 +192,6 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="setLocation">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="getGroups">
 <soap:operation soapAction=""/>
 <input>
@@ -191,6 +202,33 @@
 </output>
 </operation>
 <operation name="getUser">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="setLocation">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getHistory">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getUserByID">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

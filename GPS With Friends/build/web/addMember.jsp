@@ -8,52 +8,54 @@
 <!DOCTYPE html>
 <html>
     <head>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
         
+        <form action="group.jsp" method="POST">
             <%-- start web service invocation --%><hr/>
     <%
+        int gid =Integer.parseInt(request.getParameter("hiddenGName"));
         edu.uoregon.cs.client.User user = new edu.uoregon.cs.client.User();
     try {
 	edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
 	edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
-	 // TODO initialize WS operation arguments here
-	java.lang.String email = "";
 	// TODO process result here
 	user = port.getUser(request.getParameter("emailUser"));
     } catch (Exception ex) {
 	// TODO handle custom exceptions here
     }
+    if (user == null) {
+            out.println("That user does not exist!");
+    } else {
     %>
     <%-- end web service invocation --%><hr/>
-    
-    <form action="listGroupMembers.jsp" method="POST">
         
     
     <%-- start web service invocation --%><hr/>
     <%
-    try {
-	edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
-	edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
-        
-	 // TODO initialize WS operation arguments here
-	int uid =user.getUid()  ;
-	int gid =Integer.parseInt(request.getParameter("hiddenGName"));
-	// TODO process result here
-	edu.uoregon.cs.client.Status result = port.addMember(uid, gid);
+        try {
+            edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
+            edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
 
-        
-        if (result.isSuccess())
-        {
-           out.println("The invitation happened successfully.");
-            out.println("<input type='hidden' name='glist' value='"+gid+"'>");
+             // TODO initialize WS operation arguments here
+            int uid =user.getUid();
+            // TODO process result here
+            edu.uoregon.cs.client.Status result = port.addMember(uid, gid);
+
+
+            if (result.isSuccess())
+            {
+               out.println("The invitation happened successfully.");
+            } else {
+               out.println("Invitation failed");
+            }
+        } catch (Exception ex) {
         }
-    } catch (Exception ex) {
-	// TODO handle custom exceptions here
     }
+    out.println("<input type='hidden' name='glist' value='"+gid+"'>");
     %>
     <input type ="submit" value="back" />
     <%-- end web service invocation --%><hr/>

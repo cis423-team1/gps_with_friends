@@ -25,7 +25,7 @@ function addMarker(name, latLng){
 			,boxStyle: { 
 			  background: "url('tipbox.gif') no-repeat"
 			  ,opacity: 0.75
-			  ,width: "80px"
+			  ,width: "150px"
 			 }
 			,closeBoxMargin: "10px 2px 2px 2px"
 			,closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif"
@@ -60,7 +60,7 @@ function mymap(){
 	this.map;
 	this.markers = [];
 	this.options = {
-		zoom: 6,
+		zoom: 4,
 		center: new google.maps.LatLng(44.0522, -123.0856),
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	}

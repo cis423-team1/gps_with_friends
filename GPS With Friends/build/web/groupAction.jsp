@@ -7,12 +7,7 @@
 <!DOCTYPE html>
 <html>
     <head> 
-        <style type="text/css">
-      		html { height: 100% }
-      		body { height: 100%; margin: 0; padding: 0 }
-                        #title {padding:25px;}
-			#map-canvas { height:600px; width:800px; position:absolute; left:25px; top:100px;}
-    	</style>
+       	<link rel="stylesheet" type="text/css" href="style.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>

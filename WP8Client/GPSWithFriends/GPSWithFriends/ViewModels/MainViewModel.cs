@@ -14,7 +14,7 @@ namespace GPSWithFriends.ViewModels
             this.Requests = new ObservableCollection<Request>();
             this.Groups = new ObservableCollection<Group>();
             Me = new Friend() { Latitude = 181, Longitude = 181, NickName = "Me" };
-            AllGroup = new Group() { Gid=-1, Name="ALL"};
+            AllGroup = new Group() { Gid = -1, Name = "ALL" };
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace GPSWithFriends.ViewModels
         Server.GPSwfriendsClient proxy = new Server.GPSwfriendsClient();
 
         private Friend currentFriend;
-        public Friend CurrentFriend            
+        public Friend CurrentFriend
         {
             get
             {
@@ -144,9 +144,9 @@ namespace GPSWithFriends.ViewModels
             //this.Friends.Add(new Friend() { NickName = "Kate.Xu", Status = "updated in 15:30", Distance = "1.3 km", ImagePath = "/Assets/fakePor.png", Email = "Bao@gmail.com", Latitude = 39.7532, Longitude = 116.3452 });
             //this.Friends.Add(new Friend() { NickName = "Rye", Status = "updated in 16:12", Distance = "3 km", ImagePath = "/Assets/fakePor.png", Email = "Stranger@gmail.com", Latitude = 39.7532, Longitude = 116.3602 });
 
-            //this.Requests.Add(new Request() { Content = "Yu wants to friend you", Time = "8/5/2013 13:04", SenderName = "Yu", SenderEmail = "Yu@163.com" });
-            //this.Requests.Add(new Request() { Content = "Hongye wants to friend you", Time = "7/5/2013 12:44", SenderName = "Hongye", SenderEmail = "Hongye@163.com" });
-            //this.Requests.Add(new Request() { Content = "Kevin wants to friend you", Time = "7/5/2013 10:21", SenderName = "Kevin", SenderEmail = "Kevin@163.com" });
+            this.Requests.Add(new Request() { Content = "Yu wants to friend you", Time = "8/5/2013 13:04", SenderName = "Yu", SenderEmail = "Yu@163.com" });
+            this.Requests.Add(new Request() { Content = "Hongye wants to friend you", Time = "7/5/2013 12:44", SenderName = "Hongye", SenderEmail = "Hongye@163.com" });
+            this.Requests.Add(new Request() { Content = "Kevin wants to friend you", Time = "7/5/2013 10:21", SenderName = "Kevin", SenderEmail = "Kevin@163.com" });
 
             //Friend[] friendlist1 = new Friend[2]
             //{
@@ -173,12 +173,12 @@ namespace GPSWithFriends.ViewModels
             // 1. get my uid
             proxy.getUserCompleted += proxy_getUserCompleted;
             try
-            {                
-            proxy.getUserAsync(Me.Email);
+            {
+                proxy.getUserAsync(Me.Email);
             }
             catch (Exception)
-            {                
-            } 
+            {
+            }
         }
 
         void proxy_getUserCompleted(object sender, Server.getUserCompletedEventArgs e)
@@ -191,7 +191,7 @@ namespace GPSWithFriends.ViewModels
                 proxy.getGroupsCompleted += proxy_getGroupsCompleted;
                 try
                 {
-                proxy.getGroupsAsync(Me.Uid);
+                    proxy.getGroupsAsync(Me.Uid);
                 }
                 catch (Exception)
                 {
@@ -233,11 +233,11 @@ namespace GPSWithFriends.ViewModels
                     Groups.Add(new Group() { Gid = item.gid, Name = item.name, Owner = item.owner, Friends = tempFriends });
                 }
 
-                // 4. set currentFriends
+                // 4. set Friends for Current Group
                 if (Groups.Count > 0)
                 {
                     CurrentGroup = this.Groups[0];
-
+                    Friends.Clear();
                     foreach (var item in CurrentGroup.Friends)
                     {
                         if (item != null)
@@ -268,7 +268,7 @@ namespace GPSWithFriends.ViewModels
                 Friend[] allFriend = new Friend[tempAll.Count];
                 for (int i = 0; i < tempAll.Count; i++)
                 {
-                    allFriend[i] = tempAll[i];    
+                    allFriend[i] = tempAll[i];
                 }
                 AllGroup.Friends = allFriend;
 

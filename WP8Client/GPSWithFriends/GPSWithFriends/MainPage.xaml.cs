@@ -31,9 +31,9 @@ namespace GPSWithFriends
         //GPS
         Geolocator myGeoLocator = new Geolocator();
         Friend Me = App.ViewModel.Me;
+        //for Route Query
         RouteQuery MyQuery = null;
         MapRoute MyMapRoute = null;
-        List<GeoCoordinate> MyCoordinates = new List<GeoCoordinate>();
 
         Server.GPSwfriendsClient proxy = new Server.GPSwfriendsClient();
         
@@ -54,11 +54,12 @@ namespace GPSWithFriends
             myGeoLocator.DesiredAccuracy = PositionAccuracy.High;
             myGeoLocator.MovementThreshold = 50;
 
+            //map extension controls data binding
             this.FriendsLocationMarkerList.ItemsSource = App.ViewModel.Friends;
-            MyLocationMarker.DataContext = this.Me;            
-
+            MyLocationMarker.DataContext = this.Me; 
         }
 
+        //Necessary codes to initiate the toolkit map control
         public void MapExtensionsSetup(Map map)
         {
             ObservableCollection<DependencyObject> children = MapExtensions.GetChildren(map);
@@ -95,20 +96,12 @@ namespace GPSWithFriends
                 App.ViewModel.LoadData();
             }            
 
+            //if register page is visited before, backentry will be more than one
             while (this.NavigationService.CanGoBack)
             {
                 this.NavigationService.RemoveBackEntry();
             }
         }        
-
-        public string GetCoordinateString(Geocoordinate geocoordinate)
-        {
-            string positionString = string.Format("Lat: {0:0.0000}, Long: {1:0.0000}, Acc: {2}m",
-                 geocoordinate.Latitude, geocoordinate.Longitude, geocoordinate.Accuracy);
-            Me.Latitude = geocoordinate.Latitude;
-            Me.Longitude = geocoordinate.Longitude;
-            return positionString;
-        }
 
         private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -116,13 +109,19 @@ namespace GPSWithFriends
             SetProperMapZoomLevel();
         }
 
+        /// <summary>
+        /// Locate myself, show the marker and upload my location
+        /// </summary>
+        /// <returns></returns>
         public async System.Threading.Tasks.Task LocateMe()
         {
             try
             {
                 Geoposition position = await myGeoLocator.GetGeopositionAsync(maximumAge: TimeSpan.FromMinutes(1), timeout: TimeSpan.FromSeconds(30));
-                GPSLocationTextblock.Text = "Location: ";
-                GPSLocationTextblock.Text += this.GetCoordinateString(position.Coordinate);
+                GPSLocationTextblock.Text = "Location: " + string.Format("Lat: {0:0.0000}, Long: {1:0.0000}, Acc: {2}m",
+                 position.Coordinate.Latitude, position.Coordinate.Longitude, position.Coordinate.Accuracy);
+                Me.Latitude = position.Coordinate.Latitude;
+                Me.Longitude = position.Coordinate.Longitude;
             }
             catch (UnauthorizedAccessException)
             {
@@ -136,11 +135,11 @@ namespace GPSWithFriends
             {
                 if (Me.isLocated())
                 {
-                    if (App.ViewModel.IsDataLoaded)
+                    if (App.ViewModel.IsDataLoaded) //to ensure Me.uid has been set
                     {
                         try
                         {
-                            proxy.setLocationCompleted += proxy_setLocationCompleted;
+                            //proxy.setLocationCompleted += proxy_setLocationCompleted;
                             proxy.setLocationAsync(Me.Uid, Me.Latitude, Me.Longitude);
                         }
                         catch (TimeoutException e)
@@ -154,13 +153,19 @@ namespace GPSWithFriends
             }
         }
 
-        void proxy_setLocationCompleted(object sender, Server.setLocationCompletedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
+        //void proxy_setLocationCompleted(object sender, Server.setLocationCompletedEventArgs e)
+        //{
+        //    //throw new NotImplementedException();
+        //}
 
+        /// <summary>
+        /// Click a Listbox Item and the map will focus on that friend
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FriendsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //get index
             ListBox listbox = sender as ListBox;
             int index = listbox.SelectedIndex;
             if (index > -1 && index < App.ViewModel.Friends.Count)
@@ -169,21 +174,33 @@ namespace GPSWithFriends
                 if (friend.isLocated())
                 {
                     MyMap.SetView(new GeoCoordinate(friend.Latitude, friend.Longitude), MyMap.ZoomLevel, MapAnimationKind.Parabolic);
-                    //MyMap.Center = new GeoCoordinate(friend.Latitude, friend.Longitude);
                 }
             }
         }
 
+        /// <summary>
+        /// Invite a friend via email address
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void InviteButton_Click(object sender, RoutedEventArgs e)
         {
             InputFriendEmail();
         }
 
+        /// <summary>
+        /// Pop up a MessageBox with Input Textbox to input the email address of a friend
+        /// </summary>
         public void InputFriendEmail()
         {
             TextBox emailInputBox = new TextBox()
             {
-                //InputScope=System.Windows.Input.InputScopeNameValue.EmailSmtpAddress
+                //Set inputscope to Email
+                InputScope = new System.Windows.Input.InputScope()
+                {
+                    Names = {new System.Windows.Input.InputScopeName() 
+                    { NameValue = System.Windows.Input.InputScopeNameValue.EmailSmtpAddress }}
+                }
             };
             TiltEffect.SetIsTiltEnabled(emailInputBox, true);
             CustomMessageBox messageBox = new CustomMessageBox()
@@ -203,7 +220,7 @@ namespace GPSWithFriends
                     case CustomMessageBoxResult.LeftButton:
                         string result = "";
                         result = emailInputBox.Text;
-                        if (result.Length > 0 && !result.Equals(Me.Email))
+                        if (result.Length > 0 && !result.Equals(Me.Email))  //make sure there is input and the address doesn't belong to ME
                             SendFriendRequest(result);
                         break;
                     case CustomMessageBoxResult.RightButton:
@@ -220,12 +237,20 @@ namespace GPSWithFriends
             messageBox.Show();
         }
 
-        public void SendFriendRequest(string result)
+        /// <summary>
+        /// Send the email address of Add friend request
+        /// </summary>
+        /// <param name="email">email of the friend that you want to add</param>
+        public void SendFriendRequest(string email)
         {
+            // 1. get uid
+            // 2. add the friend into group
+
+            // 1. get uid
             proxy.getUserCompleted += proxy_getUserCompleted;
             try
             {
-                proxy.getUserAsync(result);
+                proxy.getUserAsync(email);
             }
             catch (Exception)
             {
@@ -234,11 +259,13 @@ namespace GPSWithFriends
 
         void proxy_getUserCompleted(object sender, Server.getUserCompletedEventArgs e)
         {
+            // 1 continued
             if (e.Error == null)
             {
                 proxy.addMemberCompleted += proxy_addMemberCompleted;
                 try
                 {
+                    // 2. add the friend into group
                     proxy.addMemberAsync(e.Result.uid, App.ViewModel.CurrentGroup.Gid);
                 }
                 catch (Exception)
@@ -249,15 +276,22 @@ namespace GPSWithFriends
 
         void proxy_addMemberCompleted(object sender, Server.addMemberCompletedEventArgs e)
         {
+            // 2 continued
             if (e.Error == null)
             {
                 if (e.Result.success == true)
                 {
+                    //refresh to get the latest data
                     App.ViewModel.RefreshData();
                 }
             }
         }
 
+        /// <summary>
+        /// Select a request to handle
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RequestsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListBox listbox = sender as ListBox;
@@ -323,8 +357,14 @@ namespace GPSWithFriends
             }
         }
 
+        /// <summary>
+        /// Select a friend to see detail page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FriendsManageListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //get index
             ListBox listbox = sender as ListBox;
             int index = listbox.SelectedIndex;
             if (index > -1 && index < App.ViewModel.Friends.Count)
@@ -334,17 +374,26 @@ namespace GPSWithFriends
             }
         }
 
+        /// <summary>
+        /// Get the route from me to a friend
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void FriendList_Route(object sender, RoutedEventArgs e)
         {
             try
             {
+                //get index
                 int selectedIndex = App.ViewModel.Friends.IndexOf((sender as MenuItem).DataContext as Friend);
-                MyQuery = new RouteQuery();
-                Friend friend = App.ViewModel.Friends[selectedIndex];
-                //MyCoordinates.Add(e.Result[0].GeoCoordinate);
-                MyCoordinates.Clear();
+                Friend friend = App.ViewModel.Friends[selectedIndex];                
+
+                //Add start and end points
+                List<GeoCoordinate> MyCoordinates = new List<GeoCoordinate>();
                 MyCoordinates.Add(new GeoCoordinate(Me.Latitude, Me.Longitude));
                 MyCoordinates.Add(new GeoCoordinate(friend.Latitude, friend.Longitude));
+
+                //send the query
+                MyQuery = new RouteQuery();
                 MyQuery.Waypoints = MyCoordinates;
                 MyQuery.QueryCompleted += MyQuery_QueryCompleted;
                 try
@@ -364,38 +413,49 @@ namespace GPSWithFriends
         private void MyQuery_QueryCompleted(object sender, QueryCompletedEventArgs<Route> e)
         {
             if (e.Error == null)
-            {
+            {                
                 Route MyRoute = e.Result;
                 if (MyMapRoute != null)
                 {
+                    //clear last route
                     MyMap.RemoveRoute(MyMapRoute);
                 }
                 MyMapRoute = new MapRoute(MyRoute);
                 MyMap.AddRoute(MyMapRoute);                
                 MyQuery.Dispose();
 
-                LocationRectangle locationRectangle;
-
-                locationRectangle = LocationRectangle.CreateBoundingRectangle(MyRoute.Geometry);
-
-                this.MyMap.SetView(locationRectangle, new Thickness(10, 10, 10, 10));
+                //set the map view to fit the route
+                LocationRectangle locationRectangle = LocationRectangle.CreateBoundingRectangle(MyRoute.Geometry);
+                this.MyMap.SetView(locationRectangle, new Thickness(10));
             }
         }
 
+        /// <summary>
+        /// Locate me
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ApplicationBarIconLocateMeButton_Click(object sender, EventArgs e)
         {
             await LocateMe();
         }
 
+        /// <summary>
+        /// set the map view to show all friends in the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ApplicationBarIconShowAllButton_Click(object sender, EventArgs e)
         {
             SetProperMapZoomLevel();
         }
 
+        /// <summary>
+        /// set the map view to show all friends in the list
+        /// </summary>
         private void SetProperMapZoomLevel()
         {
-            LocationRectangle locationRectangle;
-
+            //Find all located friends in the list
             List<Friend> temp = new List<Friend>();
 
             foreach (var item in App.ViewModel.Friends)
@@ -404,40 +464,61 @@ namespace GPSWithFriends
                     temp.Add(item);
             }
 
+            //including Me
             if (Me.isLocated()) temp.Add(Me);
 
-            locationRectangle = LocationRectangle.CreateBoundingRectangle(from Friend in temp select Friend.Geocoordinate);
+            LocationRectangle locationRectangle = LocationRectangle.CreateBoundingRectangle(from Friend in temp select Friend.Geocoordinate);
 
-            this.MyMap.SetView(locationRectangle, new Thickness(10, 10, 10, 10));
+            this.MyMap.SetView(locationRectangle, new Thickness(20));
         }
 
+        /// <summary>
+        /// Zoom in the map
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Add_Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {            
+        {   
+            //make sure zoomlevel <=19
             if (MyMap.ZoomLevel <=18)
                 MyMap.ZoomLevel += 1;
             MyMap.SetView(MyMap.Center, MyMap.ZoomLevel, MapAnimationKind.Linear);
         }
 
+        /// <summary>
+        /// zoom out the map
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Minus_Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-
+            //make sure zoomlevel >=1
             if (MyMap.ZoomLevel >= 2)
                 MyMap.ZoomLevel -= 1;
             MyMap.SetView(MyMap.Center, MyMap.ZoomLevel, MapAnimationKind.Linear);
         }
 
+        /// <summary>
+        /// Switch group to next
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ApplicationBarIconSwitchGroupButton_Click(object sender, EventArgs e)
         {
+            //get index
             int index = App.ViewModel.Groups.IndexOf(App.ViewModel.CurrentGroup);
+            //make sure the index++ is within the bound
             if (index + 1 < App.ViewModel.Groups.Count)
             {
                 index++;                
             }
+            //last group -> 0
             else if (index + 1 == App.ViewModel.Groups.Count)
             {
                 index = 0;
             }
 
+            //group switch
             App.ViewModel.CurrentGroup = App.ViewModel.Groups[index];
             App.ViewModel.Friends.Clear();
             foreach (var item in App.ViewModel.CurrentGroup.Friends)
@@ -445,20 +526,31 @@ namespace GPSWithFriends
                 if (item != null)
                     App.ViewModel.Friends.Add(item);
             }
-            GroupNameTextBlock.Text = App.ViewModel.CurrentGroup.Name;
         }
 
+        /// <summary>
+        /// refresh the friend list data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ApplicationBarIconRefreshButton_Click(object sender, EventArgs e)
         {
             App.ViewModel.RefreshData();
         }
 
+        /// <summary>
+        /// remove a friend from the group
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveFromGroupItem_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                //get index
                 int selectedIndex = App.ViewModel.Friends.IndexOf((sender as MenuItem).DataContext as Friend);
                 proxy.removeMemberCompleted += proxy_removeMemberCompleted;
+                //remove via uid and gid
                 proxy.removeMemberAsync(App.ViewModel.Friends[selectedIndex].Uid, App.ViewModel.CurrentGroup.Gid);
             }
             catch (Exception)

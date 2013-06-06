@@ -59,7 +59,7 @@
                         <Image Source="/Assets/add.png" Height="60" Width="60" Tap="Add_Image_Tap" Opacity="0.7"></Image>
                         <Image Source="/Assets/minus.png" Height="60" Width="60" Tap="Minus_Image_Tap" Opacity="0.7"></Image>
                     </StackPanel>
-                    <maps:Map Grid.Row="0" x:Name="MyMap" Center="37.6097, 119.3331"  ZoomLevel="14" Pitch="45">
+                    <maps:Map Grid.Row="0" x:Name="MyMap" Center="39, 116"  ZoomLevel="14" Pitch="45">
                         <maptk:MapExtensions.Children>
                             <maptk:MapItemsControl  ItemsSource="{Binding Friends}" Name="FriendsLocationMarkerList">
                                 <maptk:MapItemsControl.ItemTemplate>
@@ -142,6 +142,7 @@
                     </StackPanel>
                 </Grid>
             </phone:PivotItem>
+            
             <!--Pivot item three-->
             <phone:PivotItem Header="ME">
                     <Grid>
@@ -185,11 +186,15 @@
         </phone:Pivot>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1.0" IsMenuEnabled="False" IsVisible="True">
+        <shell:ApplicationBar Mode="Default" Opacity="1.0" IsMenuEnabled="True" IsVisible="True">
             <shell:ApplicationBarIconButton IconUri="/Assets/locate.png" Text="Me" Click="ApplicationBarIconLocateMeButton_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Assets/showall.png" Text="Set View" Click="ApplicationBarIconShowAllButton_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Assets/switch.png" Text="Groups" Click="ApplicationBarIconSwitchGroupButton_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Assets/refresh.png" Text="Refresh" Click="ApplicationBarIconRefreshButton_Click"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="Add a group"/>
+                <shell:ApplicationBarMenuItem Text="Remove a group"/>
+            </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

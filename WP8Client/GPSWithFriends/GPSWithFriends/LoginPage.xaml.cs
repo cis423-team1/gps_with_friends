@@ -38,12 +38,14 @@ namespace GPSWithFriends
                 proxy.authenticateAsync(LoginUsernameTextBox.Text, LoginPasswordBox.Password);
                 LOGINBUTTON.IsEnabled = false;
                 REGISTERBUTTON.IsEnabled = false;
+                progressBar.Visibility = System.Windows.Visibility.Visible;
             }
             catch (Exception)
             {
                 MessageBox.Show("Connection Failed");
                 LOGINBUTTON.IsEnabled = true;
                 REGISTERBUTTON.IsEnabled = true;
+                progressBar.Visibility = System.Windows.Visibility.Collapsed;
             }
         }
 
@@ -65,7 +67,8 @@ namespace GPSWithFriends
                 }
             }
             LOGINBUTTON.IsEnabled = true;
-            REGISTERBUTTON.IsEnabled = true;            
+            REGISTERBUTTON.IsEnabled = true;
+            progressBar.Visibility = System.Windows.Visibility.Collapsed;
         }
 
 

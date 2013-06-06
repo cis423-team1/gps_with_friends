@@ -28,13 +28,15 @@ namespace GPSWithFriends
             if (ContentCheck())
             {
                 try
-                {                    
-                proxy.registerAsync(RegisterEmailTextBox.Text, RegisterPasswordBox.Password, RegisterNickNameTextBox.Text, RegisterNickNameTextBox.Text);
-                SUBMITBUTTON.IsEnabled = false;
+                {
+                    proxy.registerAsync(RegisterEmailTextBox.Text, RegisterPasswordBox.Password, RegisterNickNameTextBox.Text, RegisterNickNameTextBox.Text);
+                    SUBMITBUTTON.IsEnabled = false;
+                    progressBar.Visibility = System.Windows.Visibility.Visible;
                 }
                 catch (Exception)
                 {
-                    SUBMITBUTTON.IsEnabled = true; 
+                    SUBMITBUTTON.IsEnabled = true;
+                    progressBar.Visibility = System.Windows.Visibility.Collapsed;
                     MessageBox.Show("Connection failed.");
                 }
             }
@@ -54,6 +56,7 @@ namespace GPSWithFriends
                 MessageBox.Show("Register failed. Please try again.");
             }
             SUBMITBUTTON.IsEnabled = true;
+            progressBar.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void SaveLastLoginUser(string lastLoginUser)

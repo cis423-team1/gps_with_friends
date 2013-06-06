@@ -209,6 +209,7 @@
     </None>
     <Content Include="Assets\add.png" />
     <Content Include="Assets\Circle&amp;Arrow.png" />
+    <Content Include="Assets\logo_300_trans.png" />
     <Content Include="Assets\minus.png" />
     <Content Include="Assets\refresh.png" />
     <Content Include="Assets\showall.png" />
@@ -216,6 +217,9 @@
     <Content Include="Assets\logo_300.png" />
     <Content Include="Assets\logo_500.png" />
     <Content Include="Assets\switch.png" />
+    <Content Include="logo_159_trans.png" />
+    <Content Include="logo_300_trans.png" />
+    <Content Include="logo_336_trans.png" />
     <Content Include="ServiceReferences.ClientConfig" />
     <None Include="Service References\Server\GPSwfriends.wsdl" />
     <None Include="Service References\Server\GPSwfriends.xsd">

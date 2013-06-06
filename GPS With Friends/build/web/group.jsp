@@ -55,7 +55,7 @@
 	    				<%  
 	    					for (int i = 0;i<result.getUsers().size();i++) {
 	        					edu.uoregon.cs.client.User u = result.getUsers().get(i);
-	        					out.println("<option value='" + u.getEmail() + "'>"+ u.getEmail() + "</option>");
+	        					out.println("<option value='" + u.getEmail() + "'>"+u.getFName()+" "+u.getLName()+"</option>");
 	    					}
 	    
 	    				%>
@@ -83,7 +83,7 @@
 	            Date Created: <%= result.getDateCreated() %>
 	    </td></tr>
 	    <tr><td>
-	            Owner: <%= owner.getEmail() %>
+	            Owner: <%= owner.getFName()+" "+owner.getLName() %>
 	    </td></tr>
     </table>
                 

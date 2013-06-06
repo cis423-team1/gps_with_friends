@@ -60,8 +60,8 @@
 	    
 	    				%>
 	        		</select>
-	    			<input type="hidden" value="<%= request.getParameter("glist")%>" name="hiddenGName">
-	   		 		<input type="submit" name="action" value="View on Map" />
+	    			<input type="hidden" value="<%= request.getParameter("glist")%>" name="hiddenGName" />
+                                <input type="submit" name="action" value="View on Map" />
 	    			<input type="submit" name="action" value="Remove From Group" />
 	    			<input type="submit" name="action" value="Show History" />
 		<%-- end web service invocation --%>
@@ -77,7 +77,7 @@
 	</table>
 	<table id='groupinfo'>
 	    <tr><td>
-	           	<h4>Group Information:<h4>
+	           	<h4>Group Information:</h4>
 	    </td></tr>
 	    <tr><td>
 	            Date Created: <%= result.getDateCreated() %>
@@ -98,7 +98,7 @@
             for (int i = 0; i < result.getUsers().size(); i++) {
                 edu.uoregon.cs.client.User user = result.getUsers().get(i);
                 edu.uoregon.cs.client.Location curLoc = user.getLastLoc();
-                out.print("{ name: '" + user.getEmail() + "', lat: " + curLoc.getLatitude()+ ", lng: " + curLoc.getLongitude() + " }");
+                out.print("{ name: '"+user.getFName()+" "+user.getLName()+"', lat: " + curLoc.getLatitude()+ ", lng: " + curLoc.getLongitude() + " }");
                 if (i < result.getUsers().size() - 1) {
                     out.println(",");
                 }

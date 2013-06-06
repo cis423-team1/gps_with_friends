@@ -44,7 +44,7 @@
 
             } catch (Exception ex) {}
             //display top of page
-            out.println("<h1 id='title'>Last Know Location of "+user.getEmail()+"</h1>");
+            out.println("<h1 id='title'>Last Know Location of "+user.getFName()+" "+user.getLName()+"</h1>");
             out.println("<div id='map-canvas'/>");
             //print javascript to display location on map
             out.println("<script>\n");
@@ -117,7 +117,7 @@
                 locations = port.getHistory(uid, number);
             } catch (Exception ex) {}
             //display top of page
-            out.println("<h1 id='title'>Last "+locations.size()+" recorded locations of "+user.getEmail()+"</h1>");
+            out.println("<h1 id='title'>Last "+locations.size()+" recorded locations of "+user.getFName()+" "+user.getLName()+"</h1>");
             out.println("<div id='map-canvas'/>");
             //print javascript to display location on map
             out.println("<script>\n");

@@ -18,7 +18,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-       
+       <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
     
@@ -64,7 +64,7 @@
     
    <% } %>
    
-   <h4>Create a Group</h4>
+   <h2>Create a Group</h2>
    
    <div id="startForms">
             <%

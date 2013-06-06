@@ -10,14 +10,36 @@
     xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"    
-    d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}"
+    
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded"
     toolkit:TiltEffect.IsTiltEnabled="True"
-    >    
+    >
+    <!--d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}"-->
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn" />
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn" />
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut" />
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut" />
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
@@ -30,6 +52,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Canvas.ZIndex="1" >
@@ -49,10 +72,11 @@
                         </maptk:MapExtensions.Children>
                     </maps:Map>
                     <TextBlock Grid.Row="0" Name="GPSLocationTextblock" VerticalAlignment="Bottom" Foreground="Black">Location:</TextBlock>
-                    <ListBox x:Name="FriendsListBox"  ItemsSource="{Binding Friends}" Grid.Row="1" HorizontalContentAlignment="Stretch" SelectionChanged="FriendsListBox_SelectionChanged">
+                    <TextBlock Grid.Row="1" FontSize="40" Name="GroupNameTextBlock" Text="{Binding CurrentGroup.Name}"></TextBlock>
+                    <ListBox x:Name="FriendsListBox"  ItemsSource="{Binding Friends}" Grid.Row="2" HorizontalContentAlignment="Stretch" SelectionChanged="FriendsListBox_SelectionChanged" toolkit:TiltEffect.IsTiltEnabled="True">
                         <ListBox.ItemTemplate >
                             <DataTemplate>
-                                <Grid HorizontalAlignment="Stretch" MinWidth="456" Height="100">
+                                <Grid HorizontalAlignment="Stretch" MinWidth="456" Height="80">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="100"/>
                                             <ColumnDefinition Width="*"/>
@@ -72,6 +96,7 @@
                                         <toolkit:ContextMenuService.ContextMenu>
                                             <toolkit:ContextMenu toolkit:TiltEffect.IsTiltEnabled="True">
                                                 <toolkit:MenuItem Header="Get Route" Foreground="Black" Click="FriendList_Route"/>
+                                                <toolkit:MenuItem Header="Remove from Group" Foreground="Black" Click="RemoveFromGroupItem_Click"/>
                                             </toolkit:ContextMenu>
                                         </toolkit:ContextMenuService.ContextMenu>
                                 </Grid>
@@ -131,7 +156,7 @@
                         </Grid.RowDefinitions>
                         <toolkit:ToggleSwitch Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Top" Header="Hide Me"></toolkit:ToggleSwitch>
                     <TextBlock FontSize="30" Grid.Row="1">Manage Friends</TextBlock>
-                    <ListBox x:Name="FriendsManageListBox"  ItemsSource="{Binding Friends}" Grid.Row="2" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" SelectionChanged="FriendsManageListBox_SelectionChanged">
+                    <ListBox x:Name="FriendsManageListBox"  ItemsSource="{Binding AllGroup.Friends}" Grid.Row="2" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" SelectionChanged="FriendsManageListBox_SelectionChanged">
                         <ListBox.ItemTemplate >
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch" MinWidth="456" Height="100">
@@ -162,7 +187,9 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default" Opacity="1.0" IsMenuEnabled="False" IsVisible="True">
             <shell:ApplicationBarIconButton IconUri="/Assets/locate.png" Text="Me" Click="ApplicationBarIconLocateMeButton_Click"/>
-            <shell:ApplicationBarIconButton IconUri="/Assets/showall.png" Text="Show All Friends" Click="ApplicationBarIconShowAllButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/showall.png" Text="Set View" Click="ApplicationBarIconShowAllButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/switch.png" Text="Groups" Click="ApplicationBarIconSwitchGroupButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/refresh.png" Text="Refresh" Click="ApplicationBarIconRefreshButton_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

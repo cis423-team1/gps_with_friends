@@ -30,17 +30,21 @@ namespace GPSWithFriends
     {
         //GPS
         Geolocator myGeoLocator = new Geolocator();
-        Friend Me = new Friend() { Latitude = 181, Longitude = 181, NickName="Me"};
+        Friend Me = App.ViewModel.Me;
         RouteQuery MyQuery = null;
         MapRoute MyMapRoute = null;
         List<GeoCoordinate> MyCoordinates = new List<GeoCoordinate>();
+
+        Server.GPSwfriendsClient proxy = new Server.GPSwfriendsClient();
         
         // Constructor
         public MainPage()
         {
             InitializeComponent();
 
+            //Necessary codes to initiate the toolkit map control
             this.MapExtensionsSetup(this.MyMap);
+
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
 
@@ -48,7 +52,11 @@ namespace GPSWithFriends
             //BuildLocalizedApplicationBar();
 
             myGeoLocator.DesiredAccuracy = PositionAccuracy.High;
-            myGeoLocator.MovementThreshold = 50;            
+            myGeoLocator.MovementThreshold = 50;
+
+            this.FriendsLocationMarkerList.ItemsSource = App.ViewModel.Friends;
+            MyLocationMarker.DataContext = this.Me;            
+
         }
 
         public void MapExtensionsSetup(Map map)
@@ -79,7 +87,6 @@ namespace GPSWithFriends
             }
         }
 
-
         // Load data for the ViewModel Items
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -92,9 +99,6 @@ namespace GPSWithFriends
             {
                 this.NavigationService.RemoveBackEntry();
             }
-
-            this.FriendsLocationMarkerList.ItemsSource = App.ViewModel.Friends;
-            MyLocationMarker.DataContext = this.Me;            
         }        
 
         public string GetCoordinateString(Geocoordinate geocoordinate)
@@ -132,10 +136,27 @@ namespace GPSWithFriends
             {
                 if (Me.isLocated())
                 {
+                    if (App.ViewModel.IsDataLoaded)
+                    {
+                        try
+                        {
+                            proxy.setLocationCompleted += proxy_setLocationCompleted;
+                            proxy.setLocationAsync(Me.Uid, Me.Latitude, Me.Longitude);
+                        }
+                        catch (TimeoutException e)
+                        {
+                            MessageBox.Show(e.Message);
+                        }
+                    }
                     MyLocationMarker.Visibility = System.Windows.Visibility.Visible;
                     MyMap.SetView(new GeoCoordinate(Me.Latitude, Me.Longitude), MyMap.ZoomLevel, MapAnimationKind.Parabolic);
                 }
             }
+        }
+
+        void proxy_setLocationCompleted(object sender, Server.setLocationCompletedEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         private void FriendsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -182,7 +203,7 @@ namespace GPSWithFriends
                     case CustomMessageBoxResult.LeftButton:
                         string result = "";
                         result = emailInputBox.Text;
-                        if (result.Length > 0)
+                        if (result.Length > 0 && !result.Equals(Me.Email))
                             SendFriendRequest(result);
                         break;
                     case CustomMessageBoxResult.RightButton:
@@ -199,10 +220,42 @@ namespace GPSWithFriends
             messageBox.Show();
         }
 
-        public static bool SendFriendRequest(string result)
+        public void SendFriendRequest(string result)
         {
-            return false;
-            //throw new NotImplementedException();
+            proxy.getUserCompleted += proxy_getUserCompleted;
+            try
+            {
+                proxy.getUserAsync(result);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        void proxy_getUserCompleted(object sender, Server.getUserCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                proxy.addMemberCompleted += proxy_addMemberCompleted;
+                try
+                {
+                    proxy.addMemberAsync(e.Result.uid, App.ViewModel.CurrentGroup.Gid);
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
+
+        void proxy_addMemberCompleted(object sender, Server.addMemberCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                if (e.Result.success == true)
+                {
+                    App.ViewModel.RefreshData();
+                }
+            }
         }
 
         private void RequestsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -294,8 +347,13 @@ namespace GPSWithFriends
                 MyCoordinates.Add(new GeoCoordinate(friend.Latitude, friend.Longitude));
                 MyQuery.Waypoints = MyCoordinates;
                 MyQuery.QueryCompleted += MyQuery_QueryCompleted;
-                MyQuery.QueryAsync();                
-                //MyMap.SetView(new LocationRectangle(new GeoCoordinate(Me.Latitude, Me.Longitude),new GeoCoordinate(friend.Latitude, friend.Longitude)));
+                try
+                {
+                    MyQuery.QueryAsync();
+                }
+                catch (Exception)
+                {
+                }
             }
             catch (Exception)
             {
@@ -366,6 +424,58 @@ namespace GPSWithFriends
             if (MyMap.ZoomLevel >= 2)
                 MyMap.ZoomLevel -= 1;
             MyMap.SetView(MyMap.Center, MyMap.ZoomLevel, MapAnimationKind.Linear);
+        }
+
+        private void ApplicationBarIconSwitchGroupButton_Click(object sender, EventArgs e)
+        {
+            int index = App.ViewModel.Groups.IndexOf(App.ViewModel.CurrentGroup);
+            if (index + 1 < App.ViewModel.Groups.Count)
+            {
+                index++;                
+            }
+            else if (index + 1 == App.ViewModel.Groups.Count)
+            {
+                index = 0;
+            }
+
+            App.ViewModel.CurrentGroup = App.ViewModel.Groups[index];
+            App.ViewModel.Friends.Clear();
+            foreach (var item in App.ViewModel.CurrentGroup.Friends)
+            {
+                if (item != null)
+                    App.ViewModel.Friends.Add(item);
+            }
+            GroupNameTextBlock.Text = App.ViewModel.CurrentGroup.Name;
+        }
+
+        private void ApplicationBarIconRefreshButton_Click(object sender, EventArgs e)
+        {
+            App.ViewModel.RefreshData();
+        }
+
+        private void RemoveFromGroupItem_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int selectedIndex = App.ViewModel.Friends.IndexOf((sender as MenuItem).DataContext as Friend);
+                proxy.removeMemberCompleted += proxy_removeMemberCompleted;
+                proxy.removeMemberAsync(App.ViewModel.Friends[selectedIndex].Uid, App.ViewModel.CurrentGroup.Gid);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something gotta wrong.");
+            }
+        }
+
+        void proxy_removeMemberCompleted(object sender, Server.removeMemberCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                if (e.Result.success == true)
+                {
+                    App.ViewModel.RefreshData();
+                }
+            }
         }
         
         // Sample code for building a localized ApplicationBar

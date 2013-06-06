@@ -32,27 +32,40 @@ namespace GPSWithFriends
 
         private void LOGINBUTTON_Click(object sender, RoutedEventArgs e)
         {
-            proxy.authenticateCompleted += proxy_authenticateCompleted;
-            proxy.authenticateAsync(LoginUsernameTextBox.Text, LoginPasswordBox.Password);
-            LOGINBUTTON.IsEnabled = false;
-            REGISTERBUTTON.IsEnabled = false;
+            try
+            {
+                proxy.authenticateCompleted += proxy_authenticateCompleted;
+                proxy.authenticateAsync(LoginUsernameTextBox.Text, LoginPasswordBox.Password);
+                LOGINBUTTON.IsEnabled = false;
+                REGISTERBUTTON.IsEnabled = false;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Connection Failed");
+                LOGINBUTTON.IsEnabled = true;
+                REGISTERBUTTON.IsEnabled = true;
+            }
         }
 
         private void proxy_authenticateCompleted(object sender, Server.authenticateCompletedEventArgs e)
         {
-            if (e.Result.success)
+            if (e.Error == null)
             {
-                SaveLastLoginUser(LoginUsernameTextBox.Text);
-                this.NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
-            }
-            else
-            {
-                MessageBox.Show("Login Failed. Please try again.");
-                LoginPasswordBox.Password = "";
-                LoginPasswordBox.Focus();
+                if (e.Result.success)
+                {
+                    SaveLastLoginUser(LoginUsernameTextBox.Text);
+                    App.ViewModel.Me.Email = LoginUsernameTextBox.Text;
+                    this.NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                }
+                else
+                {
+                    MessageBox.Show("Login Failed. Please try again.");
+                    LoginPasswordBox.Password = "";
+                    LoginPasswordBox.Focus();
+                }
             }
             LOGINBUTTON.IsEnabled = true;
-            REGISTERBUTTON.IsEnabled = true;
+            REGISTERBUTTON.IsEnabled = true;            
         }
 
 
@@ -81,26 +94,7 @@ namespace GPSWithFriends
 
         private void REGISTERBUTTON_Click(object sender, RoutedEventArgs e)
         {
-            ///Test code
-            //string email="bunny_gg@hotmail.com";
-            //string password = "test";
-            //string fname="yingnan";
-            //string lname = "ju";
-            //Server.GPSwfriendsClient proxy = new Server.GPSwfriendsClient();
-            //proxy.registerCompleted += proxy_registerCompleted;
-            //proxy.registerAsync(email, password, fname, lname);
             this.NavigationService.Navigate(new Uri("/RegisterPage.xaml", UriKind.Relative));
-        }
-
-        void proxy_registerCompleted(object sender, Server.registerCompletedEventArgs e)
-        {
-            Server.status s = e.Result;
-            REGISTERBUTTON.Content = s.ToString();
-        }
-
-        private void LoginPasswordBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            //this.NavigationService.RemoveBackEntry();
         }
     }
 }

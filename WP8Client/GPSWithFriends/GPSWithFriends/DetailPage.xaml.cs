@@ -22,7 +22,7 @@ namespace GPSWithFriends
         {
             Button button = sender as Button;
             button.IsEnabled = false;
-            MainPage.SendFriendRequest(App.ViewModel.CurrentFriend.Email);
+            //MainPage.SendFriendRequest(App.ViewModel.CurrentFriend.Email);
         }
     }
 }

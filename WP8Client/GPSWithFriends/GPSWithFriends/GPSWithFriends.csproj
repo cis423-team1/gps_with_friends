@@ -121,6 +121,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Group.cs" />
     <Compile Include="ViewModels\Friend.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\Request.cs" />
@@ -209,10 +210,12 @@
     <Content Include="Assets\add.png" />
     <Content Include="Assets\Circle&amp;Arrow.png" />
     <Content Include="Assets\minus.png" />
+    <Content Include="Assets\refresh.png" />
     <Content Include="Assets\showall.png" />
     <Content Include="Assets\logo_1044.png" />
     <Content Include="Assets\logo_300.png" />
     <Content Include="Assets\logo_500.png" />
+    <Content Include="Assets\switch.png" />
     <Content Include="ServiceReferences.ClientConfig" />
     <None Include="Service References\Server\GPSwfriends.wsdl" />
     <None Include="Service References\Server\GPSwfriends.xsd">

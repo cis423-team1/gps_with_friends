@@ -27,8 +27,16 @@ namespace GPSWithFriends
             proxy.registerCompleted += proxy_registerCompleted;
             if (ContentCheck())
             {
+                try
+                {                    
                 proxy.registerAsync(RegisterEmailTextBox.Text, RegisterPasswordBox.Password, RegisterNickNameTextBox.Text, RegisterNickNameTextBox.Text);
                 SUBMITBUTTON.IsEnabled = false;
+                }
+                catch (Exception)
+                {
+                    SUBMITBUTTON.IsEnabled = true; 
+                    MessageBox.Show("Connection failed.");
+                }
             }
             else
                 MessageBox.Show("Input incomplete or password not match. Please try again.");
@@ -55,7 +63,6 @@ namespace GPSWithFriends
             else
                 _appSettings.Add("LAST_LOGIN_USERNAME", lastLoginUser);
         }
-
 
         private bool Register(string p1, string p2, string p3)
         {

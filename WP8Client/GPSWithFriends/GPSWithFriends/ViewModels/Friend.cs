@@ -14,7 +14,7 @@ namespace GPSWithFriends.ViewModels
 {
     public class Friend : INotifyPropertyChanged
     {
-       public Friend()
+        public Friend()
         {
             nickName = "";
             status = "";
@@ -25,25 +25,47 @@ namespace GPSWithFriends.ViewModels
             latitude = 181;
             longitude = 181;
             if (this.isLocated())
+            {
                 CalculteGeoCoordinate();
+                CalculateDistance();
+            }
         }
 
-       private void CalculteGeoCoordinate()
-       {
-           if (latitude > -90 && latitude < 90 && longitude > -180 && longitude < 180)
-           {
-               ///Geocoordinate.Latitude = latitude;
-               //Geocoordinate.Longitude = longitude;
-               Geocoordinate = new GeoCoordinate(latitude, longitude);
-           }
-       }
+        public void CalculateDistance()
+        {
+            double temp;
+            if (App.ViewModel.Me.isLocated() && this.isLocated())
+            {
+                temp = this.Geocoordinate.GetDistanceTo(App.ViewModel.Me.Geocoordinate);
+                this.distance = ConvertDoubleToDistance(temp);
+            }
+        }
 
-       public bool isLocated()
-       {
-           if (latitude < 90 && longitude < 180 && latitude > -90 && longitude > -180)
-               return true;
-           else return false;
-       }
+        private string ConvertDoubleToDistance(double temp)
+        {
+            if (temp < 0)
+                return "???";
+            else if (temp < 1000)
+                return ((int)temp).ToString() + " m";
+            else return (temp / 1000).ToString("f1") + " km";
+        }
+
+        private void CalculteGeoCoordinate()
+        {
+            if (latitude > -90 && latitude < 90 && longitude > -180 && longitude < 180)
+            {
+                ///Geocoordinate.Latitude = latitude;
+                //Geocoordinate.Longitude = longitude;
+                Geocoordinate = new GeoCoordinate(latitude, longitude);
+            }
+        }
+
+        public bool isLocated()
+        {
+            if (latitude < 90 && longitude < 180 && latitude > -90 && longitude > -180)
+                return true;
+            else return false;
+        }
 
         private string nickName;
         public string NickName
@@ -58,6 +80,23 @@ namespace GPSWithFriends.ViewModels
                 {
                     nickName = value;
                     NotifyPropertyChanged("NickName");
+                }
+            }
+        }
+
+        private int uid;
+        public int Uid
+        {
+            get
+            {
+                return uid;
+            }
+            set
+            {
+                if (value != uid)
+                {
+                    uid = value;
+                    NotifyPropertyChanged("Uid");
                 }
             }
         }
@@ -160,7 +199,11 @@ namespace GPSWithFriends.ViewModels
                 {
                     latitude = value;
                     NotifyPropertyChanged("Latitude");
-                    CalculteGeoCoordinate();
+                    if (this.isLocated())
+                    {
+                        CalculteGeoCoordinate();
+                        CalculateDistance();
+                    }
                 }
             }
         }
@@ -178,7 +221,11 @@ namespace GPSWithFriends.ViewModels
                 {
                     longitude = value;
                     NotifyPropertyChanged("Longitude");
-                    CalculteGeoCoordinate();
+                    if (this.isLocated())
+                    {
+                        CalculteGeoCoordinate();
+                        CalculateDistance();
+                    }
                 }
             }
         }

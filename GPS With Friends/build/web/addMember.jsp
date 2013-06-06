@@ -8,16 +8,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+        <link rel="stylesheet" type="text/css" href="style.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
     <body>
-        
-        <form action="group.jsp" method="POST">
             <%-- start web service invocation --%><hr/>
     <%
-        int gid =Integer.parseInt(request.getParameter("hiddenGName"));
+        int gid =Integer.parseInt(session.getAttribute("gid").toString());
         edu.uoregon.cs.client.User user = new edu.uoregon.cs.client.User();
     try {
 	edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
@@ -55,11 +53,6 @@
         } catch (Exception ex) {
         }
     }
-    out.println("<input type='hidden' name='glist' value='"+gid+"'>");
     %>
-    <input type ="submit" value="back" />
-    <%-- end web service invocation --%><hr/>
-
-    </form>
     </body>
 </html>

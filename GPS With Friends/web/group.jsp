@@ -20,17 +20,26 @@
         <script src="infobox.js"></script>
         
     <table id='grouptable'> 
+        <tr><td>
+                <form name="back" action="main.jsp">
+                    <input type="submit" value="Back"/>
+                </form>
+            
     <%-- start web service invocation --%>
     <%
+        //make sure the correct group is saved in the session
+        if (request.getParameter("glist") != null) {
+            session.setAttribute("gid", request.getParameter("glist"));
+        }
         edu.uoregon.cs.client.Group result = new edu.uoregon.cs.client.Group();
     	try {
 				edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
 				edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
 	 			// TODO initialize WS operation arguments here
-				int gid = Integer.parseInt(request.getParameter("glist"));
+				int gid = Integer.parseInt(session.getAttribute("gid").toString());
 				// TODO process result here
 				result = port.getGroup(gid);
-        		out.println("<tr><td><h1>"+result.getName()+"</h1></td></tr>");
+        		out.println("<h1>"+result.getName()+"</h1></td></tr>");
     	} catch (Exception ex) {
 			out.println(ex.getMessage());
     	}
@@ -60,20 +69,21 @@
 	    
 	    				%>
 	        		</select>
-	    			<input type="hidden" value="<%= request.getParameter("glist")%>" name="hiddenGName" />
                                 <input type="submit" name="action" value="View on Map" />
+                                <% if (owner.getUid() == ((edu.uoregon.cs.client.User)session.getAttribute("user")).getUid()) {%>
 	    			<input type="submit" name="action" value="Remove From Group" />
+                                <%}%>
 	    			<input type="submit" name="action" value="Show History" />
-		<%-- end web service invocation --%>
 	    	</form>
+            <% if (owner.getUid() == ((edu.uoregon.cs.client.User)session.getAttribute("user")).getUid()) {%>
 	    </td></tr>
 	    <tr><td>
-	    		<form name ="<%= request.getParameter("glist") %>" action="addMember.jsp" method="POST">     
+	    		<form name ="<%= session.getAttribute("gid") %>" action="addMember.jsp" method="POST">     
 	        		<input type="text" value="enter the email" name="emailUser" />
-	        		<input type="hidden" value="<%= request.getParameter("glist")%>" name="hiddenGName">
 	        		<input type="submit" value="invite" />
 	    		</form>
 	    </td></tr>
+            <%}%>
 	</table>
 	<table id='groupinfo'>
 	    <tr><td>
@@ -85,6 +95,13 @@
 	    <tr><td>
 	            Owner: <%= owner.getFName()+" "+owner.getLName() %>
 	    </td></tr>
+            <% if (owner.getUid() == ((edu.uoregon.cs.client.User)session.getAttribute("user")).getUid()) {%>
+            <tr><td>
+	            <form action="deleteGroup.jsp" method="POST">
+                        <input type="submit" value="Delete Group">
+                    </form>
+	    </td></tr>
+            <%}%>
     </table>
                 
     <h2>Current Locations for <%= result.getUsers().size()%> group members</h2>

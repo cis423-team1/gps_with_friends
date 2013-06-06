@@ -21,7 +21,7 @@
                 edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
                  // TODO initialize WS operation arguments here
                 java.util.List<java.lang.Integer> uids = new java.util.ArrayList<java.lang.Integer>();
-                int owner = Integer.parseInt(request.getParameter("uid"));
+                int owner = Integer.parseInt(session.getAttribute("uid").toString());
                 uids.add(owner);
                 java.lang.String name = request.getParameter("groupName");
                 // TODO process result here

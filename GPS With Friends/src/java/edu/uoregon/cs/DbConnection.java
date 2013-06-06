@@ -89,6 +89,10 @@ public class DbConnection {
      * returns a status detailing whether it was a success or failure along with an error message
      */
     public Status addUser(User user, String password) {
+        //check for duplicate email
+        if (getUser(user.email) != null) {
+            return new Status(false, "That email address is already registered to a user");
+        }
         //create user id
         String queryStatement = "SELECT COUNT(*) FROM `User`";
         //connect to db
@@ -174,11 +178,11 @@ public class DbConnection {
         st = conn.createStatement();
         res = st.executeQuery(queryStatement);
         }catch(Exception e){
-            return new Location (0,0,0,"execute error");
+            return null;
         }
         //check for failed query
         if (res == null) {
-            return new Location(0,0,0,"nullres");
+            return null;
         }
         try {
             //get first (and only) line
@@ -197,7 +201,7 @@ public class DbConnection {
             return new Location(uid, lat, lon, date);
             
         } catch (SQLException ex) {
-            return new Location(0,0,0,"sqlexception");
+            return null;
         }
     }
     
@@ -269,6 +273,14 @@ public class DbConnection {
      * returns a status detailing whether it was a success or failure along with an error message
      */
     public Status addMember(int uid, int gid) {
+        //check to see if member is already in group
+        User[] users = GetMembers(gid);
+        for (int i = 0; i < users.length; i++) {
+            if (users[i].uid == uid) {
+                return new Status(false, "That user is already in this group!");
+            }
+        }
+        
         int res = update("INSERT INTO `Group_Lists` (Group_ID, UID, Group_GroupID) VALUES"
                 + " ("+gid+", '"+uid+"', "+gid+")");
         
@@ -284,6 +296,11 @@ public class DbConnection {
      * returns a status detailing whether it was a success or failure along with an error message
      */
     public Status removeMember(int uid, int gid) {
+        //check if user is owner of group
+        Group g = getGroup(gid);
+        if (g.owner == uid) {
+            return new Status(false, "You cannot remove the owner from the group");
+        }
         int res = update("DELETE FROM `Group_Lists` WHERE `UID`="+uid+" AND `Group_GroupID`="+gid);
         
         //return false if error

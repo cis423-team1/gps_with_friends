@@ -25,12 +25,14 @@
 <h1>Pick a group to view</h1>
     <%-- start web service invocation --%><hr/>
     <%
+        //clear the current group in session
+        session.setAttribute("gid", null);
         java.util.List<edu.uoregon.cs.client.Group> result = new java.util.ArrayList<edu.uoregon.cs.client.Group> () ;
     try {
 	edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
 	edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
 	 // TODO initialize WS operation arguments here
-	int uid = Integer.parseInt(request.getParameter("uid"));
+	int uid = ((edu.uoregon.cs.client.User)session.getAttribute("user")).getUid();
 	// TODO process result here
 	result = port.getGroups(uid);
         
@@ -76,7 +78,6 @@
             %>
 		<form id="createGroupForm" action="createGroup.jsp" method="POST">
 			Group Name: <input type="text" name="groupName"><br>
-                        <input type="hidden" name="uid" value="<%= request.getParameter("uid") %>">
 			<input type="submit" value="Create a Group">
 		</form>
 	</div>

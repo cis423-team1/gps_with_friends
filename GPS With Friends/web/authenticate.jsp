@@ -26,10 +26,9 @@
                     java.lang.String password = request.getParameter("password");
                     edu.uoregon.cs.client.UserStatus result = port.authenticate(email, password);
                     if (result.isSuccess()) {
+                        session.setAttribute("user", result.getUser());
                         %>
-                       <jsp:forward page='main.jsp'>
-                           <jsp:param name='uid' value="<%=result.getUser().getUid()%>"/>
-                       </jsp:forward>
+                       <jsp:forward page='main.jsp'></jsp:forward>
                         <%
                     }
                     else {

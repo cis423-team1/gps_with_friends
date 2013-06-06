@@ -67,14 +67,13 @@
             } catch (Exception ex) {
                 // TODO handle custom exceptions here
             }
-            out.println("<form action='group.jsp' method='POST'>");
             try {
                 edu.uoregon.cs.client.GPSwfriends_Service service = new edu.uoregon.cs.client.GPSwfriends_Service();
                 edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
 
                  // TODO initialize WS operation arguments here
                 int uid =user.getUid();
-                int gid =Integer.parseInt(request.getParameter("hiddenGName"));
+                int gid =Integer.parseInt(session.getAttribute("gid").toString());
                 // TODO process result here
                 edu.uoregon.cs.client.Status result = port.removeMember(uid, gid);
 
@@ -82,16 +81,13 @@
                 if (result.isSuccess())
                 {
                    out.println("The selected user is removed from group.");
-                   out.println("<input type='hidden' name='glist' value='"+gid+"'>");
                 } else 
                 {
                    out.println("The selected user was not removed. An error occured. Error Message: " + result.getError());
-                   out.println("<input type='hidden' name='glist' value='"+gid+"'>");
                 }
             } catch (Exception ex) {
                 out.println("An error occured. Message: " + ex.getMessage());
             }
-            out.println("<input type ='submit' value='Back'/></form>");
         }
 
         else if (request.getParameter("action").equals("Show History")) {

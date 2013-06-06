@@ -13,7 +13,7 @@
         <title>JSP Page</title>
     </head>
     
-    <body style='width:80%;'>
+    <body style='width:1200px;'>
     
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5U_RwN3gt5ZpvGNIWyZEb1MgqP5kx05k&sensor=false"></script>
         <script src="gpsmap.js"></script>

@@ -41,23 +41,10 @@
              // TODO initialize WS operation arguments here
             int uid =user.getUid();
             // TODO process result here
-            edu.uoregon.cs.client.Status result = port.addMember(uid, gid);
+            port.addMember(uid, gid);
 
-
-            if (result.isSuccess()) {
-                %>
-               <jsp:forward page='group.jsp'>
-                   <jsp:param name='message' value="Member added succesfully"/>
-               </jsp:forward>
-                <%
-            }
-            else {
-                %>
-               <jsp:forward page='group.jsp'>
-                   <jsp:param name='message' value="<%= result.getError()%>"/>
-               </jsp:forward>
-                <%
-            }
+            response.sendRedirect("group.jsp");
+            
         } catch (Exception ex) {
         }
     }

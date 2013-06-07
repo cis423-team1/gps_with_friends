@@ -65,7 +65,7 @@
     
     %>
 	    <tr><td>
-	    		<form action="groupAction.jsp" method="POST">
+	    		<form action="groupAction.jsp" method="POST" target="map_frame">
 	        		<select name="userSelected">
 	    				<%  
 	    					for (int i = 0;i<result.getUsers().size();i++) {
@@ -81,15 +81,20 @@
                                 <%}%>
 	    			<input type="submit" name="action" value="Show History" />
 	    	</form>
-            <% if (owner.getUid() == ((edu.uoregon.cs.client.User)session.getAttribute("user")).getUid()) {%>
 	    </td></tr>
+            <% if (owner.getUid() == ((edu.uoregon.cs.client.User)session.getAttribute("user")).getUid()) {%>
 	    <tr><td>
-	    		<form name ="<%= session.getAttribute("gid") %>" action="addMember.jsp" method="POST">     
+	    		<form name ="addMember" action="addMember.jsp" method="POST">     
 	        		<input type="text" value="enter the email" name="emailUser" />
 	        		<input type="submit" value="invite" />
 	    		</form>
 	    </td></tr>
             <%}%>
+	    <tr><td>
+	    		<form name ="displayMembers" action="allMembers.jsp" method="POST" target="map_frame">     
+	        		<input type="submit" value="Show All Members" />
+	    		</form>
+	    </td></tr>
 	</table>
 	<table id='groupinfo'>
 	    <tr><td>
@@ -110,28 +115,7 @@
 	    </td></tr>
             <%}%>
     </table>
-                
-    <h2>Current Locations for <%= result.getUsers().size()%> group members</h2>
-    <div id='map-canvas'/>
-    <script>
-            var m = new mymap();
-            m.start();
-    <%
-            //plot each user's last location to the map
-            out.println("var group = [");
-            for (int i = 0; i < result.getUsers().size(); i++) {
-                edu.uoregon.cs.client.User user = result.getUsers().get(i);
-                edu.uoregon.cs.client.Location curLoc = user.getLastLoc();
-                out.print("{ name: '"+user.getFName()+" "+user.getLName()+"', lat: " + curLoc.getLatitude()+ ", lng: " + curLoc.getLongitude() + " }");
-                if (i < result.getUsers().size() - 1) {
-                    out.println(",");
-                }
-            }
-            out.println("];");
-            %>
-                
-            m.displayGroup(group);
-        
-    </script>
-            </body>
+    <iframe src="allMembers.jsp" name="map_frame" width="1200" id="map-frame" height="900" seamless></iframe>       
+    
+   </body>
 </html>

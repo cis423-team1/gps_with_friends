@@ -48,3 +48,7 @@ h1, h2 {
 	right:75px;
 	top:100px;
 }
+
+#mapframe {
+	margin:25px auto 25px auto; 
+}

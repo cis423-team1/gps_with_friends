@@ -6,16 +6,25 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head> 
+    <head>
+        <style>
+            #title { 
+                text-align: center;
+            }
+            #map-canvas { 
+                border:2px solid black;
+                margin:25px auto 25px auto;
+                height:750px; 
+                width:1000px;
+            }
+        </style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
     <body>
-        
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5U_RwN3gt5ZpvGNIWyZEb1MgqP5kx05k&sensor=false"></script>
         <script src="gpsmap.js"></script>
         <script src="infobox.js"></script>
-        <div id='map-canvas'/>
         <%
             
         //if View on Map was selected show last known location on map
@@ -54,7 +63,7 @@
             out.println("m.displayGroup(group);");
             out.println("</script>");
         }
-
+        
         else if (request.getParameter("action").equals("Remove From Group")) {
             edu.uoregon.cs.client.User user = new edu.uoregon.cs.client.User();
             try {
@@ -77,21 +86,8 @@
                 // TODO process result here
                 edu.uoregon.cs.client.Status result = port.removeMember(uid, gid);
 
-
-                if (result.isSuccess()) {
-                    %>
-                   <jsp:forward page='group.jsp'>
-                       <jsp:param name='message' value="Member removed succesfully"/>
-                   </jsp:forward>
-                    <%
-                }
-                else {
-                    %>
-                   <jsp:forward page='group.jsp'>
-                       <jsp:param name='message' value="<%= result.getError()%>"/>
-                   </jsp:forward>
-                    <%
-                }
+                response.sendRedirect("refreshParent.html");
+                
             } catch (Exception ex) {
                 out.println("An error occured. Message: " + ex.getMessage());
             }

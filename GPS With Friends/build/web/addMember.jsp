@@ -44,11 +44,19 @@
             edu.uoregon.cs.client.Status result = port.addMember(uid, gid);
 
 
-            if (result.isSuccess())
-            {
-               out.println("The invitation happened successfully.");
-            } else {
-               out.println("Invitation failed");
+            if (result.isSuccess()) {
+                %>
+               <jsp:forward page='group.jsp'>
+                   <jsp:param name='message' value="Member added succesfully"/>
+               </jsp:forward>
+                <%
+            }
+            else {
+                %>
+               <jsp:forward page='group.jsp'>
+                   <jsp:param name='message' value="<%= result.getError()%>"/>
+               </jsp:forward>
+                <%
             }
         } catch (Exception ex) {
         }

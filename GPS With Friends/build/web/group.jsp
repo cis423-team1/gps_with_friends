@@ -56,6 +56,12 @@
     	} catch (Exception ex) {
 			// TODO handle custom exceptions here
     	}
+        String message = request.getParameter("message");
+        if (message != null) {
+            %><tr><td><%
+            out.println(message);
+            %></td></tr><%
+        }
     
     %>
 	    <tr><td>

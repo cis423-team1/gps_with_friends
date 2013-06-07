@@ -78,12 +78,19 @@
                 edu.uoregon.cs.client.Status result = port.removeMember(uid, gid);
 
 
-                if (result.isSuccess())
-                {
-                   out.println("The selected user is removed from group.");
-                } else 
-                {
-                   out.println("The selected user was not removed. An error occured. Error Message: " + result.getError());
+                if (result.isSuccess()) {
+                    %>
+                   <jsp:forward page='group.jsp'>
+                       <jsp:param name='message' value="Member removed succesfully"/>
+                   </jsp:forward>
+                    <%
+                }
+                else {
+                    %>
+                   <jsp:forward page='group.jsp'>
+                       <jsp:param name='message' value="<%= result.getError()%>"/>
+                   </jsp:forward>
+                    <%
                 }
             } catch (Exception ex) {
                 out.println("An error occured. Message: " + ex.getMessage());

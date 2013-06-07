@@ -64,7 +64,7 @@
                             <maptk:MapItemsControl  ItemsSource="{Binding Friends}" Name="FriendsLocationMarkerList">
                                 <maptk:MapItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <maptk:Pushpin Visibility="Visible" GeoCoordinate="{Binding Geocoordinate}" Content="{Binding NickName}" />
+                                        <maptk:Pushpin Visibility="Visible" GeoCoordinate="{Binding Geocoordinate}" Content="{Binding NickName}" Background="{StaticResource PhoneAccentBrush}"/>
                                     </DataTemplate>
                                 </maptk:MapItemsControl.ItemTemplate>
                             </maptk:MapItemsControl>
@@ -92,7 +92,7 @@
                                         <Image Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Source="{Binding ImagePath}"></Image>
                                         <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding NickName}" FontSize="32" VerticalAlignment="Bottom"></TextBlock>
                                         <TextBlock Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Status}" FontSize="16" VerticalAlignment="Bottom"></TextBlock>
-                                        <TextBlock Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Text="{Binding Distance}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                                        <TextBlock Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Text="{Binding Distance}" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
                                         <toolkit:ContextMenuService.ContextMenu>
                                             <toolkit:ContextMenu toolkit:TiltEffect.IsTiltEnabled="True">
                                                 <toolkit:MenuItem Header="Get Route" Foreground="Black" Click="FriendList_Route"/>

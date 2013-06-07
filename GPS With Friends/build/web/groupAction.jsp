@@ -15,6 +15,7 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5U_RwN3gt5ZpvGNIWyZEb1MgqP5kx05k&sensor=false"></script>
         <script src="gpsmap.js"></script>
         <script src="infobox.js"></script>
+        <div id='map-canvas'/>
         <%
             
         //if View on Map was selected show last known location on map

@@ -12,6 +12,10 @@
 
 <xs:element name="createGroupResponse" type="tns:createGroupResponse"/>
 
+<xs:element name="deleteGroup" type="tns:deleteGroup"/>
+
+<xs:element name="deleteGroupResponse" type="tns:deleteGroupResponse"/>
+
 <xs:element name="getGroup" type="tns:getGroup"/>
 
 <xs:element name="getGroupResponse" type="tns:getGroupResponse"/>
@@ -250,6 +254,18 @@
 <xs:complexType name="getUserByIDResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:user" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteGroup">
+<xs:sequence>
+<xs:element name="gid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteGroupResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:status" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 

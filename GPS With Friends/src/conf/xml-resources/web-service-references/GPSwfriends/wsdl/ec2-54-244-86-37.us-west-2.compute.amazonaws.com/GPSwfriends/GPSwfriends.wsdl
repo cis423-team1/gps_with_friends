@@ -16,6 +16,12 @@
 <message name="authenticateResponse">
 <part name="parameters" element="tns:authenticateResponse"/>
 </message>
+<message name="deleteGroup">
+<part name="parameters" element="tns:deleteGroup"/>
+</message>
+<message name="deleteGroupResponse">
+<part name="parameters" element="tns:deleteGroupResponse"/>
+</message>
 <message name="register">
 <part name="parameters" element="tns:register"/>
 </message>
@@ -91,6 +97,10 @@
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/authenticateRequest" message="tns:authenticate"/>
 <output wsam:Action="http://cs.uoregon.edu/GPSwfriends/authenticateResponse" message="tns:authenticateResponse"/>
 </operation>
+<operation name="deleteGroup">
+<input wsam:Action="http://cs.uoregon.edu/GPSwfriends/deleteGroupRequest" message="tns:deleteGroup"/>
+<output wsam:Action="http://cs.uoregon.edu/GPSwfriends/deleteGroupResponse" message="tns:deleteGroupResponse"/>
+</operation>
 <operation name="register">
 <input wsam:Action="http://cs.uoregon.edu/GPSwfriends/registerRequest" message="tns:register"/>
 <output wsam:Action="http://cs.uoregon.edu/GPSwfriends/registerResponse" message="tns:registerResponse"/>
@@ -148,6 +158,15 @@
 </output>
 </operation>
 <operation name="authenticate">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="deleteGroup">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

@@ -270,14 +270,6 @@ public class DbConnection {
     }
     
     public Status removeMember(int uid, int gid) {
-        //check if user is owner of group
-        Group g = getGroup(gid);
-        if (g == null) {
-            return new Status(false, "No such group!");
-        }
-        if (g.owner == uid) {
-            return new Status(false, "You cannot remove the owner from the group");
-        }
         int res = update("DELETE FROM `Group_Lists` WHERE `UID`="+uid+" AND `Group_GroupID`="+gid);
         
         //return false if error
@@ -293,7 +285,7 @@ public class DbConnection {
      */
     public Status addMember(int uid, int gid) {
         //check to see if member is already in group
-        User[] users = GetMembers(gid);
+        User[] users = getMembers(gid);
         if (users == null) {
             return new Status(false, "No such group!");
         }
@@ -323,6 +315,12 @@ public class DbConnection {
         if (g == null) {
             return new Status(false, "No such group!");
         }
+        User[] users = getMembers(gid);
+        for (int i = 0; i < users.length; i++) {
+            if(!removeMember(users[i].uid, gid).success) {
+                return new Status(false, "Failed to remove user: "+users[i].email);
+            }
+        }
         int res = update("DELETE FROM `Group` WHERE `GroupID`="+gid);
         
         //return false if error
@@ -336,7 +334,7 @@ public class DbConnection {
     /*
      * returns null on error
      */
-    public Group[] GetGroups(int uid) {
+    public Group[] getGroups(int uid) {
         String queryStatement = "SELECT * FROM `Group` JOIN `Group_Lists` ON `Group_Lists`.`Group_GroupID`=`Group`.`GroupID` WHERE `Group_Lists`.`UID`="+uid;
         //connect to db
         Connection conn = openConnection();
@@ -399,7 +397,7 @@ public class DbConnection {
      /*
      * returns null on error
      */
-    public User[] GetMembers(int gid) {
+    public User[] getMembers(int gid) {
         String queryStatement = "SELECT * FROM `User` JOIN `Group_Lists` ON `Group_Lists`.`UID`=`User`.`UID` WHERE `Group_Lists`.`Group_GroupID`="+gid;
         //connect to db
         Connection conn = openConnection();

@@ -72,7 +72,7 @@ public class GPSwfriends {
     @WebMethod(operationName = "getGroups")
     public Group [] getGroups(@WebParam(name = "uid") int uid) {
         DbConnection db = new DbConnection();
-        return db.GetGroups(uid);
+        return db.getGroups(uid);
     }
 
     /**
@@ -90,6 +90,14 @@ public class GPSwfriends {
     @WebMethod(operationName = "removeMember")
     public Status removeMember(@WebParam(name = "uid") int uid, @WebParam(name = "gid") int gid) {
         DbConnection db = new DbConnection();
+        //check if user is owner of group
+        Group g = db.getGroup(gid);
+        if (g == null) {
+            return new Status(false, "No such group!");
+        }
+        if (g.owner == uid) {
+            return new Status(false, "You cannot remove the owner from the group");
+        }
         return db.removeMember(uid, gid);
     }
 
@@ -99,7 +107,7 @@ public class GPSwfriends {
     @WebMethod(operationName = "getMembers")
     public User [] getMembers(@WebParam(name = "gid") int gid) {
         DbConnection db = new DbConnection();
-        return db.GetMembers(gid);
+        return db.getMembers(gid);
     }
 
     /**

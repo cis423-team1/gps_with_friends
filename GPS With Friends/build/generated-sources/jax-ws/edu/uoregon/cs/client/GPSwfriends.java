@@ -60,6 +60,21 @@ public interface GPSwfriends {
 
     /**
      * 
+     * @param gid
+     * @return
+     *     returns edu.uoregon.cs.client.Status
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "deleteGroup", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.DeleteGroup")
+    @ResponseWrapper(localName = "deleteGroupResponse", targetNamespace = "http://cs.uoregon.edu/", className = "edu.uoregon.cs.client.DeleteGroupResponse")
+    @Action(input = "http://cs.uoregon.edu/GPSwfriends/deleteGroupRequest", output = "http://cs.uoregon.edu/GPSwfriends/deleteGroupResponse")
+    public Status deleteGroup(
+        @WebParam(name = "gid", targetNamespace = "")
+        int gid);
+
+    /**
+     * 
      * @param lname
      * @param email
      * @param password

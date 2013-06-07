@@ -24,32 +24,34 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _GetMembersResponse_QNAME = new QName("http://cs.uoregon.edu/", "getMembersResponse");
-    private final static QName _GetUserResponse_QNAME = new QName("http://cs.uoregon.edu/", "getUserResponse");
-    private final static QName _RegisterResponse_QNAME = new QName("http://cs.uoregon.edu/", "registerResponse");
     private final static QName _AuthenticateResponse_QNAME = new QName("http://cs.uoregon.edu/", "authenticateResponse");
-    private final static QName _RemoveMember_QNAME = new QName("http://cs.uoregon.edu/", "removeMember");
-    private final static QName _GetGroup_QNAME = new QName("http://cs.uoregon.edu/", "getGroup");
-    private final static QName _GetUserByIDResponse_QNAME = new QName("http://cs.uoregon.edu/", "getUserByIDResponse");
     private final static QName _AddMember_QNAME = new QName("http://cs.uoregon.edu/", "addMember");
     private final static QName _CreateGroupResponse_QNAME = new QName("http://cs.uoregon.edu/", "createGroupResponse");
     private final static QName _SetLocationResponse_QNAME = new QName("http://cs.uoregon.edu/", "setLocationResponse");
-    private final static QName _AddMemberResponse_QNAME = new QName("http://cs.uoregon.edu/", "addMemberResponse");
     private final static QName _GetHistoryResponse_QNAME = new QName("http://cs.uoregon.edu/", "getHistoryResponse");
-    private final static QName _Register_QNAME = new QName("http://cs.uoregon.edu/", "register");
-    private final static QName _GetLocation_QNAME = new QName("http://cs.uoregon.edu/", "getLocation");
     private final static QName _GetGroupResponse_QNAME = new QName("http://cs.uoregon.edu/", "getGroupResponse");
-    private final static QName _SetLocation_QNAME = new QName("http://cs.uoregon.edu/", "setLocation");
-    private final static QName _Authenticate_QNAME = new QName("http://cs.uoregon.edu/", "authenticate");
-    private final static QName _CreateGroup_QNAME = new QName("http://cs.uoregon.edu/", "createGroup");
+    private final static QName _GetLocation_QNAME = new QName("http://cs.uoregon.edu/", "getLocation");
+    private final static QName _Register_QNAME = new QName("http://cs.uoregon.edu/", "register");
     private final static QName _GetMembers_QNAME = new QName("http://cs.uoregon.edu/", "getMembers");
-    private final static QName _GetHistory_QNAME = new QName("http://cs.uoregon.edu/", "getHistory");
-    private final static QName _GetLocationResponse_QNAME = new QName("http://cs.uoregon.edu/", "getLocationResponse");
     private final static QName _RemoveMemberResponse_QNAME = new QName("http://cs.uoregon.edu/", "removeMemberResponse");
     private final static QName _GetGroupsResponse_QNAME = new QName("http://cs.uoregon.edu/", "getGroupsResponse");
-    private final static QName _GetUserByID_QNAME = new QName("http://cs.uoregon.edu/", "getUserByID");
     private final static QName _GetUser_QNAME = new QName("http://cs.uoregon.edu/", "getUser");
     private final static QName _GetGroups_QNAME = new QName("http://cs.uoregon.edu/", "getGroups");
+    private final static QName _GetMembersResponse_QNAME = new QName("http://cs.uoregon.edu/", "getMembersResponse");
+    private final static QName _GetUserResponse_QNAME = new QName("http://cs.uoregon.edu/", "getUserResponse");
+    private final static QName _RegisterResponse_QNAME = new QName("http://cs.uoregon.edu/", "registerResponse");
+    private final static QName _RemoveMember_QNAME = new QName("http://cs.uoregon.edu/", "removeMember");
+    private final static QName _DeleteGroup_QNAME = new QName("http://cs.uoregon.edu/", "deleteGroup");
+    private final static QName _GetGroup_QNAME = new QName("http://cs.uoregon.edu/", "getGroup");
+    private final static QName _GetUserByIDResponse_QNAME = new QName("http://cs.uoregon.edu/", "getUserByIDResponse");
+    private final static QName _AddMemberResponse_QNAME = new QName("http://cs.uoregon.edu/", "addMemberResponse");
+    private final static QName _Authenticate_QNAME = new QName("http://cs.uoregon.edu/", "authenticate");
+    private final static QName _SetLocation_QNAME = new QName("http://cs.uoregon.edu/", "setLocation");
+    private final static QName _CreateGroup_QNAME = new QName("http://cs.uoregon.edu/", "createGroup");
+    private final static QName _DeleteGroupResponse_QNAME = new QName("http://cs.uoregon.edu/", "deleteGroupResponse");
+    private final static QName _GetHistory_QNAME = new QName("http://cs.uoregon.edu/", "getHistory");
+    private final static QName _GetLocationResponse_QNAME = new QName("http://cs.uoregon.edu/", "getLocationResponse");
+    private final static QName _GetUserByID_QNAME = new QName("http://cs.uoregon.edu/", "getUserByID");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: edu.uoregon.cs.client
@@ -64,6 +66,14 @@ public class ObjectFactory {
      */
     public GetUserByID createGetUserByID() {
         return new GetUserByID();
+    }
+
+    /**
+     * Create an instance of {@link DeleteGroupResponse }
+     * 
+     */
+    public DeleteGroupResponse createDeleteGroupResponse() {
+        return new DeleteGroupResponse();
     }
 
     /**
@@ -120,6 +130,14 @@ public class ObjectFactory {
      */
     public GetGroup createGetGroup() {
         return new GetGroup();
+    }
+
+    /**
+     * Create an instance of {@link DeleteGroup }
+     * 
+     */
+    public DeleteGroup createDeleteGroup() {
+        return new DeleteGroup();
     }
 
     /**
@@ -307,66 +325,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetMembersResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getMembersResponse")
-    public JAXBElement<GetMembersResponse> createGetMembersResponse(GetMembersResponse value) {
-        return new JAXBElement<GetMembersResponse>(_GetMembersResponse_QNAME, GetMembersResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getUserResponse")
-    public JAXBElement<GetUserResponse> createGetUserResponse(GetUserResponse value) {
-        return new JAXBElement<GetUserResponse>(_GetUserResponse_QNAME, GetUserResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "registerResponse")
-    public JAXBElement<RegisterResponse> createRegisterResponse(RegisterResponse value) {
-        return new JAXBElement<RegisterResponse>(_RegisterResponse_QNAME, RegisterResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AuthenticateResponse }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "authenticateResponse")
     public JAXBElement<AuthenticateResponse> createAuthenticateResponse(AuthenticateResponse value) {
         return new JAXBElement<AuthenticateResponse>(_AuthenticateResponse_QNAME, AuthenticateResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RemoveMember }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "removeMember")
-    public JAXBElement<RemoveMember> createRemoveMember(RemoveMember value) {
-        return new JAXBElement<RemoveMember>(_RemoveMember_QNAME, RemoveMember.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetGroup }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getGroup")
-    public JAXBElement<GetGroup> createGetGroup(GetGroup value) {
-        return new JAXBElement<GetGroup>(_GetGroup_QNAME, GetGroup.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserByIDResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getUserByIDResponse")
-    public JAXBElement<GetUserByIDResponse> createGetUserByIDResponse(GetUserByIDResponse value) {
-        return new JAXBElement<GetUserByIDResponse>(_GetUserByIDResponse_QNAME, GetUserByIDResponse.class, null, value);
     }
 
     /**
@@ -397,39 +361,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link AddMemberResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "addMemberResponse")
-    public JAXBElement<AddMemberResponse> createAddMemberResponse(AddMemberResponse value) {
-        return new JAXBElement<AddMemberResponse>(_AddMemberResponse_QNAME, AddMemberResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetHistoryResponse }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getHistoryResponse")
     public JAXBElement<GetHistoryResponse> createGetHistoryResponse(GetHistoryResponse value) {
         return new JAXBElement<GetHistoryResponse>(_GetHistoryResponse_QNAME, GetHistoryResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Register }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "register")
-    public JAXBElement<Register> createRegister(Register value) {
-        return new JAXBElement<Register>(_Register_QNAME, Register.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetLocation }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getLocation")
-    public JAXBElement<GetLocation> createGetLocation(GetLocation value) {
-        return new JAXBElement<GetLocation>(_GetLocation_QNAME, GetLocation.class, null, value);
     }
 
     /**
@@ -442,30 +379,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SetLocation }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetLocation }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "setLocation")
-    public JAXBElement<SetLocation> createSetLocation(SetLocation value) {
-        return new JAXBElement<SetLocation>(_SetLocation_QNAME, SetLocation.class, null, value);
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getLocation")
+    public JAXBElement<GetLocation> createGetLocation(GetLocation value) {
+        return new JAXBElement<GetLocation>(_GetLocation_QNAME, GetLocation.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Authenticate }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link Register }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "authenticate")
-    public JAXBElement<Authenticate> createAuthenticate(Authenticate value) {
-        return new JAXBElement<Authenticate>(_Authenticate_QNAME, Authenticate.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link CreateGroup }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "createGroup")
-    public JAXBElement<CreateGroup> createCreateGroup(CreateGroup value) {
-        return new JAXBElement<CreateGroup>(_CreateGroup_QNAME, CreateGroup.class, null, value);
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "register")
+    public JAXBElement<Register> createRegister(Register value) {
+        return new JAXBElement<Register>(_Register_QNAME, Register.class, null, value);
     }
 
     /**
@@ -475,24 +403,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getMembers")
     public JAXBElement<GetMembers> createGetMembers(GetMembers value) {
         return new JAXBElement<GetMembers>(_GetMembers_QNAME, GetMembers.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetHistory }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getHistory")
-    public JAXBElement<GetHistory> createGetHistory(GetHistory value) {
-        return new JAXBElement<GetHistory>(_GetHistory_QNAME, GetHistory.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetLocationResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getLocationResponse")
-    public JAXBElement<GetLocationResponse> createGetLocationResponse(GetLocationResponse value) {
-        return new JAXBElement<GetLocationResponse>(_GetLocationResponse_QNAME, GetLocationResponse.class, null, value);
     }
 
     /**
@@ -514,15 +424,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserByID }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getUserByID")
-    public JAXBElement<GetUserByID> createGetUserByID(GetUserByID value) {
-        return new JAXBElement<GetUserByID>(_GetUserByID_QNAME, GetUserByID.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetUser }{@code >}}
      * 
      */
@@ -538,6 +439,141 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getGroups")
     public JAXBElement<GetGroups> createGetGroups(GetGroups value) {
         return new JAXBElement<GetGroups>(_GetGroups_QNAME, GetGroups.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetMembersResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getMembersResponse")
+    public JAXBElement<GetMembersResponse> createGetMembersResponse(GetMembersResponse value) {
+        return new JAXBElement<GetMembersResponse>(_GetMembersResponse_QNAME, GetMembersResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getUserResponse")
+    public JAXBElement<GetUserResponse> createGetUserResponse(GetUserResponse value) {
+        return new JAXBElement<GetUserResponse>(_GetUserResponse_QNAME, GetUserResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "registerResponse")
+    public JAXBElement<RegisterResponse> createRegisterResponse(RegisterResponse value) {
+        return new JAXBElement<RegisterResponse>(_RegisterResponse_QNAME, RegisterResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RemoveMember }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "removeMember")
+    public JAXBElement<RemoveMember> createRemoveMember(RemoveMember value) {
+        return new JAXBElement<RemoveMember>(_RemoveMember_QNAME, RemoveMember.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DeleteGroup }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "deleteGroup")
+    public JAXBElement<DeleteGroup> createDeleteGroup(DeleteGroup value) {
+        return new JAXBElement<DeleteGroup>(_DeleteGroup_QNAME, DeleteGroup.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetGroup }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getGroup")
+    public JAXBElement<GetGroup> createGetGroup(GetGroup value) {
+        return new JAXBElement<GetGroup>(_GetGroup_QNAME, GetGroup.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserByIDResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getUserByIDResponse")
+    public JAXBElement<GetUserByIDResponse> createGetUserByIDResponse(GetUserByIDResponse value) {
+        return new JAXBElement<GetUserByIDResponse>(_GetUserByIDResponse_QNAME, GetUserByIDResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AddMemberResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "addMemberResponse")
+    public JAXBElement<AddMemberResponse> createAddMemberResponse(AddMemberResponse value) {
+        return new JAXBElement<AddMemberResponse>(_AddMemberResponse_QNAME, AddMemberResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Authenticate }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "authenticate")
+    public JAXBElement<Authenticate> createAuthenticate(Authenticate value) {
+        return new JAXBElement<Authenticate>(_Authenticate_QNAME, Authenticate.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SetLocation }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "setLocation")
+    public JAXBElement<SetLocation> createSetLocation(SetLocation value) {
+        return new JAXBElement<SetLocation>(_SetLocation_QNAME, SetLocation.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CreateGroup }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "createGroup")
+    public JAXBElement<CreateGroup> createCreateGroup(CreateGroup value) {
+        return new JAXBElement<CreateGroup>(_CreateGroup_QNAME, CreateGroup.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DeleteGroupResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "deleteGroupResponse")
+    public JAXBElement<DeleteGroupResponse> createDeleteGroupResponse(DeleteGroupResponse value) {
+        return new JAXBElement<DeleteGroupResponse>(_DeleteGroupResponse_QNAME, DeleteGroupResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetHistory }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getHistory")
+    public JAXBElement<GetHistory> createGetHistory(GetHistory value) {
+        return new JAXBElement<GetHistory>(_GetHistory_QNAME, GetHistory.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetLocationResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getLocationResponse")
+    public JAXBElement<GetLocationResponse> createGetLocationResponse(GetLocationResponse value) {
+        return new JAXBElement<GetLocationResponse>(_GetLocationResponse_QNAME, GetLocationResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserByID }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://cs.uoregon.edu/", name = "getUserByID")
+    public JAXBElement<GetUserByID> createGetUserByID(GetUserByID value) {
+        return new JAXBElement<GetUserByID>(_GetUserByID_QNAME, GetUserByID.class, null, value);
     }
 
 }

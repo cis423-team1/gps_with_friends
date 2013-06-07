@@ -269,6 +269,25 @@ public class DbConnection {
         return new Status(true, "success");
     }
     
+    public Status removeMember(int uid, int gid) {
+        //check if user is owner of group
+        Group g = getGroup(gid);
+        if (g == null) {
+            return new Status(false, "No such group!");
+        }
+        if (g.owner == uid) {
+            return new Status(false, "You cannot remove the owner from the group");
+        }
+        int res = update("DELETE FROM `Group_Lists` WHERE `UID`="+uid+" AND `Group_GroupID`="+gid);
+        
+        //return false if error
+        if (res != 1) {
+            return new Status(false, "Failed to remove member, DB update failed");
+        }
+        //return true if everything worked
+        return new Status(true, "success");
+    }
+    
     /*
      * returns a status detailing whether it was a success or failure along with an error message
      */
@@ -298,20 +317,17 @@ public class DbConnection {
     /*
      * returns a status detailing whether it was a success or failure along with an error message
      */
-    public Status removeMember(int uid, int gid) {
-        //check if user is owner of group
+    public Status deleteGroup(int gid) {
+        //check if group exists
         Group g = getGroup(gid);
         if (g == null) {
             return new Status(false, "No such group!");
         }
-        if (g.owner == uid) {
-            return new Status(false, "You cannot remove the owner from the group");
-        }
-        int res = update("DELETE FROM `Group_Lists` WHERE `UID`="+uid+" AND `Group_GroupID`="+gid);
+        int res = update("DELETE FROM `Group` WHERE `GroupID`="+gid);
         
         //return false if error
         if (res != 1) {
-            return new Status(false, "Failed to remove member, DB update failed");
+            return new Status(false, "Failed to remove group, DB update failed");
         }
         //return true if everything worked
         return new Status(true, "success");
@@ -638,4 +654,5 @@ public class DbConnection {
             return null;
         }
     }
+    
 }

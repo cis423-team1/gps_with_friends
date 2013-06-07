@@ -139,4 +139,13 @@ public class GPSwfriends {
         DbConnection db = new DbConnection();
         return db.getUserByID(uid);
     }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "deleteGroup")
+    public Status deleteGroup(@WebParam(name = "gid") int gid) {
+        DbConnection db = new DbConnection();
+        return db.deleteGroup(gid);
+    }
 }

@@ -178,11 +178,11 @@ public class DbConnection {
         st = conn.createStatement();
         res = st.executeQuery(queryStatement);
         }catch(Exception e){
-            return null;
+            return new Location(0,0,0,"sqlexception");
         }
         //check for failed query
         if (res == null) {
-            return null;
+            return new Location(0,0,0,"sqlexception");
         }
         try {
             //get first (and only) line
@@ -193,15 +193,15 @@ public class DbConnection {
             double lon = res.getBigDecimal("Location_y").doubleValue();
             
             //close connection
-            try { if (res != null) res.close(); } catch (Exception e) {return new Location(0,0,0,"sqlexception");};
-            try { if (st != null) st.close(); } catch (Exception e) {return new Location(0,0,0,"sqlexception");};
-            try { if (conn != null) conn.close(); } catch (Exception e) {return new Location(0,0,0,"sqlexception");};
+            try { if (res != null) res.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
             
             //return location
             return new Location(uid, lat, lon, date);
             
         } catch (SQLException ex) {
-            return null;
+            return new Location(0,0,0,"sqlexception");
         }
     }
     
@@ -275,6 +275,9 @@ public class DbConnection {
     public Status addMember(int uid, int gid) {
         //check to see if member is already in group
         User[] users = GetMembers(gid);
+        if (users == null) {
+            return new Status(false, "No such group!");
+        }
         for (int i = 0; i < users.length; i++) {
             if (users[i].uid == uid) {
                 return new Status(false, "That user is already in this group!");
@@ -298,6 +301,9 @@ public class DbConnection {
     public Status removeMember(int uid, int gid) {
         //check if user is owner of group
         Group g = getGroup(gid);
+        if (g == null) {
+            return new Status(false, "No such group!");
+        }
         if (g.owner == uid) {
             return new Status(false, "You cannot remove the owner from the group");
         }

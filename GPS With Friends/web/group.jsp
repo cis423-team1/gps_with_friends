@@ -98,6 +98,7 @@
             <% if (owner.getUid() == ((edu.uoregon.cs.client.User)session.getAttribute("user")).getUid()) {%>
             <tr><td>
 	            <form action="deleteGroup.jsp" method="POST">
+                        <input type="hidden" name="delete" value="yes"/>
                         <input type="submit" value="Delete Group">
                     </form>
 	    </td></tr>

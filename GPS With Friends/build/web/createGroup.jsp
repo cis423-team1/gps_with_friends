@@ -13,7 +13,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
         <%
             
             try {
@@ -21,7 +20,7 @@
                 edu.uoregon.cs.client.GPSwfriends port = service.getGPSwfriendsPort();
                  // TODO initialize WS operation arguments here
                 java.util.List<java.lang.Integer> uids = new java.util.ArrayList<java.lang.Integer>();
-                int owner = Integer.parseInt(session.getAttribute("uid").toString());
+                int owner = ((edu.uoregon.cs.client.User)session.getAttribute("user")).getUid();
                 uids.add(owner);
                 java.lang.String name = request.getParameter("groupName");
                 // TODO process result here
@@ -31,7 +30,6 @@
             if (result.isSuccess()) {
                 %>
                <jsp:forward page='main.jsp'>
-                   <jsp:param name='uid' value="<%=owner%>"/>
                    <jsp:param name='message' value="Group Created Succesfully"/>
                </jsp:forward>
                 <%
@@ -39,13 +37,12 @@
             else {
                 %>
                <jsp:forward page='main.jsp'>
-                   <jsp:param name='uid' value="<%=owner%>"/>
                    <jsp:param name='message' value="<%= result.getError()%>"/>
                </jsp:forward>
                 <%
             }
             } catch (Exception ex) {
-                // TODO handle custom exceptions here
+                out.println("exception: " + ex.getMessage());
             }
             %>
     </body>

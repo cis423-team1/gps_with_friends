@@ -56,11 +56,13 @@
     	} catch (Exception ex) {
 			// TODO handle custom exceptions here
     	}
-        String message = request.getParameter("message");
+        Object message = session.getAttribute("message");
         if (message != null) {
             %><tr><td><%
-            out.println(message);
+            out.println(message.toString());
             %></td></tr><%
+            //null message to prevent message being stuck
+            session.setAttribute("message", null);
         }
     
     %>

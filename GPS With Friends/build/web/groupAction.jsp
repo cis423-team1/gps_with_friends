@@ -85,7 +85,11 @@
                 int gid =Integer.parseInt(session.getAttribute("gid").toString());
                 // TODO process result here
                 edu.uoregon.cs.client.Status result = port.removeMember(uid, gid);
-
+                if (result.isSuccess()) {
+                    session.setAttribute("message", "Member Succesfully Removed");
+                } else {
+                    session.setAttribute("message", result.getError());
+                }
                 response.sendRedirect("refreshParent.html");
                 
             } catch (Exception ex) {

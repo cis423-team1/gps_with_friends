@@ -41,8 +41,13 @@
              // TODO initialize WS operation arguments here
             int uid =user.getUid();
             // TODO process result here
-            port.addMember(uid, gid);
-
+            edu.uoregon.cs.client.Status result = port.addMember(uid, gid);
+            if (result.isSuccess()) {
+                session.setAttribute("message", "Member Succesfully Added");
+            } else {
+                session.setAttribute("message", result.getError());
+            }
+            
             response.sendRedirect("group.jsp");
             
         } catch (Exception ex) {

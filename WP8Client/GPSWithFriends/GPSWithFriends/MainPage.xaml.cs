@@ -369,7 +369,7 @@ namespace GPSWithFriends
             int index = listbox.SelectedIndex;
             if (index > -1 && index < App.ViewModel.Friends.Count)
             {
-                App.ViewModel.CurrentFriend = App.ViewModel.Friends[index];
+                App.ViewModel.CurrentFriend = App.ViewModel.AllGroup.Friends[index];
                 this.NavigationService.Navigate(new Uri("/DetailPage.xaml", UriKind.Relative));
             }
         }

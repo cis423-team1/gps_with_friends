@@ -6,7 +6,7 @@
 <title>GPS Tracking System</title>
 </head>
 <body>
-	<h1>Welcome to GPS with Friends!</h1><hr><h2>WARNING: ALL PASSWORDS ARE STORED IN PLAINTEXT IN THE DATABASE! DO NOT USE A REAL PASSWORD!</h2>
+	<h1>Welcome to GPS with Friends!</h1><hr>
 	<div id="startForms">
             <%
                 String message = "";
